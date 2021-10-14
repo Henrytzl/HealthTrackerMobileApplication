@@ -2,8 +2,29 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
+            <padding android:left="3dp" />
             <solid android:color="@color/white"/>
-            <corners android:radius="10dp"/>
+            <stroke android:color="@color/purple_500" android:width="5dp"/>
+        </shape>
+    </item>
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <padding android:bottom="3dp" />
+            <solid android:color="@color/white"/>
+            <stroke android:color="@color/purple_500" android:width="5dp"/>
+        </shape>
+    </item>
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <padding android:right="3dp" />
+            <solid android:color="@color/white"/>
+            <stroke android:color="@color/purple_500" android:width="5dp"/>
+        </shape>
+    </item>
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <padding android:top="3dp" />
+            <solid android:color="@color/white"/>
             <stroke android:color="@color/purple_500" android:width="5dp"/>
         </shape>
     </item>
