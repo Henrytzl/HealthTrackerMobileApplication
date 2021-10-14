@@ -1,11 +1,38 @@
 <resources>
     <string name="app_name">HealthTracker</string>
+    <string name="underline">__________________________________________________________</string>
+    <string name="gender_hint">Gender</string>
+    <string name="age_hint">Age</string>
 
-    //User Profile
-    <string name="userProfile_title_name">User Profile</string>
-    <string name="userProfile_underline">__________________________________________________________</string>
     <string-array name="Gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+    //User Profile
+    <string name="userProfile_title_name">User Profile</string>
+    <string name="userProfile_username_hint">Username</string>
+    <string name="userProfile_email_hint">Email</string>
+    <string name="userProfile_calories_hint">Calories</string>
+    <string name="userProfile_currentPass_hint">Current Password</string>
+    <string name="userProfile_confirmPass_hint">Confirm Password</string>
+    <string name="userProfile_save_btn">Save</string>
+
+    //Health Calculator
+    <string name="health_title_name">Health Calculator</string>
+    <string name="healthCalculator_desc">Please fill in your health details</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="activity_lvl">ActivityLevel</string>
+    <string name="healthCalculator_calculate_btn">Calculate</string>
+
+    <string-array name="Activity_Lvl">
+        <item>little/no exercise (sedentary lifestyle)</item>
+        <item>light exercise 1-2 times/weeks</item>
+        <item>moderate exercise 2-3 times/weeks</item>
+        <item>hard exercise 4-5 times/weeks</item>
+        <item>physical job/hard exercise 6-7 times/weeks</item>
+        <item>professional athlete</item>
+    </string-array>
+
 </resources>

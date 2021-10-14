@@ -9,7 +9,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/user_profile_title"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:text="@string/userProfile_underline"
+        android:text="@string/underline"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayoutUsername"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,14 +46,14 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:hint="Username"
+        android:hint="@string/userProfile_username_hint"
         app:startIconDrawable="@drawable/ic_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_title">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTestUsername"
+            android:id="@+id/textInputEditTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -66,14 +66,14 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="32dp"
-        android:hint="Email"
+        android:hint="@string/userProfile_email_hint"
         app:startIconDrawable="@drawable/ic_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsername">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTestEmail"
+            android:id="@+id/textInputEditTextEmail"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -87,14 +87,14 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="32dp"
-        android:hint="Age"
+        android:hint="@string/age_hint"
         app:startIconDrawable="@drawable/ic_age"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTestAge"
+            android:id="@+id/textInputEditTextAge"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -108,7 +108,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="32dp"
-        android:hint="Calories"
+        android:hint="@string/userProfile_calories_hint"
         app:startIconDrawable="@drawable/ic_calories"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,50 +116,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTestCalories"
+            android:id="@+id/textInputEditTextCalories"
             android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutCurrentPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="32dp"
-        android:hint="Current Password"
-        app:startIconDrawable="@drawable/ic_password"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTestCurrentPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutConfirmPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="32dp"
-        android:hint="Confirm Password"
-        app:startIconDrawable="@drawable/ic_confirmpassword"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCurrentPassword">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTestConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -172,7 +130,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="32dp"
-        android:hint="Gender"
+        android:hint="@string/gender_hint"
         app:startIconDrawable="@drawable/ic_gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -185,7 +143,50 @@
             android:layout_weight="1"
             android:inputType="none"
             tools:layout_editor_absoluteX="87dp"
-            tools:layout_editor_absoluteY="564dp" />
+            tools:layout_editor_absoluteY="564dp"
+            tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutCurrentPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="32dp"
+        android:hint="@string/userProfile_currentPass_hint"
+        app:startIconDrawable="@drawable/ic_password"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextCurrentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutConfirmPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="32dp"
+        android:hint="@string/userProfile_confirmPass_hint"
+        app:startIconDrawable="@drawable/ic_confirmpassword"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCurrentPassword">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -196,12 +197,11 @@
         android:layout_marginBottom="50dp"
         android:background="@drawable/custom_button"
         android:gravity="center"
-        android:text="Save"
+        android:text="@string/userProfile_save_btn"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutConfirmPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
