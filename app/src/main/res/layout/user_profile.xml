@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -73,6 +74,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTestEmail"
+            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -93,6 +95,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTestAge"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -114,6 +117,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTestCalories"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -131,7 +135,7 @@
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCalories">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTestCurrentPassword"
@@ -160,57 +164,44 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGrp"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutGender"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
-        android:gravity="center"
+        android:layout_marginEnd="32dp"
+        android:hint="Gender"
+        app:startIconDrawable="@drawable/ic_gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutConfirmPassword"
-        tools:ignore="ExtraText">
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbMale"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:textColor="@color/grey"
-            android:text="Male"
-            android:textStyle="bold"
-            android:checked="true"
-            android:gravity="center"
-            android:button="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCalories">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewGender"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/male_button_selector"/>
-            //android:onClick="onRadioButtonClicked"
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbFemale"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:textColor="@color/grey"
-            android:text="Female"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:button="@android:color/transparent"
-            android:layout_weight="1"
-            android:background="@drawable/female_button_selector"/>
-            //android:onClick="onRadioButtonClicked"
-    </RadioGroup>
+            android:inputType="none"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="564dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:background="@drawable/custom_button"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/custom_button"
         android:gravity="center"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutConfirmPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
