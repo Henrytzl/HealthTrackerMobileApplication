@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">HealthTracker</string>
+
+    //User Profile
+    <string name="userProfile_title_name">User Profile</string>
+    <string name="userProfile_underline">__________________________________________________________</string>
+    <string name="userProfile_age">years</string>
+    <string name="userProfile_calories">kcal / day</string>
 </resources>
