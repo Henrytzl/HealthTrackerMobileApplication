@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">HealthTracker</string>
-
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
     //User Profile
     <string name="userProfile_title_name">User Profile</string>
     <string name="userProfile_underline">__________________________________________________________</string>
