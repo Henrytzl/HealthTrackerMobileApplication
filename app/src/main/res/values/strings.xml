@@ -3,6 +3,8 @@
     <string name="underline">__________________________________________________________</string>
     <string name="gender_hint">Gender</string>
     <string name="age_hint">Age</string>
+    <string name="years">years old</string>
+    <string name="calories">kcal / day</string>
 
     <string-array name="Gender">
         <item>Male</item>
@@ -25,6 +27,12 @@
     <string name="height">Height</string>
     <string name="activity_lvl">ActivityLevel</string>
     <string name="healthCalculator_calculate_btn">Calculate</string>
+    <string name="healthCalculator_add_btn">+</string>
+    <string name="healthCalculator_minus_btn">-</string>
+    <string name="Kg">Kg</string>
+    <string name="Lb">Lb</string>
+    <string name="Cm">Cm</string>
+    <string name="In">In</string>
 
     <string-array name="Activity_Lvl">
         <item>little/no exercise (sedentary lifestyle)</item>

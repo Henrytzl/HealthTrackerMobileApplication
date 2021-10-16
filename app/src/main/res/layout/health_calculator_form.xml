@@ -58,10 +58,10 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/gender_hint"
-            app:startIconDrawable="@drawable/ic_gender"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/health_calculator_desc">
+            app:layout_constraintTop_toBottomOf="@+id/health_calculator_desc"
+            app:startIconDrawable="@drawable/ic_gender">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewGender"
@@ -75,64 +75,68 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutAge"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="98dp"
             android:hint="@string/age_hint"
-            app:startIconDrawable="@drawable/ic_age"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender"
+            app:startIconDrawable="@drawable/ic_age"
+            app:suffixText="@string/years">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextAge"
-                android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutWeight"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="98dp"
             android:hint="@string/weight"
-            app:startIconDrawable="@drawable/ic_weight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge"
+            app:startIconDrawable="@drawable/ic_weight"
+            app:suffixText="@string/Kg">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextWeight"
-                android:inputType="numberDecimal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutHeight"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="98dp"
             android:hint="@string/height"
-            app:startIconDrawable="@drawable/ic_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
+            app:startIconDrawable="@drawable/ic_height"
+            app:suffixText="@string/Cm">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextHeight"
-                android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -144,10 +148,10 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/activity_lvl"
-            app:startIconDrawable="@drawable/ic_activitylvl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHeight">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHeight"
+            app:startIconDrawable="@drawable/ic_activitylvl">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewActivityLvl"
@@ -172,5 +176,103 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutActivityLvl" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonAdd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/custom_button_add"
+            android:text="@string/healthCalculator_add_btn"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/buttonMinus"
+            app:layout_constraintHorizontal_bias="0.407"
+            app:layout_constraintStart_toEndOf="@+id/textInputLayoutAge"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonMinus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/custom_button_minus"
+            android:text="@string/healthCalculator_minus_btn"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayoutWeight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender"
+            app:layout_constraintVertical_bias="0.557" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/buttonLb"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_button_lb_selector"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="@string/Lb"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonKg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/buttonKg"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/custom_button_kg_selector"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/Kg"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/buttonLb"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textInputLayoutWeight"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/buttonIn"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/custom_button_in_selector"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="@string/In"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonCm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/buttonCm"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/custom_button_cm_selector"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/Cm"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/buttonIn"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textInputLayoutHeight"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

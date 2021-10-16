@@ -8,6 +8,8 @@
     <color name="blue">#7BC0FF</color>
     <color name="pink">#FF89D0</color>
     <color name="black">#FF000000</color>
-    <color name="grey">#5E5E5E</color>
+    <color name="grey">#C4C4C4</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#6AC554</color>
+    <color name="red">#D52525</color>
 </resources>
