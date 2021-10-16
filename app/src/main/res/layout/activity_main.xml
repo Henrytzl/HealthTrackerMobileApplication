@@ -7,19 +7,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:layout_gravity="start">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"/>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         tools:context=".MainActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white">
+
+                <ImageButton
+                    android:id="@+id/imageHome"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/logo"/>
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="Health Tracker"-->
+<!--                    android:fontFamily="@font/roboto_condensed_bold"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textSize="25dp"-->
+<!--                    android:paddingTop="10dp"-->
+<!--                    android:layout_marginLeft="20dp"/>-->
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
             android:id="@+id/mainMenuTitle"
@@ -32,7 +62,7 @@
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/appBar" />
 
         <LinearLayout
             android:id="@+id/linearLayout_MainMenu1"
@@ -188,10 +218,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:menu="@menu/nav_drawer"
+        app:headerLayout="@layout/nav_header"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:itemTextColor="@color/white"
-        app:itemIconTint="@color/green"
-        android:background="@color/purple_500"/>
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/grey"
+        android:background="@color/white">
+
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
