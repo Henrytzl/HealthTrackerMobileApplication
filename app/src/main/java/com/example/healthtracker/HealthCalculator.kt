@@ -1,5 +1,6 @@
 package com.example.healthtracker
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -129,6 +130,7 @@ class HealthCalculator : AppCompatActivity() {
 
         calBtn.setOnClickListener {
             Toast.makeText(this, "Calculate Successfully!!!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, Result::class.java))
         }
     }
 

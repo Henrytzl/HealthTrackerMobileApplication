@@ -20,7 +20,7 @@
     <string name="userProfile_confirmPass_hint">Confirm Password</string>
     <string name="userProfile_save_btn">Save</string>
 
-    //Health Calculator
+    //Health Calculator Form
     <string name="health_title_name">Health Calculator</string>
     <string name="healthCalculator_desc">Please fill in your health details</string>
     <string name="weight">Weight</string>
@@ -43,4 +43,10 @@
         <item>professional athlete</item>
     </string-array>
 
+    //Health Calculator Result
+    <string name="result_title_name">Results</string>
+    <string name="bmi">Body Mass Index</string>
+    <string name="bfp">Body Fat Percentage</string>
+    <string name="dc">Daily Calories</string>
+    <string name="bmi_bfp_class">BMI &amp; BFP Classification</string>
 </resources>
