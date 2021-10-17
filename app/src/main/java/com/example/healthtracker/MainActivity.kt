@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.login.LoginActivity
+import com.example.healthtracker.reminder.Reminder
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -27,9 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
-                R.id.mHome -> {
-
-                }
                 R.id.mProfile -> {
 
                 }
@@ -51,6 +49,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             true
+        }
+
+        btnReminder.setOnClickListener {
+            startActivity(Intent(this, Reminder::class.java))
+            finish()
         }
     }
 

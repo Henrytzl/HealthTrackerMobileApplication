@@ -223,9 +223,6 @@
         android:fitsSystemWindows="true"
         app:itemTextColor="@color/black"
         app:itemIconTint="@color/grey"
-        android:background="@color/white">
-
-
-    </com.google.android.material.navigation.NavigationView>
+        android:background="@color/white"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
