@@ -8,7 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.MainActivity
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.imageHome
+import kotlinx.android.synthetic.main.activity_main.navView
+import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.activity_reminder.*
 
 class Reminder : AppCompatActivity() {
 
@@ -58,6 +62,10 @@ class Reminder : AppCompatActivity() {
         imageHome.setOnClickListener{
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+        }
+
+        addReminder.setOnClickListener{
+            startActivity(Intent(this, ReminderDetail::class.java))
         }
     }
 

@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
 
         btnReminder.setOnClickListener {
             startActivity(Intent(this, Reminder::class.java))
-            finish()
         }
     }
 

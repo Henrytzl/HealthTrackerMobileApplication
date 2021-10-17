@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthTracker.NoActionBar">
-        <activity android:name=".reminder.ReminderDetail"></activity>
+        <activity android:name=".reminder.ReminderDetail"
+            android:parentActivityName=".reminder.Reminder"></activity>
         <activity android:name=".reminder.Reminder" />
         <activity android:name=".login.ResetPasswordActivity" />
         <activity android:name=".login.RegisterActivity" />
