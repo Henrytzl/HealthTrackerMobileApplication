@@ -1,7 +1,6 @@
 package com.example.healthtracker.reminder
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
 import kotlinx.android.synthetic.main.activity_main.toolbar
@@ -17,22 +16,27 @@ class ReminderDetail : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        txtReminderTime.setIs24HourView(true)
+
+
         save_reminder.setOnClickListener {
-
+            //testing123.text = txtReminderDate.dayOfMonth.toString() + "/" + txtReminderDate.month + "/" + txtReminderDate.year
+            //testing123.text = txtReminderTime.hour.toString() + txtReminderTime.minute.toString()
         }
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        var itemview = item.itemId
-        when(itemview){
-
-//            R.id.acc_manage_reset -> {
-//                val intent = Intent(this, Reset::class.java)
-//                startActivity(intent)
+//        txtReminderDate.addTextChangedListener {object : TextWatcher{
+//            override fun beforeTextChanged (s: CharSequence, start: Int, count: Int, after: Int){
+//
 //            }
-        }
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//            }
+//            override fun afterTextChanged(s: Editable) {
+//
+//            }
+//        }
+//        }
+        deleteReminder.setOnClickListener {
 
-        //return false
-        return super.onOptionsItemSelected(item)
+        }
     }
 }
