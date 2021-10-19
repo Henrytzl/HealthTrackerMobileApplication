@@ -19,6 +19,14 @@
         </activity>
 
         <activity android:name=".HealthCalculator">
+
+        </activity>
+
+        <activity android:name=".Result">
+
+        </activity>
+
+        <activity android:name=".ArticleMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +34,27 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Result">
+        <activity android:name=".Article1">
+
+        </activity>
+
+        <activity android:name=".Article2">
+
+        </activity>
+
+        <activity android:name=".Article3">
+
+        </activity>
+
+        <activity android:name=".Article4">
+
+        </activity>
+
+        <activity android:name=".Article5">
+
+        </activity>
+
+        <activity android:name=".Article6">
 
         </activity>
     </application>
