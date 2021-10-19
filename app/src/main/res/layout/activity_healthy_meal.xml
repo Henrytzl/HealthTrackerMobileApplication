@@ -41,10 +41,252 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
+        <!--  Day 1 -->
+        <LinearLayout
+            android:id="@+id/day1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBar"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 1"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day1Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+
+        <!--     Day 2 -->
+        <LinearLayout
+            android:id="@+id/day2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day1"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 2"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day2Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+
+        <!--     Day 3 -->
+        <LinearLayout
+            android:id="@+id/day3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day2"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 3"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day3Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+
+        <!--     Day 4 -->
+        <LinearLayout
+            android:id="@+id/day4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day3"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 4"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day4Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+
+        <!--     Day 5 -->
+        <LinearLayout
+            android:id="@+id/day5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day4"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 5"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day5Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+
+        <!--     Day 6 -->
+        <LinearLayout
+            android:id="@+id/day6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day5"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 6"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day6Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
+
+        <!--     Day 7 -->
+        <LinearLayout
+            android:id="@+id/day7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day6"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Day 7"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:paddingStart="48dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/day7Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
+                app:tint="@color/purple_500" />
+        </LinearLayout>
 
       </androidx.constraintlayout.widget.ConstraintLayout>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="match_parent"
