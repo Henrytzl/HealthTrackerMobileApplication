@@ -2,20 +2,14 @@ package com.example.healthtracker
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.CalendarContract
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatRadioButton
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.health_calculator_form.*
 
 
 class HealthCalculator : AppCompatActivity() {

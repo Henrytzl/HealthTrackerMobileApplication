@@ -72,4 +72,10 @@
     <string name="article_5_desc">Scientists have correlated the dramatic rise in childhood obesity with junk food consumption. Weight gained during youth often persists into adulthood, and it places adults at risk for medical conditions like diabetes. Unhealthy eating also has a surprising effect on mental health. For example, researchers have found a relationship between junk food and violent behavior. Fast-food intake has also been shown to correlate with suicidal thoughts. If you\'re pregnant, the negative effects of eating junk food may even transfer to your children.</string>
     <string name="article_6_desc_title">Advantages</string>
     <string name="article_6_desc">You can successfully age by avoiding medical conditions like heart disease and diabetes. Eating healthy food is the best way to prevent the inflammation and other consequences of these medical conditions, according to a 2017 report in Molecules. The authors note that healthy food can also play a positive role in fighting cancer. Healthy food also has a beneficial effect on your emotional well-being. A 2014 review in BMC Psychiatry noted the relationship between food quality and mental health in young children. This positive relationship persists across the entire lifespan. For example, eating healthy food helps older adults fight depression and dementia.</string>
+
+    //Video Menu
+    <string name="video_title_name">Videos</string>
+    <string name="video_1_title">5 Min Home Workout You Can Do Every Morning</string>
+    <string name="video_2_title">The Perfect Push Up | Do It Right!</string>
+    <string name="video_3_title">10 Dumbbell Exercises You Should Be Doing</string>
 </resources>
