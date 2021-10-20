@@ -3,7 +3,6 @@ package com.example.healthtracker.reminder
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
-import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.activity_reminder_detail.*
 
 class ReminderDetail : AppCompatActivity() {

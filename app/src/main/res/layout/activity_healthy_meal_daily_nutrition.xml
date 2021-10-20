@@ -83,14 +83,178 @@
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/dailyKcal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="1234 Kcal"
+            android:text="1234"
+            android:textColor="@color/purple_500"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Kcal"
             android:textColor="@color/black"
             android:textSize="20dp"/>
-
-
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayoutProtein"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutEnergy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:text="Protein"
+            android:textSize="20dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/dailyProtein"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="1234"
+            android:textColor="@color/purple_500"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="g"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutProtein"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:text="Fat"
+            android:textSize="20dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/dailyFat"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="1234"
+            android:textColor="@color/purple_500"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="g"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCarb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutFat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:text="Carbohydrates"
+            android:textSize="20dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/dailyCarb"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="1234"
+            android:textColor="@color/purple_500"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="g"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCarb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:text="Sugar"
+            android:textSize="20dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/dailySugar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="1234"
+            android:textColor="@color/purple_500"
+            android:textSize="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="g"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dailyBtnOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:fontFamily="@font/roboto_condensed_bold"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/custom_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSugar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,6 @@ import com.example.healthtracker.login.LoginActivity
 import com.example.healthtracker.reminder.Reminder
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle

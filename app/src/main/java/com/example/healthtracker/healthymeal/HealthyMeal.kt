@@ -9,10 +9,6 @@ import com.example.healthtracker.MainActivity
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_healthy_meal.*
-import kotlinx.android.synthetic.main.activity_main.drawerLayout
-import kotlinx.android.synthetic.main.activity_main.imageHome
-import kotlinx.android.synthetic.main.activity_main.navView
-import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class HealthyMeal : AppCompatActivity() {
 
