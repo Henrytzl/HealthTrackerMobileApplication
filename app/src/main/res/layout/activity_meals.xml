@@ -20,8 +20,32 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white">
-
     </androidx.appcompat.widget.Toolbar>
   </com.google.android.material.appbar.AppBarLayout>
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerViewMeals"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/appBar"
+      tools:listitem="@layout/meals_view" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/addMeal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|center_horizontal"
+      android:layout_marginBottom="50dp"
+      android:backgroundTint="@color/purple_500"
+      android:contentDescription="Add Meal"
+      android:focusable="true"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:srcCompat="@drawable/ic_plus" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

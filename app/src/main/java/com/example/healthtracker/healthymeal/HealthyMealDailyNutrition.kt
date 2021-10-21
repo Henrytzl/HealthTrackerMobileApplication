@@ -1,6 +1,5 @@
 package com.example.healthtracker.healthymeal
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
@@ -20,7 +19,6 @@ class HealthyMealDailyNutrition : AppCompatActivity() {
         txtNoDay.text = calories
 
         dailyBtnOk.setOnClickListener {
-            startActivity(Intent(this, HealthyMeal::class.java))
             finish()
         }
     }

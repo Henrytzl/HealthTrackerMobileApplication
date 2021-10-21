@@ -1,5 +1,6 @@
 package com.example.healthtracker.healthymeal
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
@@ -14,5 +15,16 @@ class Meals : AppCompatActivity() {
         supportActionBar?.title = ""
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+//        val calories=intent.getStringExtra("test")
+//        test123.text = calories
+
+
+        //Add Meal
+        addMeal.setOnClickListener {
+            val intent = Intent(this, MealDetail::class.java)
+            //intent.putExtra("Kcal","2")
+            startActivity(intent)
+        }
     }
 }

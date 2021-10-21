@@ -59,14 +59,16 @@ class HealthyMeal : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-
+        //View total nutrition value
         day1.setOnClickListener {
             val intent = Intent(this,HealthyMealDailyNutrition::class.java)
-            intent.putExtra("Kcal","2200")
+            intent.putExtra("Kcal","1")
             startActivity(intent)
         }
         day2.setOnClickListener {
-
+            val intent = Intent(this,HealthyMealDailyNutrition::class.java)
+            intent.putExtra("Kcal","2")
+            startActivity(intent)
         }
         day3.setOnClickListener {
 
@@ -83,6 +85,31 @@ class HealthyMeal : AppCompatActivity() {
         day7.setOnClickListener {
 
         }
+        //Direct to Edit meal
+        day1Edit.setOnClickListener {
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("test","123")
+            startActivity(intent)
+        }
+        day2Edit.setOnClickListener {
+
+        }
+        day3Edit.setOnClickListener {
+
+        }
+        day4Edit.setOnClickListener {
+
+        }
+        day5Edit.setOnClickListener {
+
+        }
+        day6Edit.setOnClickListener {
+
+        }
+        day7Edit.setOnClickListener {
+
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
