@@ -1,21 +1,31 @@
-package com.example.healthtracker.reminder
+package com.example.healthtracker.scanner
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
-import kotlinx.android.synthetic.main.activity_reminder.*
+import com.example.healthtracker.scanner.ui.main.SectionsPagerAdapter
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_scanner.*
 
-class Reminder : AppCompatActivity() {
-
+class Scanner : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reminder)
+        setContentView(R.layout.activity_scanner)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        viewPager.adapter = sectionsPagerAdapter
+        val tabs: TabLayout = findViewById(R.id.tabs)
+        tabs.setupWithViewPager(viewPager)
+        tabs.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#FF6200EE") )
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
@@ -56,24 +66,12 @@ class Reminder : AppCompatActivity() {
         imageHome.setOnClickListener{
             finish()
         }
-
-        addReminder.setOnClickListener{
-            startActivity(Intent(this, ReminderDetail::class.java))
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
-//        if (item != null && item.getItemId() == android.R.id.home) {
-//            if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-//                drawerLayout.closeDrawer(Gravity.RIGHT);
-//            }
-//            else {
-//                drawerLayout.openDrawer(Gravity.RIGHT);
-//            }
-//        }
         //return false
         return super.onOptionsItemSelected(item)
     }

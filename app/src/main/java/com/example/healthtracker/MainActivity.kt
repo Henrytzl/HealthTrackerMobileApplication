@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.healthymeal.HealthyMeal
 import com.example.healthtracker.login.LoginActivity
 import com.example.healthtracker.reminder.Reminder
+import com.example.healthtracker.scanner.Scanner
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -57,6 +58,10 @@ class MainActivity : AppCompatActivity() {
 
         btnHealthMeal.setOnClickListener {
             startActivity(Intent(this, HealthyMeal::class.java))
+        }
+
+        btnScanner.setOnClickListener {
+            startActivity(Intent(this, Scanner::class.java))
         }
     }
 

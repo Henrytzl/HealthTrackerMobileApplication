@@ -22,5 +22,8 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_activity_meal_detail">MealDetail</string>
     <string name="tab_text_1">Food</string>
-    <string name="tab_text_2">Nutirtion</string>
+    <string name="tab_text_2">Nutrition</string>
+    <string name="title_activity_scanner">Scanner</string>
+    <string name="tab_text_1_scanner">Scanner</string>
+    <string name="tab_text_2_scanner">History</string>
 </resources>

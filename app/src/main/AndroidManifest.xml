@@ -10,10 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthTracker.NoActionBar">
         <activity
+            android:name=".scanner.Scanner"
+            android:label="@string/title_activity_scanner"
+            android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar"></activity>
+        <activity
             android:name=".healthymeal.MealDetail"
             android:label="@string/title_activity_meal_detail"
-            android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar"
-            android:parentActivityName=".healthymeal.Meals"></activity>
+            android:parentActivityName=".healthymeal.Meals"
+            android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar" />
         <activity
             android:name=".healthymeal.Meals"
             android:parentActivityName=".healthymeal.HealthyMeal" />

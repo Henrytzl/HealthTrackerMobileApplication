@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.healthtracker.MainActivity
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_healthy_meal.*
@@ -29,7 +28,6 @@ class HealthyMeal : AppCompatActivity() {
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
                 R.id.mHome -> {
-                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
                 R.id.mProfile -> {
@@ -56,7 +54,6 @@ class HealthyMeal : AppCompatActivity() {
         }
 
         imageHome.setOnClickListener{
-            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
         //View total nutrition value
