@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthTracker.NoActionBar">
+        <activity android:name=".scanner.ScannerFoodDetail"
+            android:parentActivityName=".scanner.Scanner"></activity>
         <activity
             android:name=".scanner.Scanner"
             android:label="@string/title_activity_scanner"
-            android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar" />
         <activity
             android:name=".healthymeal.MealDetail"
             android:label="@string/title_activity_meal_detail"
