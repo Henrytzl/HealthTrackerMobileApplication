@@ -49,6 +49,7 @@
     <string name="bfp">Body Fat Percentage</string>
     <string name="dc">Daily Calories</string>
     <string name="bmi_bfp_class">BMI &amp; BFP Classification</string>
+    <string name="result_store_btn">Store</string>
 
     //Article Menu
     <string name="article_title_name">Articles</string>
@@ -78,4 +79,10 @@
     <string name="video_1_title">5 Min Home Workout You Can Do Every Morning</string>
     <string name="video_2_title">The Perfect Push Up | Do It Right!</string>
     <string name="video_3_title">10 Dumbbell Exercises You Should Be Doing</string>
+
+    //Trend
+    <string name="trend_title_name">Trend</string>
+    <string name="weight_trend">Weight</string>
+    <string name="bmi_trend">BMI</string>
+    <string name="bfp_trend">BFP</string>
 </resources>

@@ -58,6 +58,10 @@
 
         <activity android:name=".VideoMenu"
             android:configChanges="keyboardHidden|orientation|screenSize">
+
+        </activity>
+
+        <activity android:name=".Trend">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

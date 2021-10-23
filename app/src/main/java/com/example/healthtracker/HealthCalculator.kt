@@ -49,8 +49,7 @@ class HealthCalculator : AppCompatActivity() {
             if (age > 100) {
                 addBtn.isEnabled = false
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
-            }
-            else {
+            } else {
                 minusBtn.isEnabled = true
                 ageTextField.setText("$age")
                 ageTextField.isEnabled = false
@@ -61,11 +60,10 @@ class HealthCalculator : AppCompatActivity() {
         //minus button
         minusBtn.setOnClickListener {
             age--
-            if(age <= 0 ) {
+            if (age <= 0) {
                 minusBtn.isEnabled = false
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
-            }
-            else {
+            } else {
                 addBtn.isEnabled = true
                 ageTextField.setText("$age")
                 ageTextField.isEnabled = false
@@ -84,7 +82,7 @@ class HealthCalculator : AppCompatActivity() {
             btnKg.setBackgroundResource(R.drawable.custom_button_kg_checked)
             btnLb.setBackgroundResource(R.drawable.custom_button_lb_unchecked)
             btnKg.setTextColor(Color.parseColor("#FF6200EE"))
-            weightTextLayout.suffixText="Kg"
+            weightTextLayout.suffixText = "Kg"
         }
 
         btnLb.setOnClickListener {
@@ -93,7 +91,7 @@ class HealthCalculator : AppCompatActivity() {
             btnLb.setBackgroundResource(R.drawable.custom_button_lb_checked)
             btnKg.setBackgroundResource(R.drawable.custom_button_kg_unchecked)
             btnLb.setTextColor(Color.parseColor("#FF6200EE"))
-            weightTextLayout.suffixText="Lb"
+            weightTextLayout.suffixText = "Lb"
         }
 
         //height stuff
@@ -107,7 +105,7 @@ class HealthCalculator : AppCompatActivity() {
             btnCm.setBackgroundResource(R.drawable.custom_button_cm_checked)
             btnIn.setBackgroundResource(R.drawable.custom_button_in_unchecked)
             btnCm.setTextColor(Color.parseColor("#FF6200EE"))
-            heightTextLayout.suffixText="Cm"
+            heightTextLayout.suffixText = "Cm"
         }
 
         btnIn.setOnClickListener {
@@ -116,7 +114,7 @@ class HealthCalculator : AppCompatActivity() {
             btnIn.setBackgroundResource(R.drawable.custom_button_in_checked)
             btnCm.setBackgroundResource(R.drawable.custom_button_cm_unchecked)
             btnIn.setTextColor(Color.parseColor("#FF6200EE"))
-            heightTextLayout.suffixText="In"
+            heightTextLayout.suffixText = "In"
         }
 
         //calculate button
