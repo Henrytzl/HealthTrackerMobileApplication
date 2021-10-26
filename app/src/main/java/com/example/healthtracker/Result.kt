@@ -2,9 +2,12 @@ package com.example.healthtracker
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.health_calculator_result.*
+import kotlin.math.roundToInt
 
 
 class Result : AppCompatActivity() {
@@ -12,6 +15,14 @@ class Result : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.health_calculator_result)
 
+        //val bmiRes = findViewById<TextView>(R.id.bmiResult)
+
+        //get values
+        val bmi = intent.getDoubleExtra("BMI", 0.0)
+        val bfp = intent.getIntExtra("BFP", 0 )
+
+        bmiResult.text = "%.1f".format(bmi)
+        bfpResult.text = "$bfp"+"%"
         //store button
         val storeBtn = findViewById<Button>(R.id.buttonStore)
 

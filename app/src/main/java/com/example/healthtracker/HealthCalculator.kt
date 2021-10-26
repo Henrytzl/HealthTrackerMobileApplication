@@ -3,13 +3,14 @@ package com.example.healthtracker
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.health_calculator_form.*
+import kotlinx.android.synthetic.main.health_calculator_result.*
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 
 class HealthCalculator : AppCompatActivity() {
@@ -22,26 +23,21 @@ class HealthCalculator : AppCompatActivity() {
 
         //gender dropdown list
         val gender = resources.getStringArray(R.array.Gender)
-        val autoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewGender)
-
         val adapter = ArrayAdapter(applicationContext, R.layout.dropdown_item, gender)
 
-        autoCompleteTextView.setAdapter(adapter)
+        autoCompleteTextViewGender.setAdapter(adapter)
 
         //activity level dropdown list
         val activityLvl = resources.getStringArray(R.array.Activity_Lvl)
-        val autoCompleteTextView2 = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewActivityLvl)
         val adapter2 = ArrayAdapter(applicationContext, R.layout.dropdown_item, activityLvl)
 
-        autoCompleteTextView2.setAdapter(adapter2)
+        autoCompleteTextViewActivityLvl.setAdapter(adapter2)
 
         //age stuff
         val addBtn = findViewById<Button>(R.id.buttonAdd)
-        val ageTextField = findViewById<TextInputEditText>(R.id.textInputEditTextAge)
-        val ageTextLayout = findViewById<TextInputLayout>(R.id.textInputLayoutAge)
         val minusBtn = findViewById<Button>(R.id.buttonMinus)
 
-        ageTextField.isEnabled = false
+        textInputEditTextAge.isEnabled = false
 
         //add button
         addBtn.setOnClickListener {
@@ -51,9 +47,9 @@ class HealthCalculator : AppCompatActivity() {
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
             } else {
                 minusBtn.isEnabled = true
-                ageTextField.setText("$age")
-                ageTextField.isEnabled = false
-                ageTextField.setTextColor(Color.parseColor("#FF000000"))
+                textInputEditTextAge.setText("$age")
+                textInputEditTextAge.isEnabled = false
+                textInputEditTextAge.setTextColor(Color.parseColor("#FF000000"))
             }
         }
 
@@ -65,9 +61,9 @@ class HealthCalculator : AppCompatActivity() {
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
             } else {
                 addBtn.isEnabled = true
-                ageTextField.setText("$age")
-                ageTextField.isEnabled = false
-                ageTextField.setTextColor(Color.parseColor("#FF000000"))
+                textInputEditTextAge.setText("$age")
+                textInputEditTextAge.isEnabled = false
+                textInputEditTextAge.setTextColor(Color.parseColor("#FF000000"))
             }
         }
 
@@ -121,8 +117,59 @@ class HealthCalculator : AppCompatActivity() {
         val calBtn = findViewById<Button>(R.id.buttonCalculate)
 
         calBtn.setOnClickListener {
+            val intent = Intent(this, Result::class.java)
+
+            //BMI variables
+            var wValue = 0.0
+            var hValue = 0.0
+            var bmiValue = 0.0
+
+            //BFP variables
+            val male = 1
+            val female = 0
+            var genderV = 2
+            var ageV = 0
+            var bfpValue = 0.0
+
+            //BMI
+            if (textInputEditTextWeight.text.toString().isNotEmpty()) {
+                wValue = textInputEditTextWeight.text.toString().toDouble()
+            }
+            if (textInputEditTextHeight.text.toString().isNotEmpty()) {
+                hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
+            }
+
+            if (wValue > 0.0 && hValue > 0.0) {
+                bmiValue = wValue / hValue.pow(2)
+                bmiValue.toString().format("%.1f").toDouble()
+            } else
+                Toast.makeText(
+                    this,
+                    "Please input weight and height values greater than 0",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            //BFP
+            if (autoCompleteTextViewGender.text.toString().isNotEmpty()) {
+                if (autoCompleteTextViewGender.text.toString() == "Male") {
+                    genderV = male
+                } else
+                    genderV = female
+            }
+
+            if (textInputEditTextAge.text.toString().isNotEmpty()) {
+                ageV = age
+                val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
+                bfpValue = (1.39 * bmiValueRound) + (0.16 * ageV) - (10.34 * genderV) - 9
+
+            } else
+                Toast.makeText(this, "Please select your age", Toast.LENGTH_LONG).show()
+
             Toast.makeText(this, "Calculate Successfully!!!", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, Result::class.java))
+            intent.putExtra("BMI", bmiValue)
+            intent.putExtra("BFP", bfpValue.roundToInt())
+            startActivity(intent)
+
         }
     }
 
