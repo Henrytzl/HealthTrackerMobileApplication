@@ -15,14 +15,15 @@ class Result : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.health_calculator_result)
 
-        //val bmiRes = findViewById<TextView>(R.id.bmiResult)
-
         //get values
         val bmi = intent.getDoubleExtra("BMI", 0.0)
-        val bfp = intent.getIntExtra("BFP", 0 )
+        val bfp = intent.getIntExtra("BFP", 0)
+        val dc = intent.getIntExtra("DC", 0)
 
         bmiResult.text = "%.1f".format(bmi)
-        bfpResult.text = "$bfp"+"%"
+        bfpResult.text = "$bfp" + "%"
+        dcResult.text = "$dc" + " kcal / day"
+
         //store button
         val storeBtn = findViewById<Button>(R.id.buttonStore)
 

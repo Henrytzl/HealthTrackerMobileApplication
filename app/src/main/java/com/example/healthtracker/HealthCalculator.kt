@@ -131,44 +131,87 @@ class HealthCalculator : AppCompatActivity() {
             var ageV = 0
             var bfpValue = 0.0
 
+            //Daily Calories variables
+            var hDcValue = 0.0
+            var dcValue = 0.0
+            val a1 = 1.2
+            val a2 = 1.4
+            val a3 = 1.6
+            val a4 = 1.75
+            val a5 = 2
+            val a6 = 2.3
+
             //BMI
-            if (textInputEditTextWeight.text.toString().isNotEmpty()) {
+            if (autoCompleteTextViewGender.text.toString()
+                    .isNotEmpty() && textInputEditTextAge.text.toString()
+                    .isNotEmpty() && textInputEditTextWeight.text.toString()
+                    .isNotEmpty() && textInputEditTextHeight.text.toString()
+                    .isNotEmpty() && autoCompleteTextViewActivityLvl.text.toString().isNotEmpty()
+            ) {
+                ageV = age
                 wValue = textInputEditTextWeight.text.toString().toDouble()
-            }
-            if (textInputEditTextHeight.text.toString().isNotEmpty()) {
                 hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
-            }
+                hDcValue = (textInputEditTextHeight.text.toString().toDouble())
 
-            if (wValue > 0.0 && hValue > 0.0) {
-                bmiValue = wValue / hValue.pow(2)
-                bmiValue.toString().format("%.1f").toDouble()
-            } else
-                Toast.makeText(
-                    this,
-                    "Please input weight and height values greater than 0",
-                    Toast.LENGTH_LONG
-                ).show()
-
-            //BFP
-            if (autoCompleteTextViewGender.text.toString().isNotEmpty()) {
                 if (autoCompleteTextViewGender.text.toString() == "Male") {
                     genderV = male
-                } else
+                    //DC male
+                    if (autoCompleteTextViewActivityLvl.text.toString() == "little/no exercise (sedentary lifestyle)") {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) + 5) * a1
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("light exercise 1-2 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) + 5) * a2
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("moderate exercise 2-3 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) + 5) * a3
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("hard exercise 4-5 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) + 5) * a4
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("physical job/hard exercise 6-7 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) + 5) * a5
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("professional athlete")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) + 5) * a6
+                    }
+                } else {
                     genderV = female
-            }
+                    //DC female
+                    if (autoCompleteTextViewActivityLvl.text.toString() == "little/no exercise (sedentary lifestyle)") {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) - 161) * a1
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("light exercise 1-2 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) - 161) * a2
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("moderate exercise 2-3 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) - 161) * a3
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("hard exercise 4-5 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) - 161) * a4
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("physical job/hard exercise 6-7 times/weeks")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) - 161) * a5
+                    } else if (autoCompleteTextViewActivityLvl.text.toString() == ("professional athlete")) {
+                        dcValue = ((10 * wValue) + (6.25 * hDcValue) - (5 * ageV) - 161) * a6
+                    }
+                }
 
-            if (textInputEditTextAge.text.toString().isNotEmpty()) {
-                ageV = age
+                //BFP
                 val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
-                bfpValue = (1.39 * bmiValueRound) + (0.16 * ageV) - (10.34 * genderV) - 9
+                if (ageV <= 18) {
+                    bfpValue = (1.51 * bmiValueRound) - (0.70 * ageV) - (3.6 * genderV) + 1.4
+                } else {
+                    bfpValue = (1.39 * bmiValueRound) + (0.16 * ageV) - (10.34 * genderV) - 9
+                }
 
-            } else
-                Toast.makeText(this, "Please select your age", Toast.LENGTH_LONG).show()
+                //BMI
+                if (wValue > 0.0 && hValue > 0.0) {
+                    bmiValue = wValue / hValue.pow(2)
+                    bmiValue.toString().format("%.1f").toDouble()
+                    Toast.makeText(this, "Calculate Successfully!!!", Toast.LENGTH_SHORT).show()
+                    intent.putExtra("BMI", bmiValue)
+                    intent.putExtra("BFP", bfpValue.roundToInt())
+                    intent.putExtra("DC", dcValue.roundToInt())
+                    startActivity(intent)
+                } else
+                    Toast.makeText(
+                        this,
+                        "Please input weight and height values greater than 0.",
+                        Toast.LENGTH_LONG
+                    ).show()
 
-            Toast.makeText(this, "Calculate Successfully!!!", Toast.LENGTH_SHORT).show()
-            intent.putExtra("BMI", bmiValue)
-            intent.putExtra("BFP", bfpValue.roundToInt())
-            startActivity(intent)
+            } else Toast.makeText(this, "Please enter all the fields.", Toast.LENGTH_SHORT).show()
 
         }
     }
