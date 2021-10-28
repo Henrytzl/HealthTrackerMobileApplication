@@ -31,4 +31,13 @@
     <style name="Theme.HealthTracker.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.HealthTracker.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+    <style name="CropTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/white</item>
+        <item name="actionMenuTextColor">@color/purple_500</item>
+        <item name="titleTextColor">@color/purple_500</item>
+        <item name="android:textColorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
 </resources>

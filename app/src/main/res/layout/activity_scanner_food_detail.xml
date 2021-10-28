@@ -23,31 +23,50 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <EditText
         android:id="@+id/scanner_foodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Meal Name..."
+        android:text="Default Food Name"
         android:textColor="@color/black"
         android:textSize="35dp"
+        android:inputType="textCapWords"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/unit"
+    <LinearLayout
+        android:id="@+id/linearLayoutUnit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="for 100g / 100ml"
-        android:textColor="@color/black"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="10dp"
-        android:gravity="right"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanner_foodName" />
+        app:layout_constraintTop_toBottomOf="@+id/scanner_foodName"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/noOfUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:inputType="number"
+            android:textColor="@color/purple_500"
+            android:layout_weight="1"
+            android:gravity="right"/>
+
+        <TextView
+            android:id="@+id/unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="g / ml"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/scannerFoodDetailLine"
@@ -58,7 +77,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginTop="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unit"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutUnit"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
@@ -81,11 +100,12 @@
             android:fontFamily="@font/roboto_condensed_regular"
             android:layout_weight="1"/>
 
-        <TextView
+        <EditText
             android:id="@+id/foodKcal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="1234"
+            android:inputType="number"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -117,11 +137,12 @@
             android:fontFamily="@font/roboto_condensed_regular"
             android:layout_weight="1"/>
 
-        <TextView
+        <EditText
             android:id="@+id/foodProtein"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="1234"
+            android:inputType="number"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -153,11 +174,12 @@
             android:fontFamily="@font/roboto_condensed_regular"
             android:layout_weight="1"/>
 
-        <TextView
+        <EditText
             android:id="@+id/foodFat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="1234"
+            android:inputType="number"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -189,11 +211,12 @@
             android:fontFamily="@font/roboto_condensed_regular"
             android:layout_weight="1"/>
 
-        <TextView
+        <EditText
             android:id="@+id/foodCarb"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="1234"
+            android:inputType="number"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -225,11 +248,12 @@
             android:fontFamily="@font/roboto_condensed_regular"
             android:layout_weight="1"/>
 
-        <TextView
+        <EditText
             android:id="@+id/foodSugar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="1234"
+            android:inputType="number"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>

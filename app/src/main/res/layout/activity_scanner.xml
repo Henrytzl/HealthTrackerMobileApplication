@@ -9,17 +9,19 @@
     android:fitsSystemWindows="true"
     android:layout_gravity="start">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         tools:context=".scanner.Scanner">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -33,23 +35,67 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/logo" />
             </androidx.appcompat.widget.Toolbar>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorColor="@color/purple_500"
-                app:tabTextColor="@color/black"
-                app:tabIndicatorHeight="2dp"
-                android:background="@color/white"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
+
+        <TextView
+            android:id="@+id/scannerHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nutrition Fact Scanner"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBar" />
+
+        <Button
+            android:id="@+id/scannerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan / Upload"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scannerHome" />
+
+        <TextView
+            android:id="@+id/testTV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_height="wrap_content"
+            android:text="123"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/scannerImage" />
+
+        <TextView
+            android:id="@+id/scannerHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scannerImage" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewScannerHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scannerHistory"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            tools:listitem="@layout/scanner_history_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
@@ -62,5 +108,4 @@
         app:itemIconTint="@color/grey"
         app:itemTextColor="@color/black"
         app:menu="@menu/nav_drawer" />
-
 </androidx.drawerlayout.widget.DrawerLayout>
