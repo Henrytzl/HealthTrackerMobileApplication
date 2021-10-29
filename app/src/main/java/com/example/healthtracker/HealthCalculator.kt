@@ -34,19 +34,16 @@ class HealthCalculator : AppCompatActivity() {
         autoCompleteTextViewActivityLvl.setAdapter(adapter2)
 
         //age stuff
-        val addBtn = findViewById<Button>(R.id.buttonAdd)
-        val minusBtn = findViewById<Button>(R.id.buttonMinus)
-
         textInputEditTextAge.isEnabled = false
 
         //add button
-        addBtn.setOnClickListener {
+        buttonAdd.setOnClickListener {
             age++
             if (age > 100) {
-                addBtn.isEnabled = false
+                buttonAdd.isEnabled = false
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
             } else {
-                minusBtn.isEnabled = true
+                buttonMinus.isEnabled = true
                 textInputEditTextAge.setText("$age")
                 textInputEditTextAge.isEnabled = false
                 textInputEditTextAge.setTextColor(Color.parseColor("#FF000000"))
@@ -54,13 +51,13 @@ class HealthCalculator : AppCompatActivity() {
         }
 
         //minus button
-        minusBtn.setOnClickListener {
+        buttonMinus.setOnClickListener {
             age--
             if (age <= 0) {
-                minusBtn.isEnabled = false
+                buttonMinus.isEnabled = false
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
             } else {
-                addBtn.isEnabled = true
+                buttonAdd.isEnabled = true
                 textInputEditTextAge.setText("$age")
                 textInputEditTextAge.isEnabled = false
                 textInputEditTextAge.setTextColor(Color.parseColor("#FF000000"))
@@ -68,55 +65,45 @@ class HealthCalculator : AppCompatActivity() {
         }
 
         //weight stuff
-        val btnKg = findViewById<Button>(R.id.buttonKg)
-        val btnLb = findViewById<Button>(R.id.buttonLb)
-        val weightTextLayout = findViewById<TextInputLayout>(R.id.textInputLayoutWeight)
-
-        btnKg.setOnClickListener {
-            btnKg.isSelected = true
-            btnLb.setTextColor(Color.BLACK)
-            btnKg.setBackgroundResource(R.drawable.custom_button_kg_checked)
-            btnLb.setBackgroundResource(R.drawable.custom_button_lb_unchecked)
-            btnKg.setTextColor(Color.parseColor("#FF6200EE"))
-            weightTextLayout.suffixText = "Kg"
+        buttonKg.setOnClickListener {
+            buttonKg.isSelected = true
+            buttonLb.setTextColor(Color.BLACK)
+            buttonKg.setBackgroundResource(R.drawable.custom_button_kg_checked)
+            buttonLb.setBackgroundResource(R.drawable.custom_button_lb_unchecked)
+            buttonKg.setTextColor(Color.parseColor("#FF6200EE"))
+            textInputLayoutWeight.suffixText = "Kg"
         }
 
-        btnLb.setOnClickListener {
-            btnLb.isSelected = true
-            btnKg.setTextColor(Color.BLACK)
-            btnLb.setBackgroundResource(R.drawable.custom_button_lb_checked)
-            btnKg.setBackgroundResource(R.drawable.custom_button_kg_unchecked)
-            btnLb.setTextColor(Color.parseColor("#FF6200EE"))
-            weightTextLayout.suffixText = "Lb"
+        buttonLb.setOnClickListener {
+            buttonLb.isSelected = true
+            buttonKg.setTextColor(Color.BLACK)
+            buttonLb.setBackgroundResource(R.drawable.custom_button_lb_checked)
+            buttonKg.setBackgroundResource(R.drawable.custom_button_kg_unchecked)
+            buttonLb.setTextColor(Color.parseColor("#FF6200EE"))
+            textInputLayoutWeight.suffixText = "Lb"
         }
 
         //height stuff
-        val btnCm = findViewById<Button>(R.id.buttonCm)
-        val btnIn = findViewById<Button>(R.id.buttonIn)
-        val heightTextLayout = findViewById<TextInputLayout>(R.id.textInputLayoutHeight)
-
-        btnCm.setOnClickListener {
-            btnCm.isSelected = true
-            btnIn.setTextColor(Color.BLACK)
-            btnCm.setBackgroundResource(R.drawable.custom_button_cm_checked)
-            btnIn.setBackgroundResource(R.drawable.custom_button_in_unchecked)
-            btnCm.setTextColor(Color.parseColor("#FF6200EE"))
-            heightTextLayout.suffixText = "Cm"
+        buttonCm.setOnClickListener {
+            buttonCm.isSelected = true
+            buttonIn.setTextColor(Color.BLACK)
+            buttonCm.setBackgroundResource(R.drawable.custom_button_cm_checked)
+            buttonIn.setBackgroundResource(R.drawable.custom_button_in_unchecked)
+            buttonCm.setTextColor(Color.parseColor("#FF6200EE"))
+            textInputLayoutHeight.suffixText = "Cm"
         }
 
-        btnIn.setOnClickListener {
-            btnIn.isSelected = true
-            btnCm.setTextColor(Color.BLACK)
-            btnIn.setBackgroundResource(R.drawable.custom_button_in_checked)
-            btnCm.setBackgroundResource(R.drawable.custom_button_cm_unchecked)
-            btnIn.setTextColor(Color.parseColor("#FF6200EE"))
-            heightTextLayout.suffixText = "In"
+        buttonIn.setOnClickListener {
+            buttonIn.isSelected = true
+            buttonCm.setTextColor(Color.BLACK)
+            buttonIn.setBackgroundResource(R.drawable.custom_button_in_checked)
+            buttonCm.setBackgroundResource(R.drawable.custom_button_cm_unchecked)
+            buttonIn.setTextColor(Color.parseColor("#FF6200EE"))
+            textInputLayoutHeight.suffixText = "In"
         }
 
         //calculate button
-        val calBtn = findViewById<Button>(R.id.buttonCalculate)
-
-        calBtn.setOnClickListener {
+        buttonCalculate.setOnClickListener {
             val intent = Intent(this, Result::class.java)
 
             //BMI variables
@@ -148,6 +135,17 @@ class HealthCalculator : AppCompatActivity() {
                     .isNotEmpty() && textInputEditTextHeight.text.toString()
                     .isNotEmpty() && autoCompleteTextViewActivityLvl.text.toString().isNotEmpty()
             ) {
+
+//                if (buttonKg.isSelected && buttonCm.isSelected) {
+//
+//                } else if (buttonLb.isSelected) {
+//
+//                } else if (buttonCm.isSelected) {
+//
+//                } else if (buttonIn.isSelected) {
+//
+//                }
+
                 ageV = age
                 wValue = textInputEditTextWeight.text.toString().toDouble()
                 hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
@@ -187,19 +185,23 @@ class HealthCalculator : AppCompatActivity() {
                     }
                 }
 
-                //BFP
-                val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
-                if (ageV <= 18) {
-                    bfpValue = (1.51 * bmiValueRound) - (0.70 * ageV) - (3.6 * genderV) + 1.4
-                } else {
-                    bfpValue = (1.39 * bmiValueRound) + (0.16 * ageV) - (10.34 * genderV) - 9
-                }
-
-                //BMI
-                if (wValue > 0.0 && hValue > 0.0) {
+                //BMI & BFP
+                if (wValue > 0.0 && hValue > 0.0 && ageV <= 18) {
                     bmiValue = wValue / hValue.pow(2)
                     bmiValue.toString().format("%.1f").toDouble()
-                    Toast.makeText(this, "Calculate Successfully!!!", Toast.LENGTH_SHORT).show()
+                    val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
+                    bfpValue = (1.51 * bmiValueRound) - (0.70 * ageV) - (3.6 * genderV) + 1.4
+
+                    intent.putExtra("BMI", bmiValue)
+                    intent.putExtra("BFP", bfpValue.roundToInt())
+                    intent.putExtra("DC", dcValue.roundToInt())
+                    startActivity(intent)
+                } else if (wValue > 0.0 && hValue > 0.0 && ageV >= 19) {
+                    bmiValue = wValue / hValue.pow(2)
+                    bmiValue.toString().format("%.1f").toDouble()
+                    val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
+                    bfpValue = (1.39 * bmiValueRound) + (0.16 * ageV) - (10.34 * genderV) - 9
+
                     intent.putExtra("BMI", bmiValue)
                     intent.putExtra("BFP", bfpValue.roundToInt())
                     intent.putExtra("DC", dcValue.roundToInt())
