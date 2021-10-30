@@ -17,7 +17,7 @@
     <string name="userProfile_email_hint">Email</string>
     <string name="userProfile_calories_hint">Calories</string>
     <string name="userProfile_currentPass_hint">Current Password</string>
-    <string name="userProfile_confirmPass_hint">Confirm Password</string>
+    <string name="userProfile_newPass_hint">New Password</string>
     <string name="userProfile_save_btn">Save</string>
 
     //Health Calculator Form
@@ -50,6 +50,7 @@
     <string name="dc">Daily Calories</string>
     <string name="bmi_bfp_class">BMI &amp; BFP Classification</string>
     <string name="result_store_btn">Store</string>
+    <string name="result_again_btn">Again?</string>
 
     //Article Menu
     <string name="article_title_name">Articles</string>

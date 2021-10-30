@@ -29,7 +29,7 @@ class AuthorisedUser : AppCompatActivity() {
         val caloriesTxt = findViewById<TextInputEditText>(R.id.textInputEditTextCalories)
         val genderTxt = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewGender)
         val currentTxt = findViewById<TextInputEditText>(R.id.textInputEditTextCurrentPassword)
-        val confirmTxt = findViewById<TextInputEditText>(R.id.textInputEditTextConfirmPassword)
+        val newTxt = findViewById<TextInputEditText>(R.id.textInputEditTextNewPassword)
 
 
 
@@ -81,7 +81,7 @@ class AuthorisedUser : AppCompatActivity() {
         val calories = findViewById<TextInputLayout>(R.id.textInputLayoutCalories)
         val gender = findViewById<TextInputLayout>(R.id.textInputLayoutGender)
         val current = findViewById<TextInputLayout>(R.id.textInputLayoutCurrentPassword)
-        val confirm = findViewById<TextInputLayout>(R.id.textInputLayoutConfirmPassword)
+        val new = findViewById<TextInputLayout>(R.id.textInputLayoutNewPassword)
 
         username.isEnabled = false
         email.isEnabled = false
@@ -89,19 +89,19 @@ class AuthorisedUser : AppCompatActivity() {
         calories.isEnabled = false
         gender.isEnabled = false
         current.isEnabled = false
-        confirm.isEnabled = false
+        new.isEnabled = false
     }
 
     private fun enableEdit() {
         val age = findViewById<TextInputLayout>(R.id.textInputLayoutAge)
         val gender = findViewById<TextInputLayout>(R.id.textInputLayoutGender)
         val current = findViewById<TextInputLayout>(R.id.textInputLayoutCurrentPassword)
-        val confirm = findViewById<TextInputLayout>(R.id.textInputLayoutConfirmPassword)
+        val new = findViewById<TextInputLayout>(R.id.textInputLayoutNewPassword)
 
         age.isEnabled = true
         gender.isEnabled = true
         current.isEnabled = true
-        confirm.isEnabled = true
+        new.isEnabled = true
     }
 
 }

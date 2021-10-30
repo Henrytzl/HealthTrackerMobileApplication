@@ -1,13 +1,11 @@
 package com.example.healthtracker
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.health_calculator_result.*
-import kotlin.math.roundToInt
 
 
 class Result : AppCompatActivity() {
@@ -25,9 +23,7 @@ class Result : AppCompatActivity() {
         dcResult.text = "$dc" + " kcal / day"
 
         //store button
-        val storeBtn = findViewById<Button>(R.id.buttonStore)
-
-        storeBtn.setOnClickListener {
+        buttonStore.setOnClickListener {
             val alertDialog = AlertDialog.Builder(this)
             alertDialog.setTitle("Alert!!!")
             alertDialog.setMessage("Do you want to store your results ?")
@@ -40,6 +36,21 @@ class Result : AppCompatActivity() {
             }
             alertDialog.show()
             //startActivity(Intent(this, Result::class.java))
+        }
+
+        //again button
+        buttonAgain.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Alert!!!")
+            alertDialog.setMessage("Do you want to calculate again ?")
+            alertDialog.setCancelable(true)
+            alertDialog.setPositiveButton("Yes") { dialog, id ->
+                startActivity(Intent(this, HealthCalculator::class.java))
+            }
+            alertDialog.setNegativeButton("No") { dialog, id ->
+                dialog.dismiss()
+            }
+            alertDialog.show()
         }
     }
 

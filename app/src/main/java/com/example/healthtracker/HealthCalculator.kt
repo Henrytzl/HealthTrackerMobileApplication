@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_form.*
 import kotlinx.android.synthetic.main.health_calculator_result.*
 import kotlin.math.pow
@@ -16,6 +17,7 @@ import kotlin.math.roundToInt
 class HealthCalculator : AppCompatActivity() {
 
     var age = 18
+    lateinit var fStore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,28 +108,6 @@ class HealthCalculator : AppCompatActivity() {
         buttonCalculate.setOnClickListener {
             val intent = Intent(this, Result::class.java)
 
-            //BMI variables
-            var wValue = 0.0
-            var hValue = 0.0
-            var bmiValue = 0.0
-
-            //BFP variables
-            val male = 1
-            val female = 0
-            var genderV = 2
-            var ageV = 0
-            var bfpValue = 0.0
-
-            //Daily Calories variables
-            var hDcValue = 0.0
-            var dcValue = 0.0
-            val a1 = 1.2
-            val a2 = 1.4
-            val a3 = 1.6
-            val a4 = 1.75
-            val a5 = 2
-            val a6 = 2.3
-
             //BMI
             if (autoCompleteTextViewGender.text.toString()
                     .isNotEmpty() && textInputEditTextAge.text.toString()
@@ -136,20 +116,49 @@ class HealthCalculator : AppCompatActivity() {
                     .isNotEmpty() && autoCompleteTextViewActivityLvl.text.toString().isNotEmpty()
             ) {
 
-//                if (buttonKg.isSelected && buttonCm.isSelected) {
-//
-//                } else if (buttonLb.isSelected) {
-//
-//                } else if (buttonCm.isSelected) {
-//
-//                } else if (buttonIn.isSelected) {
-//
-//                }
+                //BMI variables
+                var wValue = 0.0
+                var hValue = 0.0
+                var wBValue = 0.0
+                var hBValue = 0.0
+                var bmiValue = 0.0
+
+                //BFP variables
+                val male = 1
+                val female = 0
+                var genderV = 2
+                var ageV = 0
+                var bfpValue = 0.0
+
+                //Daily Calories variables
+                var hDcValue = 0.0
+                var hDcBValue = 0.0
+                var dcValue = 0.0
+                val a1 = 1.2
+                val a2 = 1.4
+                val a3 = 1.6
+                val a4 = 1.75
+                val a5 = 2
+                val a6 = 2.3
 
                 ageV = age
-                wValue = textInputEditTextWeight.text.toString().toDouble()
-                hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
-                hDcValue = (textInputEditTextHeight.text.toString().toDouble())
+
+                if (buttonKg.isSelected) {
+                    wValue = textInputEditTextWeight.text.toString().toDouble()
+                } else {
+                    wBValue = (textInputEditTextWeight.text.toString().toDouble() * 0.453592)
+                    wValue = String.format("%.2f", wBValue).toDouble()
+                }
+
+                if (buttonCm.isSelected) {
+                    hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
+                    hDcValue = textInputEditTextHeight.text.toString().toDouble()
+                } else {
+                    hBValue = ((textInputEditTextHeight.text.toString().toDouble() * 2.54) / 100)
+                    hDcBValue = (textInputEditTextHeight.text.toString().toDouble() * 2.54)
+                    hValue = String.format("%.2f", hBValue).toDouble()
+                    hDcValue = String.format("%.2f", hDcBValue).toDouble()
+                }
 
                 if (autoCompleteTextViewGender.text.toString() == "Male") {
                     genderV = male
@@ -216,6 +225,10 @@ class HealthCalculator : AppCompatActivity() {
             } else Toast.makeText(this, "Please enter all the fields.", Toast.LENGTH_SHORT).show()
 
         }
+    }
+
+    private fun setupFirebase() {
+        fStore = FirebaseFirestore.getInstance()
     }
 
 }

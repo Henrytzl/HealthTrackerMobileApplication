@@ -157,7 +157,7 @@
 
         <ImageView
             android:id="@+id/bmi_class_img"
-            android:layout_width="500dp"
+            android:layout_width="400dp"
             android:layout_height="200dp"
             android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -184,13 +184,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
             android:background="@drawable/custom_button"
             android:gravity="center"
             android:text="@string/result_store_btn"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.860"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bfp_class_img" />
+
+        <Button
+            android:id="@+id/buttonAgain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_button"
+            android:gravity="center"
+            android:text="@string/result_again_btn"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.173"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bfp_class_img" />
     </androidx.constraintlayout.widget.ConstraintLayout>
