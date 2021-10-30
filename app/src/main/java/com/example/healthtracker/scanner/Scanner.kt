@@ -130,7 +130,7 @@ class Scanner : AppCompatActivity() {
     private val cropActivityResultContract = object : ActivityResultContract<Any?, Uri?>(){
         override fun createIntent(context: Context, input: Any?):Intent{
             return CropImage.activity(input as Uri?)
-                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setGuidelines(CropImageView.Guidelines.OFF)
                     .setBorderLineColor(R.color.purple_500)
                     .setBorderCornerColor(R.color.purple_700)
                     .setActivityTitle("Cropper")
@@ -167,7 +167,7 @@ class Scanner : AppCompatActivity() {
             while (i < items.size) {
                 var myItem: TextBlock = items.valueAt(i)
                 sb.append(myItem.value)
-                //sb.append("\n")
+                sb.append("\n")
                 i++
             }
             testTV.text = sb.toString()
