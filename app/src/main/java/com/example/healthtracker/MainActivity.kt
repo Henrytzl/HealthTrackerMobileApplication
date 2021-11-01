@@ -3,17 +3,26 @@ package com.example.healthtracker
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.healthymeal.HealthyMeal
 import com.example.healthtracker.login.LoginActivity
 import com.example.healthtracker.reminder.Reminder
 import com.example.healthtracker.scanner.Scanner
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var authentication: FirebaseAuth
+    private lateinit var firebase: FirebaseFirestore
+    private lateinit var userID : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +35,26 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setUpFirebase()
+        // Get current User id and email
+        if(authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+            navView.getHeaderView(0).dhEmail.text = authentication.currentUser!!.email
+        }
+        // Get Drawer Header information from database
+        val nameDocRef = firebase.collection("User").document(userID)
+        nameDocRef.get().addOnSuccessListener { name ->
+            if(name != null){
+                navView.getHeaderView(0).dhName.text = name.getString("userName")
+            }
+        }
+        val caloriesDocRef = firebase.collection("User").document(userID)
+        caloriesDocRef.get().addOnSuccessListener { name ->
+            if(name != null){
+                navView.getHeaderView(0).dhKcal.text = name.get("calories").toString()
+            }
+        }
 
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
@@ -45,6 +74,8 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 R.id.mLogout -> {
+                    Firebase.auth.signOut()
+                    Toast.makeText(this,"Successfully Logout", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
@@ -69,15 +100,11 @@ class MainActivity : AppCompatActivity() {
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
-//        if (item != null && item.getItemId() == android.R.id.home) {
-//            if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-//                drawerLayout.closeDrawer(Gravity.RIGHT);
-//            }
-//            else {
-//                drawerLayout.openDrawer(Gravity.RIGHT);
-//            }
-//        }
-        //return false
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setUpFirebase(){
+        authentication = FirebaseAuth.getInstance()
+        firebase = FirebaseFirestore.getInstance()
     }
 }
