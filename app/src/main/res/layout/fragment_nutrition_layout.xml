@@ -21,7 +21,7 @@
         android:id="@+id/unit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="for 100g / 100ml"
+        android:text="Per Serving"
         android:textColor="@color/black"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"

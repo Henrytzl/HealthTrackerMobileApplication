@@ -44,6 +44,7 @@ class Scanner : AppCompatActivity() {
     lateinit var storagePermission: Array<String>
     lateinit var wholeText: String
     lateinit var image_uri: Uri
+    lateinit var btnAction: String      //S for scanner, C for customize (putExtra value)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +96,12 @@ class Scanner : AppCompatActivity() {
 
         scannerImage.setOnClickListener {
             showImageImportDialog();
+        }
+        addFoodBtn.setOnClickListener {
+            val intent =Intent(this, ScannerFoodDetail::class.java)
+            btnAction = "C"
+            intent.putExtra("Action", btnAction)
+            startActivity(intent)
         }
     }
 
@@ -152,11 +159,39 @@ class Scanner : AppCompatActivity() {
 //        image_uri = uri
         val resultUri: Uri = uri
 
+//        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+
         val recognizer: TextRecognizer = TextRecognizer.Builder(applicationContext).build()
         val stream: InputStream? = contentResolver.openInputStream(resultUri)
         val drawable = Drawable.createFromStream(stream, resultUri.toString())
         val bitmap: Bitmap = drawable.toBitmap()
-
+//        val image = InputImage.fromBitmap(bitmap, 0)
+//        var sb: StringBuilder = StringBuilder()
+//        val result = recognizer.process(image).addOnSuccessListener {
+//            val resultText = it.text
+//            for (block in it.textBlocks) {
+//                val blockText = block.text
+//                val blockCornerPoints = block.cornerPoints
+//                val blockFrame = block.boundingBox
+//                for (line in block.lines) {
+//                    val lineText = line.text
+//                    val lineCornerPoints = line.cornerPoints
+//                    val lineFrame = line.boundingBox
+//                    sb.append(lineText)
+//                    sb.append("\n")
+//                    for (element in line.elements) {
+//                        sb.append(element)
+//                        sb.append(" ")
+//                    }
+//                }
+//            }
+//            Toast.makeText(this, "Scanning..", Toast.LENGTH_SHORT).show()
+//        }.addOnFailureListener {
+//            Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
+//        }
+//        testTV.text = sb.toString()
+//
         if (!recognizer.isOperational) {
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
         } else {
@@ -172,6 +207,11 @@ class Scanner : AppCompatActivity() {
             }
             testTV.text = sb.toString()
         }
+
+//        val intent =Intent(this, ScannerFoodDetail::class.java)
+//        btnAction = "S"
+//        intent.putExtra("Action", btnAction)
+//        startActivity(intent)
     }
 
     private fun onActivityResult(requestCode: Int, result: ActivityResult) {
