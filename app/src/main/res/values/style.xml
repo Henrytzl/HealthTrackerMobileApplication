@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PopUpWindow" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:windowBackground">@drawable/custom_reset_pop</item>
+    </style>
+    
+<!--    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--        <item name="colorPrimary">@color/purple_500</item>-->
+<!--        <item name="colorPrimaryDark">@color/purple_700</item>-->
+<!--        <item name="colorAccent">@color/teal_200</item>-->
+<!--    </style>-->
+    <style name="Picker" >
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Divider color -->
+        <item name="colorControlNormal">@color/purple_500</item>
+    </style>
+</resources>

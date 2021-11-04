@@ -1,4 +1,4 @@
-package com.example.healthtracker
+package com.example.healthtracker.reminder
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.healthtracker.healthymeal.HealthyMeal
+import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
-import com.example.healthtracker.reminder.Reminder
-import com.example.healthtracker.scanner.Scanner
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_reminder.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
-class MainActivity : AppCompatActivity() {
+class Reminder : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
@@ -24,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_reminder)
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
@@ -38,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
+                R.id.mHome -> {
+                    finish()
+                }
                 R.id.mProfile -> {
 
                 }
@@ -64,16 +65,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        btnReminder.setOnClickListener {
-            startActivity(Intent(this, Reminder::class.java))
+        imageHome.setOnClickListener{
+            finish()
         }
 
-        btnHealthMeal.setOnClickListener {
-            startActivity(Intent(this, HealthyMeal::class.java))
-        }
-
-        btnScanner.setOnClickListener {
-            startActivity(Intent(this, Scanner::class.java))
+        addReminder.setOnClickListener{
+            startActivity(Intent(this, ReminderDetail::class.java))
         }
     }
 
@@ -89,9 +86,8 @@ class MainActivity : AppCompatActivity() {
             finish()
             finishAffinity()
         }
-        // Get Drawer Header information from database
         val nameDocRef = firebase.collection("User").document(userID)
-        nameDocRef.get().addOnSuccessListener { name ->
+        nameDocRef.get().addOnSuccessListener{ name ->
             if(name != null){
                 navView.getHeaderView(0).dhName.text = name.getString("userName")
             }
@@ -102,7 +98,6 @@ class MainActivity : AppCompatActivity() {
                 navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
             }
         }
-        
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
