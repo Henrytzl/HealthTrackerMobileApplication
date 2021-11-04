@@ -102,8 +102,6 @@
 
         </activity>
 
-        <activity android:name=".MainActivity" />
-
         <!--add in application tag-->
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/CropTheme"/>
