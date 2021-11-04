@@ -223,7 +223,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:itemTextColor="@color/black"
-        app:itemIconTint="@color/grey"
+        app:itemIconTint="@color/darkGrey"
         android:background="@color/white"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

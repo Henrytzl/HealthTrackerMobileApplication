@@ -139,7 +139,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/grey"
+        app:itemIconTint="@color/darkGrey"
         app:itemTextColor="@color/black"
         app:menu="@menu/nav_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>
