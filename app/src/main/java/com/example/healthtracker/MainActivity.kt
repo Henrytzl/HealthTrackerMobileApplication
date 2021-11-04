@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                 navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
             }
         }
+        
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

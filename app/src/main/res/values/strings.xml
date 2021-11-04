@@ -1,15 +1,97 @@
 <resources>
     <string name="app_name">HealthTracker</string>
-    <string name="nav_open">Open</string>
-    <string name="nav_close">Close</string>
+    <string name="underline">__________________________________________________________</string>
+    <string name="gender_hint">Gender</string>
+    <string name="age_hint">Age</string>
+    <string name="years">years old</string>
+    <string name="calories">kcal / day</string>
+
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
     //User Profile
     <string name="userProfile_title_name">User Profile</string>
-    <string name="userProfile_underline">__________________________________________________________</string>
-    <string name="userProfile_age">years</string>
-    <string name="userProfile_calories">kcal / day</string>
+    <string name="userProfile_username_hint">Username</string>
+    <string name="userProfile_email_hint">Email</string>
+    <string name="userProfile_calories_hint">Calories</string>
+    <string name="userProfile_currentPass_hint">Current Password</string>
+    <string name="userProfile_newPass_hint">New Password</string>
+    <string name="userProfile_save_btn">Save</string>
+
+    //Health Calculator Form
+    <string name="health_title_name">Health Calculator</string>
+    <string name="healthCalculator_desc">Please fill in your health details</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="activity_lvl">ActivityLevel</string>
+    <string name="healthCalculator_calculate_btn">Calculate</string>
+    <string name="healthCalculator_add_btn">+</string>
+    <string name="healthCalculator_minus_btn">-</string>
+    <string name="Kg">Kg</string>
+    <string name="Lb">Lb</string>
+    <string name="Cm">Cm</string>
+    <string name="In">In</string>
+
+    <string-array name="Activity_Lvl">
+        <item>little/no exercise (sedentary lifestyle)</item>
+        <item>light exercise 1-2 times/weeks</item>
+        <item>moderate exercise 2-3 times/weeks</item>
+        <item>hard exercise 4-5 times/weeks</item>
+        <item>physical job/hard exercise 6-7 times/weeks</item>
+        <item>professional athlete</item>
+    </string-array>
+
+    //Health Calculator Result
+    <string name="result_title_name">Results</string>
+    <string name="bmi">Body Mass Index</string>
+    <string name="bfp">Body Fat Percentage</string>
+    <string name="dc">Daily Calories</string>
+    <string name="bmi_bfp_class">BMI &amp; BFP Classification</string>
+    <string name="result_store_btn">Store</string>
+    <string name="result_again_btn">Again?</string>
+
+    //Article Menu
+    <string name="article_title_name">Articles</string>
+    <string name="article_1_title">How to eat healthy</string>
+    <string name="article_2_title">Healthy Lifestyle</string>
+    <string name="article_3_title">Vitamins</string>
+    <string name="article_4_title">Minerals</string>
+    <string name="article_5_title">Junk Food</string>
+    <string name="article_6_title">Healthy Food</string>
+
+    //Article details
+    <string name="article_1_desc_title">Go Fresh</string>
+    <string name="article_1_desc">A good portion of a healthy meal is made up of fresh fruits and vegetables. Sometimes you may not be able to get fresh fruits and vegetables. In that case, try to choose frozen fruits and vegetables, which are usually picked and frozen when they are at their freshest, and keep them in your freezer and use whenever you are in a pinch. Find out if there is a year-round farmer’s market near you. Farmer’s markets can help you cut out processed foods, since they offer fresh fruits and vegetables.</string>
+    <string name="article_2_desc_title">Physical Activity</string>
+    <string name="article_2_desc">The World Health Organisation recommends that all adults undertake regular physical activity, including at least thirty minutes of moderate aerobic activity daily, supplemented by at least two weight-bearing activity sessions per week. Being physically fit protects against diseases such as cardiovascular disease, some cancers, diabetes mellitus and osteoporosis and aids in the secondary prevention (i.e., the worsening of symptoms) of such disorders.</string>
+    <string name="article_3_desc_title">What is vitamin?</string>
+    <string name="article_3_desc">Vitamins are organic substances that are generally classified as either fat soluble or water soluble. Fat-soluble vitamins (vitamin A, vitamin D, vitamin E, and vitamin K) dissolve in fat and tend to accumulate in the body. Water-soluble vitamins (vitamin C and the B-complex vitamins, such as vitamin B6, vitamin B12, and folate) must dissolve in water before they can be absorbed by the body, and therefore cannot be stored. Any water-soluble vitamins unused by the body is primarily lost through urine.</string>
+    <string name="article_4_desc_title">What is mineral?</string>
+    <string name="article_4_desc">Minerals are inorganic elements present in soil and water, which are absorbed by plants or consumed by animals. While you’re likely familiar with calcium, sodium, and potassium, there is a range of other minerals, including trace minerals (e.g. copper, iodine, and zinc) needed in very small amounts.</string>
+    <string name="article_5_desc_title">Disadvantages</string>
+    <string name="article_5_desc">Scientists have correlated the dramatic rise in childhood obesity with junk food consumption. Weight gained during youth often persists into adulthood, and it places adults at risk for medical conditions like diabetes. Unhealthy eating also has a surprising effect on mental health. For example, researchers have found a relationship between junk food and violent behavior. Fast-food intake has also been shown to correlate with suicidal thoughts. If you\'re pregnant, the negative effects of eating junk food may even transfer to your children.</string>
+    <string name="article_6_desc_title">Advantages</string>
+    <string name="article_6_desc">You can successfully age by avoiding medical conditions like heart disease and diabetes. Eating healthy food is the best way to prevent the inflammation and other consequences of these medical conditions, according to a 2017 report in Molecules. The authors note that healthy food can also play a positive role in fighting cancer. Healthy food also has a beneficial effect on your emotional well-being. A 2014 review in BMC Psychiatry noted the relationship between food quality and mental health in young children. This positive relationship persists across the entire lifespan. For example, eating healthy food helps older adults fight depression and dementia.</string>
+
+    //Video Menu
+    <string name="video_title_name">Videos</string>
+    <string name="video_1_title">5 Min Home Workout You Can Do Every Morning</string>
+    <string name="video_2_title">The Perfect Push Up | Do It Right!</string>
+    <string name="video_3_title">10 Dumbbell Exercises You Should Be Doing</string>
+
+    //Trend
+    <string name="trend_title_name">Trend</string>
+    <string name="weight_trend">Weight</string>
+    <string name="bmi_trend">BMI</string>
+    <string name="bfp_trend">BFP</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
     <string name="sign_up">Sign Up</string>
     <string name="forget_password"><u>Forget Password?</u></string>
-    <string name="title_activity_testing123">testing123</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
