@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_foods_per_meal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Food's Name..."
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/btn_delete_food"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_delete"
+            android:backgroundTint="@color/white"
+            app:tint="@color/red" />
+
+        <ImageButton
+            android:id="@+id/btn_minus_foodQty"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_minus"
+            android:backgroundTint="@color/white" />
+
+        <EditText
+            android:id="@+id/food_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="123"
+            android:textSize="15dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textColor="@color/black"
+            android:background="@drawable/custom_layout1"/>
+
+        <ImageButton
+            android:id="@+id/btn_add_foodQty"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_add"
+            android:backgroundTint="@color/white"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
