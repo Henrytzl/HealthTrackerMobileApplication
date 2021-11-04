@@ -49,6 +49,7 @@ class RegisterActivity : AppCompatActivity() {
                                 val intent = Intent(this, LoginActivity::class.java)
                                 startActivity(intent)
                                 Toast.makeText(this,"Your account has successfully registered", Toast.LENGTH_SHORT).show()
+                                finish()
                             }.addOnFailureListener {
                                 Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
                             }

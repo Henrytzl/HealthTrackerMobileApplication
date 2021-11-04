@@ -181,21 +181,21 @@
 <!--                android:textColor="@color/purple_500" />-->
 <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-        <TextView
-            android:id="@+id/lblDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_condensed_bold"
-            android:text="Start Date"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="32dp"
-            android:drawableStart="@drawable/ic_date"
-            android:drawableTint="@color/black"
-            android:drawablePadding="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtReminderTime" />
+<!--        <TextView-->
+<!--            android:id="@+id/lblDate"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/roboto_condensed_bold"-->
+<!--            android:text="Start Date"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="20dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginLeft="32dp"-->
+<!--            android:drawableStart="@drawable/ic_date"-->
+<!--            android:drawableTint="@color/black"-->
+<!--            android:drawablePadding="5dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/txtReminderTime" />-->
 
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:id="@+id/layoutReminderDate"-->
@@ -217,16 +217,16 @@
 <!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintTop_toBottomOf="@+id/lblDate">-->
 
-        <DatePicker
-            android:id="@+id/txtReminderDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:theme="@style/Picker"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblDate" />
+<!--        <DatePicker-->
+<!--            android:id="@+id/txtReminderDate"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:calendarViewShown="false"-->
+<!--            android:datePickerMode="spinner"-->
+<!--            android:theme="@style/Picker"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lblDate" />-->
 
 <!--            <com.google.android.material.textfield.TextInputEditText-->
 <!--                android:id="@+id/txtReminderDate"-->
@@ -255,7 +255,7 @@
             android:paddingBottom="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtReminderDate">
+            app:layout_constraintTop_toBottomOf="@+id/txtReminderTime">
 
             <TextView
                 android:layout_width="wrap_content"

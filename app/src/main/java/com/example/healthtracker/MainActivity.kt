@@ -11,9 +11,7 @@ import com.example.healthtracker.login.LoginActivity
 import com.example.healthtracker.reminder.Reminder
 import com.example.healthtracker.scanner.Scanner
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
@@ -37,24 +35,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setUpFirebase()
-        // Get current User id and email
-        if(authentication.currentUser != null) {
-            userID = authentication.currentUser!!.uid
-            navView.getHeaderView(0).dhEmail.text = authentication.currentUser!!.email
-        }
-        // Get Drawer Header information from database
-        val nameDocRef = firebase.collection("User").document(userID)
-        nameDocRef.get().addOnSuccessListener { name ->
-            if(name != null){
-                navView.getHeaderView(0).dhName.text = name.getString("userName")
-            }
-        }
-        val caloriesDocRef = firebase.collection("User").document(userID)
-        caloriesDocRef.get().addOnSuccessListener { name ->
-            if(name != null){
-                navView.getHeaderView(0).dhKcal.text = name.get("calories").toString()
-            }
-        }
 
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
@@ -74,10 +54,11 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 R.id.mLogout -> {
-                    Firebase.auth.signOut()
+                    authentication.signOut()
                     Toast.makeText(this,"Successfully Logout", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
+                    finishAffinity()
                 }
             }
             true
@@ -93,6 +74,33 @@ class MainActivity : AppCompatActivity() {
 
         btnScanner.setOnClickListener {
             startActivity(Intent(this, Scanner::class.java))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // Get current User id and email
+        if(authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+            navView.getHeaderView(0).dhEmail.text = authentication.currentUser!!.email
+        }else{
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            finishAffinity()
+        }
+        // Get Drawer Header information from database
+        val nameDocRef = firebase.collection("User").document(userID)
+        nameDocRef.get().addOnSuccessListener { name ->
+            if(name != null){
+                navView.getHeaderView(0).dhName.text = name.getString("userName")
+            }
+        }
+        val caloriesDocRef = firebase.collection("User").document(userID)
+        caloriesDocRef.get().addOnSuccessListener { kcal ->
+            if(kcal != null){
+                navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
+            }
         }
     }
 
