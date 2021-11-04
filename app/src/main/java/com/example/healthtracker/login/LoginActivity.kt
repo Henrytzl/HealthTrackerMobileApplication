@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
             if(loginValidation(email, password)){
                 authentication.signInWithEmailAndPassword(email, password).addOnSuccessListener {
                             Toast.makeText(this,"Welcome To Health Tracker", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, HealthCalculator::class.java))
+                            startActivity(Intent(this, MainActivity::class.java))
                             finish()
                         }.addOnFailureListener{
                             Toast.makeText(this," "+it.message, Toast.LENGTH_SHORT).show()

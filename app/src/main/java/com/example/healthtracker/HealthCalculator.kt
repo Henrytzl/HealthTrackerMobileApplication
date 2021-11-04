@@ -5,11 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_form.*
-import kotlinx.android.synthetic.main.health_calculator_result.*
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -201,20 +198,24 @@ class HealthCalculator : AppCompatActivity() {
                     val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
                     bfpValue = (1.51 * bmiValueRound) - (0.70 * ageV) - (3.6 * genderV) + 1.4
 
+                    intent.putExtra("Weight", wValue)
                     intent.putExtra("BMI", bmiValue)
                     intent.putExtra("BFP", bfpValue.roundToInt())
                     intent.putExtra("DC", dcValue.roundToInt())
                     startActivity(intent)
+                    finish()
                 } else if (wValue > 0.0 && hValue > 0.0 && ageV >= 19) {
                     bmiValue = wValue / hValue.pow(2)
                     bmiValue.toString().format("%.1f").toDouble()
                     val bmiValueRound = String.format("%.1f", bmiValue).toDouble()
                     bfpValue = (1.39 * bmiValueRound) + (0.16 * ageV) - (10.34 * genderV) - 9
 
+                    intent.putExtra("Weight", wValue)
                     intent.putExtra("BMI", bmiValue)
                     intent.putExtra("BFP", bfpValue.roundToInt())
                     intent.putExtra("DC", dcValue.roundToInt())
                     startActivity(intent)
+                    finish()
                 } else
                     Toast.makeText(
                         this,

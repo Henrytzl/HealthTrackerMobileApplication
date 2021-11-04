@@ -42,7 +42,7 @@ class Result : AppCompatActivity() {
             alertDialog.setMessage("Do you want to store your results ?")
             alertDialog.setCancelable(true)
             alertDialog.setPositiveButton("Yes") { dialog, id ->
-                Toast.makeText(this, "$weight, $bmiRound, $bfp, $dc", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "$weightRound, $bmiRound, $bfp, $dc", Toast.LENGTH_SHORT).show()
                 addFireStore(weightRound, bmiRound, bfp, dc)
 
                 Toast.makeText(this, "Stored Successfully!!!", Toast.LENGTH_SHORT).show()
