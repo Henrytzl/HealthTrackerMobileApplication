@@ -62,7 +62,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/health_calculator_desc"
-            app:startIconDrawable="@drawable/ic_gender">
+            app:startIconDrawable="@drawable/ic_gender"
+            app:boxStrokeColor="@color/purple_500"
+            app:startIconTint="@color/purple_500">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewGender"
@@ -70,6 +72,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:inputType="none"
+                android:textColor="@color/purple_500"
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,14 +91,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender"
             app:startIconDrawable="@drawable/ic_age"
-            app:suffixText="@string/years">
+            app:boxStrokeColor="@color/purple_500"
+            app:startIconTint="@color/purple_500"
+            app:suffixText="@string/years"
+            app:suffixTextColor="@color/purple_500">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
-                android:inputType="none" />
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -114,14 +120,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge"
             app:startIconDrawable="@drawable/ic_weight"
-            app:suffixText="@string/Kg">
+            app:boxStrokeColor="@color/purple_500"
+            app:startIconTint="@color/purple_500"
+            app:suffixText="@string/Kg"
+            app:suffixTextColor="@color/purple_500">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/purple_500" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -140,14 +150,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
             app:startIconDrawable="@drawable/ic_height"
-            app:suffixText="@string/Cm">
+            app:boxStrokeColor="@color/purple_500"
+            app:startIconTint="@color/purple_500"
+            app:suffixText="@string/Cm"
+            app:suffixTextColor="@color/purple_500">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextHeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/purple_500" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -164,7 +178,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHeight"
-            app:startIconDrawable="@drawable/ic_activitylvl">
+            app:startIconDrawable="@drawable/ic_activitylvl"
+            app:boxStrokeColor="@color/purple_500"
+            app:startIconTint="@color/purple_500">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewActivityLvl"
@@ -172,6 +188,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:inputType="none"
+                android:textColor="@color/purple_500"
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 

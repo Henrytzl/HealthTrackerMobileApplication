@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.healthtracker.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_form.*
 import kotlin.math.pow
@@ -12,13 +14,17 @@ import kotlin.math.roundToInt
 
 
 class HealthCalculator : AppCompatActivity() {
-
+    private lateinit var authentication: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private lateinit var userID : String
     var age = 18
-    lateinit var fStore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.health_calculator_form)
+
+        db = FirebaseFirestore.getInstance()
+        authentication = FirebaseAuth.getInstance()
 
         //gender dropdown list
         val gender = resources.getStringArray(R.array.Gender)
@@ -33,7 +39,6 @@ class HealthCalculator : AppCompatActivity() {
         autoCompleteTextViewActivityLvl.setAdapter(adapter2)
 
         //age stuff
-        textInputEditTextAge.isEnabled = false
 
         //add button
         buttonAdd.setOnClickListener {
@@ -44,8 +49,7 @@ class HealthCalculator : AppCompatActivity() {
             } else {
                 buttonMinus.isEnabled = true
                 textInputEditTextAge.setText("$age")
-                textInputEditTextAge.isEnabled = false
-                textInputEditTextAge.setTextColor(Color.parseColor("#FF000000"))
+                textInputEditTextAge.setTextColor(Color.parseColor("#FF6200EE"))
             }
         }
 
@@ -58,8 +62,7 @@ class HealthCalculator : AppCompatActivity() {
             } else {
                 buttonAdd.isEnabled = true
                 textInputEditTextAge.setText("$age")
-                textInputEditTextAge.isEnabled = false
-                textInputEditTextAge.setTextColor(Color.parseColor("#FF000000"))
+                textInputEditTextAge.setTextColor(Color.parseColor("#FF6200EE"))
             }
         }
 
@@ -140,17 +143,19 @@ class HealthCalculator : AppCompatActivity() {
 
                 ageV = age
 
-                if (buttonKg.isSelected) {
+                if (buttonKg.isChecked) {
                     wValue = textInputEditTextWeight.text.toString().toDouble()
-                } else {
+                }
+                if (buttonLb.isChecked) {
                     wBValue = (textInputEditTextWeight.text.toString().toDouble() * 0.453592)
                     wValue = String.format("%.2f", wBValue).toDouble()
                 }
 
-                if (buttonCm.isSelected) {
+                if (buttonCm.isChecked) {
                     hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
                     hDcValue = textInputEditTextHeight.text.toString().toDouble()
-                } else {
+                }
+                if (buttonIn.isChecked) {
                     hBValue = ((textInputEditTextHeight.text.toString().toDouble() * 2.54) / 100)
                     hDcBValue = (textInputEditTextHeight.text.toString().toDouble() * 2.54)
                     hValue = String.format("%.2f", hBValue).toDouble()
@@ -228,8 +233,17 @@ class HealthCalculator : AppCompatActivity() {
         }
     }
 
-    private fun setupFirebase() {
-        fStore = FirebaseFirestore.getInstance()
+    override fun onStart() {
+        super.onStart()
+
+        // Get current User id and email
+        if (authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            finishAffinity()
+        }
     }
 
 }
