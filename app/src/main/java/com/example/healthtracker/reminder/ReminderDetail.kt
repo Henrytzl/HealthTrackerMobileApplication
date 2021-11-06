@@ -62,8 +62,10 @@ class ReminderDetail : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in the reminder details", Toast.LENGTH_SHORT).show()
             }else{
                 val documentRef = firebase.collection("Reminder").document(userID)
-                val reminderDetail = ReminderDetailDC(reminderTitle, reminderDesc, time, switch)
-                documentRef.collection("Reminder Detail").add(reminderDetail).addOnSuccessListener {
+                val getDocID = documentRef.collection("Reminder Detail").document()
+                val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch)
+                val detailDocumentRef1 = documentRef.collection("Reminder Detail")
+                detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
                     Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
                     finish()
                 }.addOnFailureListener {

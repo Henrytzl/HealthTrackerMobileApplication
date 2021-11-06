@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reminder.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
-class Reminder : AppCompatActivity() {
+class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickListener {
 
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
@@ -48,7 +48,7 @@ class Reminder : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         list = arrayListOf()
 
-        adapter = RecycleViewReminderAdapter(list)
+        adapter = RecycleViewReminderAdapter(list, this)
 
         recyclerView.adapter = adapter
 
@@ -107,6 +107,13 @@ class Reminder : AppCompatActivity() {
         addReminder.setOnClickListener{
             startActivity(Intent(this, ReminderDetail::class.java))
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        val clickedItem = list[position]
+        clickedItem.reminderTitle = "Clicked liao"
+        Toast.makeText(this,"$position" + "  " + "${clickedItem.reminderID}", Toast.LENGTH_SHORT).show()
+        adapter.notifyItemChanged(position)
     }
 
     override fun onStart() {

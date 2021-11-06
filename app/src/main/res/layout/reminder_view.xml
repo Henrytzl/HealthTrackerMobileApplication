@@ -17,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal"
-        android:clickable="true"
         android:background="@drawable/custom_reminder_button">
 
         <LinearLayout
