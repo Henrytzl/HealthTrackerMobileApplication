@@ -10,9 +10,6 @@ import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reminder_detail.*
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ReminderDetail : AppCompatActivity() {
 
@@ -47,19 +44,17 @@ class ReminderDetail : AppCompatActivity() {
             } else {
                 -1
             }
-            val todayDateTime: Calendar = Calendar.getInstance()
-            val todayDate = SimpleDateFormat("YYYY-MM-dd").format(todayDateTime.time)
-            var text: String
-            if(hr <= 9){
-                text = "$todayDate" + " " + "0$hr:$min:00"
+
+            var time: String
+            if (hr <= 9 && min <= 9){
+                time = "0$hr:0$min"
+            }else if(hr <= 9){
+                time = "0$hr:$min"
             }else if(min <= 9){
-                text = "$todayDate" + " " + "$hr:0$min:00"
-            }else if (hr <= 9 && min <= 9){
-                text = "$todayDate" + " " + "0$hr:0$min:00"
-            }else{
-                text = "$todayDate" + " " + "$hr:$min:00"
+                time = "$hr:0$min"
+            }else {
+                time = "$hr:$min"
             }
-            val timeStamp: Timestamp = Timestamp.valueOf(text)
 
             if(hr == -1 || min == -1){
                 Toast.makeText(this, "SDK Version Problem Occured", Toast.LENGTH_SHORT).show()
@@ -67,7 +62,7 @@ class ReminderDetail : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in the reminder details", Toast.LENGTH_SHORT).show()
             }else{
                 val documentRef = firebase.collection("Reminder").document(userID)
-                val reminderDetail = ReminderDetailDC(reminderTitle, reminderDesc, timeStamp, switch)
+                val reminderDetail = ReminderDetailDC(reminderTitle, reminderDesc, time, switch)
                 documentRef.collection("Reminder Detail").add(reminderDetail).addOnSuccessListener {
                     Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
                     finish()
