@@ -10,15 +10,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_result.*
 
-
 class Result : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var userID : String
+    private lateinit var userID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.health_calculator_result)
+
+        setSupportActionBar(toolbarResult)
+        supportActionBar?.title = ""
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         db = FirebaseFirestore.getInstance()
         authentication = FirebaseAuth.getInstance()

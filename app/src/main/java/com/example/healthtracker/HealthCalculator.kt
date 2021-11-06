@@ -3,30 +3,79 @@ package com.example.healthtracker
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_form.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-
 class HealthCalculator : AppCompatActivity() {
+    lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var userID : String
-    private var age:Int = 0
+    private lateinit var userID: String
+    private var age: Int = 0
     private var inputAge: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.health_calculator_form)
 
+        //Tool Bar
+        setSupportActionBar(toolbarHealth)
+        supportActionBar?.title = ""
+        toggle = ActionBarDrawerToggle(this, drawerLayoutHealth, R.string.nav_open, R.string.nav_close)
+        drawerLayoutHealth.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //getInstance database
         db = FirebaseFirestore.getInstance()
         authentication = FirebaseAuth.getInstance()
+
+        //Drawer
+        navViewHealth.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.mHome -> {
+                    finish()
+                }
+                R.id.mProfile -> {
+                    startActivity(Intent(this, AuthorisedUser::class.java))
+                    finish()
+                }
+                R.id.mFAQ -> {
+
+                }
+                R.id.mFeedback -> {
+
+                }
+                R.id.mHelp -> {
+
+                }
+                R.id.mAboutUs -> {
+
+                }
+                R.id.mLogout -> {
+                    authentication.signOut()
+                    Toast.makeText(this, "Successfully Logout", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                    finishAffinity()
+                }
+            }
+            true
+        }
+        //Home Image Icon
+        imageHome.setOnClickListener {
+            finish()
+        }
 
         //gender dropdown list
         val gender = resources.getStringArray(R.array.Gender)
@@ -44,39 +93,41 @@ class HealthCalculator : AppCompatActivity() {
 
         //add button
         buttonAdd.setOnClickListener {
-            if(textInputEditTextAge.text.toString().isNotEmpty()){
+            if (textInputEditTextAge.text.toString().isNotEmpty()) {
                 inputAge = textInputEditTextAge.text.toString().trim().toInt()
             }
-            if(inputAge != null){
+            if (inputAge != null) {
                 age = inputAge as Int
-            }else{
+            } else {
                 age = 18
             }
             age++
             if (age > 100) {
-                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Age range from 1 to 100.", Toast.LENGTH_SHORT).show()
             } else {
                 textInputEditTextAge.setText("$age")
                 textInputEditTextAge.setTextColor(Color.parseColor("#FF6200EE"))
+                textInputEditTextAge.setSelection(textInputEditTextAge.length())
             }
         }
 
         //minus button
         buttonMinus.setOnClickListener {
-            if(textInputEditTextAge.text.toString().isNotEmpty()){
+            if (textInputEditTextAge.text.toString().isNotEmpty()) {
                 inputAge = textInputEditTextAge.text.toString().trim().toInt()
             }
-            if(inputAge != null){
+            if (inputAge != null) {
                 age = inputAge as Int
-            }else{
+            } else {
                 age = 18
             }
             age--
             if (age <= 0) {
-                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Age range from 1 to 100.", Toast.LENGTH_SHORT).show()
             } else {
                 textInputEditTextAge.setText("$age")
                 textInputEditTextAge.setTextColor(Color.parseColor("#FF6200EE"))
+                textInputEditTextAge.setSelection(textInputEditTextAge.length())
             }
         }
 
@@ -130,9 +181,9 @@ class HealthCalculator : AppCompatActivity() {
                     .isNotEmpty() && autoCompleteTextViewActivityLvl.text.toString().isNotEmpty()
             ) {
 
-                if(textInputEditTextAge.text.toString().toInt() !in 1..100){
-                    Toast.makeText(this, "Age Range 1 to 100", Toast.LENGTH_SHORT).show()
-                }else {
+                if (textInputEditTextAge.text.toString().toInt() !in 1..100) {
+                    Toast.makeText(this, "Age range from 1 to 100.", Toast.LENGTH_SHORT).show()
+                } else {
 
                     //BMI variables
                     var wValue = 0.0
@@ -159,7 +210,10 @@ class HealthCalculator : AppCompatActivity() {
                     val a5 = 2
                     val a6 = 2.3
 
-                    ageV = age
+                    if (textInputEditTextAge.text.toString().isNotEmpty()) {
+                        inputAge = textInputEditTextAge.text.toString().trim().toInt()
+                    }
+                    ageV = inputAge!!
 
                     if (buttonKg.isChecked) {
                         wValue = textInputEditTextWeight.text.toString().toDouble()
@@ -258,11 +312,31 @@ class HealthCalculator : AppCompatActivity() {
         // Get current User id and email
         if (authentication.currentUser != null) {
             userID = authentication.currentUser!!.uid
+            navViewHealth.getHeaderView(0).dhEmail.text = authentication.currentUser!!.email
         } else {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             finishAffinity()
         }
+        val nameDocRef = db.collection("User").document(userID)
+        nameDocRef.get().addOnSuccessListener { name ->
+            if (name != null) {
+                navViewHealth.getHeaderView(0).dhName.text = name.getString("userName")
+            }
+        }
+        val caloriesDocRef = db.collection("User").document(userID)
+        caloriesDocRef.get().addOnSuccessListener { kcal ->
+            if (kcal != null) {
+                navViewHealth.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }
