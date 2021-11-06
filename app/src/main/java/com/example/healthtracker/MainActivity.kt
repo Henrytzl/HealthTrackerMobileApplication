@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
                 R.id.mProfile -> {
-
+                    startActivity(Intent(this, AuthorisedUser::class.java))
                 }
                 R.id.mFAQ -> {
 
@@ -74,6 +74,26 @@ class MainActivity : AppCompatActivity() {
 
         btnScanner.setOnClickListener {
             startActivity(Intent(this, Scanner::class.java))
+        }
+
+        btnHealthCalculator.setOnClickListener {
+            startActivity(Intent(this, HealthCalculator::class.java))
+        }
+
+        btnArticle.setOnClickListener {
+            startActivity(Intent(this, ArticleMenu::class.java))
+        }
+
+        btnTrend.setOnClickListener {
+            startActivity(Intent(this, Trend::class.java))
+        }
+
+        btnVideo.setOnClickListener {
+            startActivity(Intent(this, VideoMenu::class.java))
+        }
+
+        btnProfile.setOnClickListener {
+            startActivity(Intent(this, AuthorisedUser::class.java))
         }
     }
 

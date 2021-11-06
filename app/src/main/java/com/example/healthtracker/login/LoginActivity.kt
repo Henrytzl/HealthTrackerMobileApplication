@@ -7,6 +7,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.healthtracker.HealthCalculator
 import com.example.healthtracker.MainActivity
 import com.example.healthtracker.R
 import com.google.firebase.auth.FirebaseAuth
