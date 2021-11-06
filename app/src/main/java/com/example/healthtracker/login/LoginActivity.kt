@@ -59,12 +59,13 @@ class LoginActivity : AppCompatActivity() {
             resetView.btn_send_reset_email.setOnClickListener{
                 val resetEmail = resetView.resetPEmailText.text.toString().trim()
                 if(resetEmailValidation(resetEmail)){
-                    if(authentication.sendPasswordResetEmail(resetEmail).isSuccessful){
+                    authentication.sendPasswordResetEmail(resetEmail).addOnSuccessListener {
                         displayDialog.dismiss()
                         Toast.makeText(this,"The reset password link has been sent to your email", Toast.LENGTH_LONG).show()
-                    }else{
-                        Toast.makeText(this,"Error occurred", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
                     }
+
                 }
             }
         }
