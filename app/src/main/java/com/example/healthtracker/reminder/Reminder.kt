@@ -124,7 +124,7 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
             }else{
                 "Deactivated"
             }
-        Toast.makeText(this,"${switchClickedItem.reminderTitle} Reminder" + "  " + "${text}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"${switchClickedItem.reminderTitle} Reminder" + " " + "${text}", Toast.LENGTH_SHORT).show()
         firebase.collection("Reminder").document("$userID")
             .collection("Reminder Detail").document("${switchClickedItem.getReminderID()}").update("reminderActivate", switchClickedItem.reminderActivate)
         adapter.notifyItemChanged(position)
