@@ -2,6 +2,7 @@ package com.example.healthtracker.reminder
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
@@ -16,6 +17,7 @@ class ReminderDetail : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
+    var reminderID: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,24 @@ class ReminderDetail : AppCompatActivity() {
         txtReminderTime.setIs24HourView(true)
 
         setUpFirebase()
+
+        val intentFound = intent
+        reminderID = intent.getStringExtra("reminderID").toString()
+
+        if(reminderID == ""){   // Add reminder
+            deleteReminder.visibility = View.GONE
+
+            Toast.makeText(this, "$reminderID", Toast.LENGTH_LONG).show()
+        }else{                  // Modify reminder
+            deleteReminder.visibility = View.VISIBLE
+//            firebase.collection("Reminder").document("$userID")
+//                .collection("Reminder Detail").document("$reminderID")
+
+            deleteReminder.setOnClickListener {
+                Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
+            }
+            Toast.makeText(this, "$reminderID", Toast.LENGTH_LONG).show()
+        }
 
         save_reminder.setOnClickListener {
             val reminderTitle = txtReminderTitle.text.toString()
@@ -57,7 +77,7 @@ class ReminderDetail : AppCompatActivity() {
             }
 
             if(hr == -1 || min == -1){
-                Toast.makeText(this, "SDK Version Problem Occured", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT).show()
             }else if(reminderTitle.isEmpty() || reminderDesc.isEmpty()){
                 Toast.makeText(this, "Please fill in the reminder details", Toast.LENGTH_SHORT).show()
             }else{
@@ -72,24 +92,6 @@ class ReminderDetail : AppCompatActivity() {
                     Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
                 }
             }
-            //testing123.text = txtReminderDate.dayOfMonth.toString() + "/" + txtReminderDate.month + "/" + txtReminderDate.year
-            //testing123.text = txtReminderTime.hour.toString() + txtReminderTime.minute.toString()
-        }
-
-//        txtReminderDate.addTextChangedListener {object : TextWatcher{
-//            override fun beforeTextChanged (s: CharSequence, start: Int, count: Int, after: Int){
-//
-//            }
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//            }
-//            override fun afterTextChanged(s: Editable) {
-//
-//            }
-//        }
-//        }
-
-        deleteReminder.setOnClickListener {
-            Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
         }
     }
 

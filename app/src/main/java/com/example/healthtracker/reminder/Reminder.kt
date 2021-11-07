@@ -110,9 +110,9 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
 
     override fun onItemClick(position: Int) {
         val clickedItem = list[position]
-        clickedItem.reminderTitle = "Clicked liao"
-        Toast.makeText(this,"$position" + "  " + "${clickedItem.reminderID}", Toast.LENGTH_SHORT).show()
-        adapter.notifyItemChanged(position)
+        val intent = Intent(this, ReminderDetail::class.java)
+        intent.putExtra("reminderID", clickedItem.reminderID)
+        startActivity(intent)
     }
 
     override fun onSwitchClickListener(position: Int) {
