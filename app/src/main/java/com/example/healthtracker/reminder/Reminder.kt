@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reminder.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
-class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickListener {
+class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickListener, RecycleViewReminderAdapter.OnSwitchClickListener {
 
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
@@ -48,25 +48,24 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
         recyclerView.setHasFixedSize(true)
         list = arrayListOf()
 
-        adapter = RecycleViewReminderAdapter(list, this)
+        adapter = RecycleViewReminderAdapter(list, this, this)
 
         recyclerView.adapter = adapter
 
-        //if(authentication.currentUser != null) {
-            firebase.collection("Reminder/$userID/Reminder Detail")
-                .addSnapshotListener { value, error ->
-                    if (error != null) {
-                        Log.e("FireStore Error", error.message.toString())
-                    }else {
-                        for (dc: DocumentChange in value?.documentChanges!!) {
-                            if (dc.type == DocumentChange.Type.ADDED) {
-                                list.add(dc.document.toObject(RecycleViewReminder::class.java))
-                            }
+
+        firebase.collection("Reminder/$userID/Reminder Detail")
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e("FireStore Error", error.message.toString())
+                }else {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            list.add(dc.document.toObject(RecycleViewReminder::class.java))
                         }
-                        adapter.notifyDataSetChanged()
                     }
+                    adapter.notifyDataSetChanged()
                 }
-        //}
+            }
 
         //Drawer
         navView.setNavigationItemSelectedListener{
@@ -113,6 +112,21 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
         val clickedItem = list[position]
         clickedItem.reminderTitle = "Clicked liao"
         Toast.makeText(this,"$position" + "  " + "${clickedItem.reminderID}", Toast.LENGTH_SHORT).show()
+        adapter.notifyItemChanged(position)
+    }
+
+    override fun onSwitchClickListener(position: Int) {
+        val switchClickedItem = list[position]
+        switchClickedItem.reminderActivate = !switchClickedItem.getReminderActivate()
+        val text: String =
+            if(switchClickedItem.reminderActivate){
+                "Activated"
+            }else{
+                "Deactivated"
+            }
+        Toast.makeText(this,"${switchClickedItem.reminderTitle} Reminder" + "  " + "${text}", Toast.LENGTH_SHORT).show()
+        firebase.collection("Reminder").document("$userID")
+            .collection("Reminder Detail").document("${switchClickedItem.getReminderID()}").update("reminderActivate", switchClickedItem.reminderActivate)
         adapter.notifyItemChanged(position)
     }
 
