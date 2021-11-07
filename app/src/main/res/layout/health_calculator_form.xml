@@ -9,25 +9,14 @@
     android:layout_marginBottom="20dp"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navViewHealth"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/darkGrey"
-        app:itemTextColor="@color/black"
-        app:menu="@menu/nav_drawer" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:context=".HealthCalculator">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBar"
@@ -53,11 +42,12 @@
 
             <TextView
                 android:id="@+id/health_calculator_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/health_title_name"
                 android:textSize="30sp"
                 android:textStyle="bold"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,11 +70,12 @@
 
             <TextView
                 android:id="@+id/health_calculator_desc"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/healthCalculator_desc"
                 android:textSize="20sp"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/health_calculator_title" />
@@ -346,6 +337,17 @@
                 app:layout_constraintStart_toEndOf="@+id/textInputLayoutHeight"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navViewHealth"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/darkGrey"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/nav_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>

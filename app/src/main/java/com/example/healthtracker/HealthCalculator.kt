@@ -134,6 +134,7 @@ class HealthCalculator : AppCompatActivity() {
         //weight stuff
         buttonKg.setOnClickListener {
             buttonKg.isSelected = true
+            buttonLb.isChecked = false
             buttonLb.setTextColor(Color.BLACK)
             buttonKg.setBackgroundResource(R.drawable.custom_button_kg_checked)
             buttonLb.setBackgroundResource(R.drawable.custom_button_lb_unchecked)
@@ -143,6 +144,7 @@ class HealthCalculator : AppCompatActivity() {
 
         buttonLb.setOnClickListener {
             buttonLb.isSelected = true
+            buttonKg.isChecked = false
             buttonKg.setTextColor(Color.BLACK)
             buttonLb.setBackgroundResource(R.drawable.custom_button_lb_checked)
             buttonKg.setBackgroundResource(R.drawable.custom_button_kg_unchecked)
@@ -153,6 +155,7 @@ class HealthCalculator : AppCompatActivity() {
         //height stuff
         buttonCm.setOnClickListener {
             buttonCm.isSelected = true
+            buttonIn.isChecked = false
             buttonIn.setTextColor(Color.BLACK)
             buttonCm.setBackgroundResource(R.drawable.custom_button_cm_checked)
             buttonIn.setBackgroundResource(R.drawable.custom_button_in_unchecked)
@@ -162,6 +165,7 @@ class HealthCalculator : AppCompatActivity() {
 
         buttonIn.setOnClickListener {
             buttonIn.isSelected = true
+            buttonCm.isChecked = false
             buttonCm.setTextColor(Color.BLACK)
             buttonIn.setBackgroundResource(R.drawable.custom_button_in_checked)
             buttonCm.setBackgroundResource(R.drawable.custom_button_cm_unchecked)
@@ -281,7 +285,6 @@ class HealthCalculator : AppCompatActivity() {
                         intent.putExtra("BFP", bfpValue.roundToInt())
                         intent.putExtra("DC", dcValue.roundToInt())
                         startActivity(intent)
-                        finish()
                     } else if (wValue > 0.0 && hValue > 0.0 && ageV >= 19) {
                         bmiValue = wValue / hValue.pow(2)
                         bmiValue.toString().format("%.1f").toDouble()
@@ -293,7 +296,6 @@ class HealthCalculator : AppCompatActivity() {
                         intent.putExtra("BFP", bfpValue.roundToInt())
                         intent.putExtra("DC", dcValue.roundToInt())
                         startActivity(intent)
-                        finish()
                     } else
                         Toast.makeText(
                             this,
