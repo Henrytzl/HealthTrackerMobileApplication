@@ -41,32 +41,6 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
         // getInstance database
         setUpFirebase()
 
-        //Recycle View
-        recyclerView = recyclerViewReminder
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = true
-        recyclerView.setHasFixedSize(true)
-        list = arrayListOf()
-
-        adapter = RecycleViewReminderAdapter(list, this, this)
-
-        recyclerView.adapter = adapter
-
-
-        firebase.collection("Reminder/$userID/Reminder Detail")
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    Log.e("FireStore Error", error.message.toString())
-                }else {
-                    for (dc: DocumentChange in value?.documentChanges!!) {
-                        if (dc.type == DocumentChange.Type.ADDED) {
-                            list.add(dc.document.toObject(RecycleViewReminder::class.java))
-                        }
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-            }
-
         //Drawer
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
@@ -154,6 +128,31 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
                 navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
             }
         }
+        //Recycle View
+        recyclerView = recyclerViewReminder
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = true
+        recyclerView.setHasFixedSize(true)
+        list = arrayListOf()
+
+        adapter = RecycleViewReminderAdapter(list, this, this)
+
+        recyclerView.adapter = adapter
+
+
+        firebase.collection("Reminder/$userID/Reminder Detail")
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e("FireStore Error", error.message.toString())
+                }else {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            list.add(dc.document.toObject(RecycleViewReminder::class.java))
+                        }
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
