@@ -45,28 +45,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/health_title_name"
+                android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appBar"
                 app:layout_constraintVertical_bias="0.056" />
 
-            <TextView
+            <View
                 android:id="@+id/underline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="@string/underline"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/health_calculator_title"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/health_calculator_title"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/health_calculator_title" />
 
             <TextView
                 android:id="@+id/health_calculator_desc"
@@ -74,8 +72,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/healthCalculator_desc"
-                android:textSize="20sp"
                 android:textAlignment="center"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/health_calculator_title" />
@@ -108,93 +106,244 @@
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutAge"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="230dp"
+            <LinearLayout
+                android:id="@+id/linearLayout_HealthForm1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="98dp"
-                android:hint="@string/age_hint"
-                app:boxStrokeColor="@color/purple_500"
-                app:helperText="Required*"
-                app:helperTextTextColor="@color/red"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender"
-                app:startIconDrawable="@drawable/ic_age"
-                app:startIconTint="@color/purple_500"
-                app:suffixText="@string/years"
-                app:suffixTextColor="@color/purple_500">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextAge"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/linearLayout_HealthForm1.25"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textColor="@color/purple_500" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutWeight"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="230dp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutAge"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:hint="@string/age_hint"
+                        app:boxStrokeColor="@color/purple_500"
+                        app:helperText="Required*"
+                        app:helperTextTextColor="@color/red"
+                        app:startIconDrawable="@drawable/ic_age"
+                        app:startIconTint="@color/purple_500"
+                        app:suffixText="@string/years"
+                        app:suffixTextColor="@color/purple_500">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputEditTextAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="@color/purple_500" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_HealthForm1.5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonAdd"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/custom_button_add"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="@string/healthCalculator_add_btn"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonMinus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_button_minus"
+                        android:text="@string/healthCalculator_minus_btn"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_HealthForm2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="98dp"
-                android:hint="@string/weight"
-                app:boxStrokeColor="@color/purple_500"
-                app:endIconMode="clear_text"
-                app:helperText="Required*"
-                app:helperTextTextColor="@color/red"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge"
-                app:startIconDrawable="@drawable/ic_weight"
-                app:startIconTint="@color/purple_500"
-                app:suffixText="@string/Kg"
-                app:suffixTextColor="@color/purple_500">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout_HealthForm1">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextWeight"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/linearLayout_HealthForm2.25"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:text=""
-                    android:textColor="@color/purple_500" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutHeight"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="230dp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutWeight"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:hint="@string/weight"
+                        app:boxStrokeColor="@color/purple_500"
+                        app:endIconMode="clear_text"
+                        app:helperText="Required*"
+                        app:helperTextTextColor="@color/red"
+                        app:startIconDrawable="@drawable/ic_weight"
+                        app:startIconTint="@color/purple_500"
+                        app:suffixText="@string/Kg"
+                        app:suffixTextColor="@color/purple_500">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputEditTextWeight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:text=""
+                            android:textColor="@color/purple_500" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_HealthForm2.5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/buttonKg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_button_kg_selector"
+                        android:button="@android:color/transparent"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="@string/Kg"
+                        android:textColor="@color/purple_500"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/buttonLb"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_button_lb_selector"
+                        android:button="@android:color/transparent"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="@string/Lb"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_HealthForm3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="98dp"
-                android:hint="@string/height"
-                app:boxStrokeColor="@color/purple_500"
-                app:endIconMode="clear_text"
-                app:helperText="Required*"
-                app:helperTextTextColor="@color/red"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
-                app:startIconDrawable="@drawable/ic_height"
-                app:startIconTint="@color/purple_500"
-                app:suffixText="@string/Cm"
-                app:suffixTextColor="@color/purple_500">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout_HealthForm2">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextHeight"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/linearLayout_HealthForm3.25"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:text=""
-                    android:textColor="@color/purple_500" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutHeight"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:hint="@string/height"
+                        app:boxStrokeColor="@color/purple_500"
+                        app:endIconMode="clear_text"
+                        app:helperText="Required*"
+                        app:helperTextTextColor="@color/red"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
+                        app:startIconDrawable="@drawable/ic_height"
+                        app:startIconTint="@color/purple_500"
+                        app:suffixText="@string/Cm"
+                        app:suffixTextColor="@color/purple_500">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputEditTextHeight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:text=""
+                            android:textColor="@color/purple_500" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_HealthForm3.5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/buttonCm"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_button_cm_selector"
+                        android:button="@android:color/transparent"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="@string/Cm"
+                        android:textColor="@color/purple_500"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/buttonIn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_button_in_selector"
+                        android:button="@android:color/transparent"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="@string/In"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutActivityLvl"
@@ -210,7 +359,7 @@
                 app:helperTextTextColor="@color/red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHeight"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout_HealthForm3"
                 app:startIconDrawable="@drawable/ic_activitylvl"
                 app:startIconTint="@color/purple_500">
 
@@ -226,9 +375,11 @@
 
             <Button
                 android:id="@+id/buttonCalculate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="100dp"
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/custom_button"
                 android:gravity="center"
@@ -238,104 +389,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutActivityLvl" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonAdd"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="28dp"
-                android:background="@drawable/custom_button_add"
-                android:text="@string/healthCalculator_add_btn"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/buttonMinus"
-                app:layout_constraintHorizontal_bias="0.407"
-                app:layout_constraintStart_toEndOf="@+id/textInputLayoutAge"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonMinus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/custom_button_minus"
-                android:text="@string/healthCalculator_minus_btn"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textInputLayoutWeight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGender"
-                app:layout_constraintVertical_bias="0.407" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonLb"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/custom_button_lb_selector"
-                android:button="@android:color/transparent"
-                android:checked="false"
-                android:gravity="center"
-                android:text="@string/Lb"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/buttonKg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonKg"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="28dp"
-                android:background="@drawable/custom_button_kg_selector"
-                android:button="@android:color/transparent"
-                android:checked="true"
-                android:gravity="center"
-                android:text="@string/Kg"
-                android:textColor="@color/purple_500"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/buttonLb"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textInputLayoutWeight"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAge" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonIn"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/custom_button_in_selector"
-                android:button="@android:color/transparent"
-                android:checked="false"
-                android:gravity="center"
-                android:text="@string/In"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/buttonCm"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonCm"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="28dp"
-                android:background="@drawable/custom_button_cm_selector"
-                android:button="@android:color/transparent"
-                android:checked="true"
-                android:gravity="center"
-                android:text="@string/Cm"
-                android:textColor="@color/purple_500"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/buttonIn"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textInputLayoutHeight"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
