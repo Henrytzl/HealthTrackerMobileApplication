@@ -97,26 +97,38 @@ class HealthyMeal : AppCompatActivity() {
         //Direct to Edit meal
         day1Edit.setOnClickListener {
             val intent = Intent(this,Meals::class.java)
-            intent.putExtra("test","123")
+            intent.putExtra("day","1")
             startActivity(intent)
         }
         day2Edit.setOnClickListener {
-
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("day","2")
+            startActivity(intent)
         }
         day3Edit.setOnClickListener {
-
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("day","3")
+            startActivity(intent)
         }
         day4Edit.setOnClickListener {
-
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("day","4")
+            startActivity(intent)
         }
         day5Edit.setOnClickListener {
-
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("day","5")
+            startActivity(intent)
         }
         day6Edit.setOnClickListener {
-
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("day","6")
+            startActivity(intent)
         }
         day7Edit.setOnClickListener {
-
+            val intent = Intent(this,Meals::class.java)
+            intent.putExtra("day","7")
+            startActivity(intent)
         }
 
     }

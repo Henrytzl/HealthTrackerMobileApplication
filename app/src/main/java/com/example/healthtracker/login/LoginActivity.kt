@@ -7,10 +7,10 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.healthtracker.HealthCalculator
 import com.example.healthtracker.MainActivity
 import com.example.healthtracker.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.layout_forget_password.view.*
@@ -106,5 +106,26 @@ class LoginActivity : AppCompatActivity() {
     private fun setUpFirebase(){
         authentication = FirebaseAuth.getInstance()
         firebase = FirebaseFirestore.getInstance()
+    }
+
+    private fun updateUI(currentUser: FirebaseUser?){
+        if(currentUser!=null){
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
+
+    //Add onStart method to auto sign in next time when app is launched
+    public override fun onStart() {
+        super.onStart()
+        val intent = intent
+        intent.extras
+        if(intent.hasExtra("from")) {
+            updateUI(null)
+        }
+        else{
+            val currentUser = authentication.currentUser
+            updateUI(currentUser)
+        }
     }
 }
