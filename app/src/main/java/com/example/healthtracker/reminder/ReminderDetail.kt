@@ -1,5 +1,7 @@
 package com.example.healthtracker.reminder
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -37,10 +39,8 @@ class ReminderDetail : AppCompatActivity() {
 
         if(reminderID == "null"){   // Add reminder
             deleteReminder.visibility = View.GONE
+        }else{                      // Modify reminder
 
-            Toast.makeText(this, "$reminderID 11241243", Toast.LENGTH_LONG).show()
-        }else{                  // Modify reminder
-            Toast.makeText(this, "$reminderID", Toast.LENGTH_LONG).show()
             deleteReminder.visibility = View.VISIBLE
             firebase.collection("Reminder").document(userID)
                 .collection("Reminder Detail").document(reminderID).get().addOnSuccessListener { document ->
@@ -63,12 +63,27 @@ class ReminderDetail : AppCompatActivity() {
                     Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT)
                 }
 
-
-
             deleteReminder.setOnClickListener {
-                Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
+                val deleteViewBuilder = AlertDialog.Builder(this).setTitle("Delete Reminder")
+                    .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this reminder?")
+                    .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+                    })
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                        firebase.collection("Reminder").document(userID)
+                            .collection("Reminder Detail").document(reminderID).delete().addOnSuccessListener {
+                                dialog.dismiss()
+                                finish()
+                                Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
+                            }.addOnFailureListener {
+                                Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
+                            }
+                    })
+                //show dialog
+                val displayDialog = deleteViewBuilder.create()
+                displayDialog.show()
             }
-
         }
         //Clicking tick button
         save_reminder.setOnClickListener {
@@ -103,7 +118,7 @@ class ReminderDetail : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in the reminder details", Toast.LENGTH_SHORT).show()
             }else{
                 val documentRef = firebase.collection("Reminder").document(userID)
-                if(reminderID == "null"){
+                if(reminderID == "null"){           // Create Reminder
                     val getDocID = documentRef.collection("Reminder Detail").document()
                     val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch)
                     val detailDocumentRef1 = documentRef.collection("Reminder Detail")
@@ -113,7 +128,7 @@ class ReminderDetail : AppCompatActivity() {
                     }.addOnFailureListener {
                         Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
                     }
-                }else{
+                }else{                              // Update Reminder
                     val update = documentRef.collection("Reminder Detail").document("$reminderID")
                     val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch)
                     update.set(reminderDetail).addOnSuccessListener {
