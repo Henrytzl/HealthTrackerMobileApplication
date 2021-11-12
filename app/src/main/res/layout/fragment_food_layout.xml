@@ -26,7 +26,8 @@
             android:id="@+id/txtMealName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="The Meal's Name..."
+            android:hint="The Meal's Name..."
+            android:text=""
             android:textColor="@color/purple_500"
             android:layout_weight="1"/>
 

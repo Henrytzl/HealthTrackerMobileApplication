@@ -19,6 +19,7 @@ class Meals : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
+    private var noOfDay: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,39 +31,43 @@ class Meals : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val intentDay = intent.getStringExtra("day")
-        val textDay : String = when (intentDay?.toInt()) {
-            1 -> "Day 1"
-            2 -> "Day 2"
-            3 -> "Day 3"
-            4 -> "Day 4"
-            5 -> "Day 5"
-            6 -> "Day 6"
-            7 -> "Day 7"
-            else -> null.toString()
+        if(!intentDay.isNullOrEmpty()){
+            noOfDay = intentDay.toInt()!!
         }
         setUpFirebase()
 
         //Add Meal
         addMeal.setOnClickListener {
-            val createMealView = LayoutInflater.from(this).inflate(R.layout.layout_create_meal, null)
-            val createMealViewBuilder = AlertDialog.Builder(this, R.style.PopUpWindow).setView(createMealView).setTitle("Reset Password").setIcon(R.drawable.ic_meal1)
-            //show dialog
-            val displayDialog = createMealViewBuilder.show()
+            if(noOfDay == 0){
+                Toast.makeText(this, "Error Occurred", Toast.LENGTH_LONG).show()
+            }else {
+                val createMealView = LayoutInflater.from(this).inflate(R.layout.layout_create_meal, null)
+                val createMealViewBuilder = AlertDialog.Builder(this, R.style.PopUpWindow).setView(createMealView).setTitle("Create a meal").setIcon(R.drawable.ic_meal1)
+                //show dialog
+                val displayDialog = createMealViewBuilder.show()
 
-            //Cancel
-            createMealView.btn_cancel.setOnClickListener{
-                displayDialog.dismiss()
-                Toast.makeText(this,"Cancelled", Toast.LENGTH_LONG).show()
+                //Cancel
+                createMealView.btn_cancel.setOnClickListener {
+                    displayDialog.dismiss()
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                }
+                //send reset email
+                createMealView.btn_create.setOnClickListener {
+                    val mealName = createMealView.mealName.text.toString().trim()
+                    if (mealName.isNotEmpty()) {
+                        val documentRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document()
+                        val mealDetailData = MealDetailDC(mealName, 0, 0, 0, 0, 0, noOfDay, documentRef.id)
+                        documentRef.set(mealDetailData).addOnSuccessListener {
+                            displayDialog.dismiss()
+                            Toast.makeText(this, "Successfully created a meal", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, MealDetail::class.java)
+                            intent.putExtra("mealID", documentRef.id)
+                            intent.putExtra("noOfDay", noOfDay)
+                            startActivity(intent)
+                        }
+                    }
+                }
             }
-            //send reset email
-            createMealView.btn_create.setOnClickListener{
-                val documentRef = firebase.collection("Days").document(userID).collection(textDay).document()
-                val mealDetailData = MealDetailDC(0,0,0,0,0)
-                documentRef.set(mealDetailData)
-            }
-//            val intent = Intent(this, MealDetail::class.java)
-//            //intent.putExtra("Kcal","2")
-//            startActivity(intent)
         }
     }
 

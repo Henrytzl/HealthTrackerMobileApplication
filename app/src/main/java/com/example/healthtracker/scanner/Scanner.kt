@@ -31,6 +31,8 @@ import com.example.healthtracker.login.LoginActivity
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_scanner.*
@@ -39,6 +41,9 @@ import java.io.InputStream
 
 class Scanner : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var authentication: FirebaseAuth
+    private lateinit var firebase: FirebaseFirestore
+    private lateinit var userID : String
 
     lateinit var cameraPermission: Array<String>
     lateinit var storagePermission: Array<String>
@@ -57,6 +62,8 @@ class Scanner : AppCompatActivity() {
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setUpFirebase()
 
         //Camera and storage permission
         cameraPermission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -313,5 +320,13 @@ class Scanner : AppCompatActivity() {
         const val IMAGE_PICK_GALLERY_CODE = 1000
         const val IMAGE_PICK_CAMERA_CODE = 1001
 
+    }
+
+    private fun setUpFirebase(){
+        authentication = FirebaseAuth.getInstance()
+        firebase = FirebaseFirestore.getInstance()
+        if(authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+        }
     }
 }

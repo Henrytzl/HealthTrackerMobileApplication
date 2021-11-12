@@ -36,7 +36,6 @@
         <activity
             android:name=".healthymeal.MealDetail"
             android:label="@string/title_activity_meal_detail"
-            android:parentActivityName=".healthymeal.Meals"
             android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar" />
         <activity
             android:name=".healthymeal.Meals"
