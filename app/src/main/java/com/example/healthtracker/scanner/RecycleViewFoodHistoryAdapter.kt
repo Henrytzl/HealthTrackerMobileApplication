@@ -3,7 +3,7 @@ package com.example.healthtracker.scanner
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthtracker.R
 import kotlinx.android.synthetic.main.scanner_history_view.view.*
@@ -19,7 +19,7 @@ class RecycleViewFoodHistoryAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val foodHistory: RecycleViewFoodHistory = list[position]
-        holder.foodName.text = foodHistory.getFoodHistoryName()
+        holder.foodName.text = foodHistory.getFoodName()
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +28,7 @@ class RecycleViewFoodHistoryAdapter(
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener {
-        var foodName: Button = itemView.btn_scannerFoodHistory
+        var foodName: TextView = itemView.recyclerView_foodName
 
         init{
             itemView.setOnClickListener(this)

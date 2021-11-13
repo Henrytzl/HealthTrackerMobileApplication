@@ -139,7 +139,6 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
 
         recyclerView.adapter = adapter
 
-
         firebase.collection("Reminder/$userID/Reminder Detail")
             .addSnapshotListener { value, error ->
                 if (error != null) {

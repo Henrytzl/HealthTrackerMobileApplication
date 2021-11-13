@@ -40,8 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_scanner.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import java.io.InputStream
-
 
 class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickListener {
     lateinit var toggle: ActionBarDrawerToggle
@@ -99,8 +99,11 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
 
                 }
                 R.id.mLogout -> {
+                    authentication.signOut()
+                    Toast.makeText(this,"Successfully Logout", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
+                    finishAffinity()
                 }
             }
             true
@@ -341,14 +344,27 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
     override fun onStart() {
         super.onStart()
         // Get current User id and email
-        if (authentication.currentUser != null) {
+        if(authentication.currentUser != null) {
             userID = authentication.currentUser!!.uid
-        } else {
+            navView.getHeaderView(0).dhEmail.text = authentication.currentUser!!.email
+        }else{
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             finishAffinity()
         }
-        //Recycler View
+        val nameDocRef = firebase.collection("User").document(userID)
+        nameDocRef.get().addOnSuccessListener{ name ->
+            if(name != null){
+                navView.getHeaderView(0).dhName.text = name.getString("userName")
+            }
+        }
+        val caloriesDocRef = firebase.collection("User").document(userID)
+        caloriesDocRef.get().addOnSuccessListener { kcal ->
+            if(kcal != null){
+                navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
+            }
+        }
+        //Recycle View
         recyclerView = recyclerViewScannerHistory
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.isNestedScrollingEnabled = true
@@ -356,9 +372,10 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
         list = arrayListOf()
 
         adapter = RecycleViewFoodHistoryAdapter(list, this)
+
         recyclerView.adapter = adapter
 
-        firebase.collection("Food History").addSnapshotListener { value, error ->
+        firebase.collection("Food History").whereEqualTo("userID", userID).addSnapshotListener { value, error ->
             if (error != null) {
                 Log.e("FireStore Error", error.message.toString())
             }else {
