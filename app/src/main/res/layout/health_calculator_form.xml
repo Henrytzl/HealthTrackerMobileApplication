@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:layout_marginBottom="20dp"
     android:fitsSystemWindows="true">
 
     <ScrollView
@@ -88,8 +87,6 @@
                 android:layout_marginEnd="32dp"
                 android:hint="@string/gender_hint"
                 app:boxStrokeColor="@color/purple_500"
-                app:helperText="Required*"
-                app:helperTextTextColor="@color/red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/health_calculator_desc"
@@ -135,8 +132,6 @@
                         android:layout_marginEnd="5dp"
                         android:hint="@string/age_hint"
                         app:boxStrokeColor="@color/purple_500"
-                        app:helperText="Required*"
-                        app:helperTextTextColor="@color/red"
                         app:startIconDrawable="@drawable/ic_age"
                         app:startIconTint="@color/purple_500"
                         app:suffixText="@string/years"
@@ -155,6 +150,7 @@
                     android:id="@+id/linearLayout_HealthForm1.5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="11.5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -212,8 +208,6 @@
                         android:hint="@string/weight"
                         app:boxStrokeColor="@color/purple_500"
                         app:endIconMode="clear_text"
-                        app:helperText="Required*"
-                        app:helperTextTextColor="@color/red"
                         app:startIconDrawable="@drawable/ic_weight"
                         app:startIconTint="@color/purple_500"
                         app:suffixText="@string/Kg"
@@ -233,6 +227,7 @@
                     android:id="@+id/linearLayout_HealthForm2.5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="11.5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -292,8 +287,6 @@
                         android:hint="@string/height"
                         app:boxStrokeColor="@color/purple_500"
                         app:endIconMode="clear_text"
-                        app:helperText="Required*"
-                        app:helperTextTextColor="@color/red"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWeight"
@@ -316,6 +309,7 @@
                     android:id="@+id/linearLayout_HealthForm3.5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="11.5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -355,8 +349,6 @@
                 android:layout_marginEnd="32dp"
                 android:hint="@string/activity_lvl"
                 app:boxStrokeColor="@color/purple_500"
-                app:helperText="Required*"
-                app:helperTextTextColor="@color/red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout_HealthForm3"
@@ -378,7 +370,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginEnd="100dp"
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/custom_button"

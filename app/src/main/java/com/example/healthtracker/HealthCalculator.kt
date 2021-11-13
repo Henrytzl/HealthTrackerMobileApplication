@@ -31,14 +31,14 @@ class HealthCalculator : AppCompatActivity() {
         //Tool Bar
         setSupportActionBar(toolbarHealth)
         supportActionBar?.title = ""
-        toggle = ActionBarDrawerToggle(this, drawerLayoutHealth, R.string.nav_open, R.string.nav_close)
+        toggle =
+            ActionBarDrawerToggle(this, drawerLayoutHealth, R.string.nav_open, R.string.nav_close)
         drawerLayoutHealth.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //getInstance database
-        db = FirebaseFirestore.getInstance()
-        authentication = FirebaseAuth.getInstance()
+        setUpFirebase()
 
         //Drawer
         navViewHealth.setNavigationItemSelectedListener {
@@ -341,4 +341,11 @@ class HealthCalculator : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setUpFirebase() {
+        authentication = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        if (authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+        }
+    }
 }

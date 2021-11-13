@@ -7,8 +7,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_result.*
+import kotlin.collections.HashMap
 
 class Result : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
@@ -24,8 +26,7 @@ class Result : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        db = FirebaseFirestore.getInstance()
-        authentication = FirebaseAuth.getInstance()
+        setUpFirebase()
 
         //get values
         val weight = intent.getDoubleExtra("Weight", 0.0)
@@ -78,6 +79,7 @@ class Result : AppCompatActivity() {
         result["bmi"] = bmiRound
         result["bfp"] = bfp
         result["dc"] = dc
+        result["date"] = FieldValue.serverTimestamp()
 
         val documentRef = db.collection("Results").document(userID)
         documentRef.collection("Result Details")
@@ -87,6 +89,16 @@ class Result : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to store", Toast.LENGTH_SHORT).show()
+            }
+
+        val updates: MutableMap<String, Any> = HashMap()
+        updates["calories"] = dc
+
+        val calDocRef = db.collection("User").document(userID)
+        calDocRef
+            .update(updates)
+            .addOnSuccessListener {
+
             }
     }
 
@@ -100,6 +112,14 @@ class Result : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             finishAffinity()
+        }
+    }
+
+    private fun setUpFirebase() {
+        authentication = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        if (authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
         }
     }
 

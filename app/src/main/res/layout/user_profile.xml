@@ -31,7 +31,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -42,9 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/userProfile_title_name"
+            android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +73,6 @@
             android:layout_marginEnd="32dp"
             android:hint="@string/userProfile_username_hint"
             app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,8 +97,6 @@
             android:layout_marginEnd="32dp"
             android:hint="@string/userProfile_email_hint"
             app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsername"
@@ -112,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/purple_500"/>
+                android:textColor="@color/purple_500" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -125,8 +121,6 @@
             android:layout_marginEnd="32dp"
             android:hint="@string/age_hint"
             app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:textColor="@color/purple_500"/>
+                android:textColor="@color/purple_500" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -153,8 +147,6 @@
             android:layout_marginEnd="32dp"
             android:hint="@string/userProfile_calories_hint"
             app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -179,15 +171,13 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
-            app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             android:hint="@string/gender_hint"
+            app:boxStrokeColor="@color/purple_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCalories"
             app:startIconDrawable="@drawable/ic_gender"
-            app:startIconTint="@color/purple_500" >
+            app:startIconTint="@color/purple_500">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewGender"
@@ -195,6 +185,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:inputType="none"
+                android:text=""
                 android:textColor="@color/purple_500"
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -209,8 +200,6 @@
             android:layout_marginEnd="32dp"
             android:hint="@string/userProfile_currentPass_hint"
             app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/purple_500"
             app:layout_constraintEnd_toEndOf="parent"
@@ -236,15 +225,13 @@
             android:layout_marginEnd="32dp"
             android:hint="@string/userProfile_newPass_hint"
             app:boxStrokeColor="@color/purple_500"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/red"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/purple_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCurrentPassword"
             app:startIconDrawable="@drawable/ic_newpassword"
-            app:startIconTint="@color/purple_500" >
+            app:startIconTint="@color/purple_500">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputEditTextNewPassword"
@@ -259,8 +246,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
             android:layout_marginEnd="110dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/custom_button"
             android:gravity="center"
             android:text="@string/userProfile_save_btn"
