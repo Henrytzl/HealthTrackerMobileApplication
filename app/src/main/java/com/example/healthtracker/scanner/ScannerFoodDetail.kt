@@ -8,6 +8,7 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
+import com.example.healthtracker.dataclass.FoodDC
 import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -45,19 +46,23 @@ class ScannerFoodDetail : AppCompatActivity() {
                 val carb = foodCarb.text.toString()
                 val sugar = foodSugar.text.toString()
                 val noOfUnit = noOfUnit.text.toString()
+
                 if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
-                    kcal.toInt()
-                    protein.toInt()
-                    fat.toInt()
-                    carb.toInt()
-                    sugar.toInt()
-                    noOfUnit.toInt()
-
+                    val foodRef = firebase.collection("Food").document()
+                    val historyRef = firebase.collection("Food History").document()
+                    val food = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, foodRef.id)
+                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, historyRef.id)
                     //save to database (History and food list)
-
-
-                    Toast.makeText(this,"Food detail is recorded in history and food list", Toast.LENGTH_SHORT).show()
-                    //finish()
+                    foodRef.set(food).addOnSuccessListener {
+                        historyRef.set(foodHistory).addOnSuccessListener {
+                            Toast.makeText(this, "Food detail is recorded in history and food list", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -72,16 +77,16 @@ class ScannerFoodDetail : AppCompatActivity() {
                 val sugar = foodSugar.text.toString()
                 val noOfUnit = noOfUnit.text.toString()
                 if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
-                    kcal.toInt()
-                    protein.toInt()
-                    fat.toInt()
-                    carb.toInt()
-                    sugar.toInt()
-                    noOfUnit.toInt()
+
+                    val historyRef = firebase.collection("Food History").document()
+                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, historyRef.id)
                     //save to database (History)
-
-
-                    Toast.makeText(this,"Food detail is recorded in history", Toast.LENGTH_SHORT).show()
+                    historyRef.set(foodHistory).addOnSuccessListener {
+                        Toast.makeText(this,"Food detail is recorded in history", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }.addOnFailureListener {
+                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -93,17 +98,24 @@ class ScannerFoodDetail : AppCompatActivity() {
                 val carb = foodCarb.text.toString()
                 val sugar = foodSugar.text.toString()
                 val noOfUnit = noOfUnit.text.toString()
+
                 if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
-                    kcal.toInt()
-                    protein.toInt()
-                    fat.toInt()
-                    carb.toInt()
-                    sugar.toInt()
-                    noOfUnit.toInt()
+
+                    val foodRef = firebase.collection("Food").document()
+                    val historyRef = firebase.collection("Food History").document()
+                    val food = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, foodRef.id)
+                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, historyRef.id)
                     //save to database (History and food list)
-
-
-                    Toast.makeText(this,"Food detail is recorded in history and food list", Toast.LENGTH_SHORT).show()
+                    foodRef.set(food).addOnSuccessListener {
+                        historyRef.set(foodHistory).addOnSuccessListener {
+                            Toast.makeText(this, "Food detail is recorded in history and food list", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

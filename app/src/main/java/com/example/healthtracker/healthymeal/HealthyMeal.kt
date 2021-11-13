@@ -71,29 +71,40 @@ class HealthyMeal : AppCompatActivity() {
         //View total nutrition value
         day1.setOnClickListener {
             val intent = Intent(this,HealthyMealDailyNutrition::class.java)
-            intent.putExtra("Kcal","1")
+            intent.putExtra("day","1")
             startActivity(intent)
         }
         day2.setOnClickListener {
             val intent = Intent(this,HealthyMealDailyNutrition::class.java)
-            intent.putExtra("Kcal","2")
+            intent.putExtra("day","2")
             startActivity(intent)
         }
         day3.setOnClickListener {
-
+            val intent = Intent(this,HealthyMealDailyNutrition::class.java)
+            intent.putExtra("day","3")
+            startActivity(intent)
         }
         day4.setOnClickListener {
-
+            val intent = Intent(this,HealthyMealDailyNutrition::class.java)
+            intent.putExtra("day","4")
+            startActivity(intent)
         }
         day5.setOnClickListener {
-
+            val intent = Intent(this,HealthyMealDailyNutrition::class.java)
+            intent.putExtra("day","5")
+            startActivity(intent)
         }
         day6.setOnClickListener {
-
+            val intent = Intent(this,HealthyMealDailyNutrition::class.java)
+            intent.putExtra("day","6")
+            startActivity(intent)
         }
         day7.setOnClickListener {
-
+            val intent = Intent(this,HealthyMealDailyNutrition::class.java)
+            intent.putExtra("day","7")
+            startActivity(intent)
         }
+
         //Direct to Edit meal
         day1Edit.setOnClickListener {
             val intent = Intent(this,Meals::class.java)

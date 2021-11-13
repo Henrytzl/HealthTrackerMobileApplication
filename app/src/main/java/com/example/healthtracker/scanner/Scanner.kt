@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.util.SparseArray
 import android.view.MenuItem
 import android.widget.Toast
@@ -26,12 +27,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.util.size
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -39,7 +43,7 @@ import kotlinx.android.synthetic.main.activity_scanner.*
 import java.io.InputStream
 
 
-class Scanner : AppCompatActivity() {
+class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickListener {
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
     private lateinit var firebase: FirebaseFirestore
@@ -50,6 +54,11 @@ class Scanner : AppCompatActivity() {
     lateinit var wholeText: String
     lateinit var image_uri: Uri
     lateinit var btnAction: String      //S for scanner, C for customize (putExtra value)
+
+    //Recycle View
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var list: ArrayList<RecycleViewFoodHistory>
+    private lateinit var adapter: RecycleViewFoodHistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -320,6 +329,47 @@ class Scanner : AppCompatActivity() {
         const val IMAGE_PICK_GALLERY_CODE = 1000
         const val IMAGE_PICK_CAMERA_CODE = 1001
 
+    }
+
+    override fun onItemClick(position: Int) {
+        val clickedItem = list[position]
+        val intent = Intent(this, ScannerFoodDetail::class.java)
+        //intent.putExtra()
+        startActivity(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Get current User id and email
+        if (authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            finishAffinity()
+        }
+        //Recycler View
+        recyclerView = recyclerViewScannerHistory
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = true
+        recyclerView.setHasFixedSize(true)
+        list = arrayListOf()
+
+        adapter = RecycleViewFoodHistoryAdapter(list, this)
+        recyclerView.adapter = adapter
+
+        firebase.collection("Food History").addSnapshotListener { value, error ->
+            if (error != null) {
+                Log.e("FireStore Error", error.message.toString())
+            }else {
+                for (dc: DocumentChange in value?.documentChanges!!) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        list.add(dc.document.toObject(RecycleViewFoodHistory::class.java))
+                    }
+                }
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun setUpFirebase(){
