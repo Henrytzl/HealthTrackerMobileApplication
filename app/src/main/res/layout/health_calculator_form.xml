@@ -396,3 +396,4 @@
         app:itemTextColor="@color/black"
         app:menu="@menu/nav_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>
+

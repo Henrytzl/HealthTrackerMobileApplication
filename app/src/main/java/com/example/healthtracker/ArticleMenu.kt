@@ -10,7 +10,6 @@ import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.article_menu.*
-import kotlinx.android.synthetic.main.health_calculator_form.drawerLayoutHealth
 import kotlinx.android.synthetic.main.health_calculator_form.imageHome
 import kotlinx.android.synthetic.main.nav_header.view.*
 
@@ -29,8 +28,8 @@ class ArticleMenu : AppCompatActivity() {
         setSupportActionBar(toolbarArticle)
         supportActionBar?.title = ""
         toggle =
-            ActionBarDrawerToggle(this, drawerLayoutHealth, R.string.nav_open, R.string.nav_close)
-        drawerLayoutHealth.addDrawerListener(toggle)
+            ActionBarDrawerToggle(this, drawerLayoutArticle, R.string.nav_open, R.string.nav_close)
+        drawerLayoutArticle.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
