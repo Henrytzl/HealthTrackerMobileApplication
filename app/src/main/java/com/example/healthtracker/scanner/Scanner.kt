@@ -335,7 +335,6 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
     }
 
     override fun onItemClick(position: Int) {
-        val clickedItem = list[position]
         val intent = Intent(this, ScannerFoodDetail::class.java)
         intent.putExtra("foodID", list[position].getFoodID())
         intent.putExtra("Action", "H")
