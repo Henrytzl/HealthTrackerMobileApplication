@@ -53,7 +53,7 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
     lateinit var storagePermission: Array<String>
     lateinit var wholeText: String
     lateinit var image_uri: Uri
-    lateinit var btnAction: String      //S for scanner, C for customize (putExtra value)
+    lateinit var btnAction: String      //S for scanner, C for customize (putExtra value), H for History
 
     //Recycle View
     private lateinit var recyclerView: RecyclerView
@@ -337,7 +337,8 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
     override fun onItemClick(position: Int) {
         val clickedItem = list[position]
         val intent = Intent(this, ScannerFoodDetail::class.java)
-        //intent.putExtra()
+        intent.putExtra("foodID", list[position].getFoodID())
+        intent.putExtra("Action", "H")
         startActivity(intent)
     }
 

@@ -1,5 +1,7 @@
 package com.example.healthtracker.scanner
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -30,13 +32,10 @@ class ScannerFoodDetail : AppCompatActivity() {
 
         setUpFirebase()
 
-        //if the food is already inside the food list
-//        scannerFoodDetail_BtnAction.setBackgroundColor(Color.parseColor("#FF0000"))
-//        scannerFoodDetail_BtnAction.text = "Delete from Food List"
-
         val extra = intent.getStringExtra("Action")
         if(extra == "C"){
             scannerFoodDetail_BtnAction.visibility = GONE
+            scannerFoodDetail_BtnUpdate.visibility = GONE
             scannerFoodDetail_BtnOk.text = "Save & Add to Food List"
             scannerFoodDetail_BtnOk.setOnClickListener {
                 val foodName = scanner_foodName.text.toString()
@@ -49,12 +48,12 @@ class ScannerFoodDetail : AppCompatActivity() {
 
                 if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
                     val foodRef = firebase.collection("Food").document()
-                    val historyRef = firebase.collection("Food History").document()
+                    val historyRef = firebase.collection("Food History")
                     val food = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, foodRef.id)
-                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, historyRef.id)
+                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, foodRef.id)
                     //save to database (History and food list)
                     foodRef.set(food).addOnSuccessListener {
-                        historyRef.set(foodHistory).addOnSuccessListener {
+                        historyRef.document(foodRef.id).set(foodHistory).addOnSuccessListener {
                             Toast.makeText(this, "Food detail is recorded in history and food list", Toast.LENGTH_SHORT).show()
                             finish()
                         }.addOnFailureListener {
@@ -68,6 +67,7 @@ class ScannerFoodDetail : AppCompatActivity() {
         }
         else if(extra == "S"){
             scannerFoodDetail_BtnAction.visibility = VISIBLE
+            scannerFoodDetail_BtnUpdate.visibility = GONE
             scannerFoodDetail_BtnOk.setOnClickListener {
                 val foodName = scanner_foodName.text.toString()
                 val kcal = foodKcal.text.toString()
@@ -104,7 +104,7 @@ class ScannerFoodDetail : AppCompatActivity() {
                     val foodRef = firebase.collection("Food").document()
                     val historyRef = firebase.collection("Food History").document()
                     val food = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, foodRef.id)
-                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, historyRef.id)
+                    val foodHistory = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, foodRef.id)
                     //save to database (History and food list)
                     foodRef.set(food).addOnSuccessListener {
                         historyRef.set(foodHistory).addOnSuccessListener {
@@ -116,6 +116,131 @@ class ScannerFoodDetail : AppCompatActivity() {
                     }.addOnFailureListener {
                         Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
                     }
+                }
+            }
+        }
+        else if(extra == "H"){
+            val intentFoodID = intent.getStringExtra("foodID")
+
+            if(!intentFoodID.isNullOrEmpty()){
+                scannerFoodDetail_BtnUpdate.visibility = VISIBLE
+                scannerFoodDetail_BtnOk.text = "OK"
+                val foodRef = firebase.collection("Food").document(intentFoodID)
+                val foodHistoryRef = firebase.collection("Food History").document(intentFoodID)
+
+                foodHistoryRef.get().addOnSuccessListener { result ->
+                    if(result != null) {
+                        if(result.getString("userID") == userID) {
+                            scanner_foodName.setText(result.getString("foodName"))
+                            noOfUnit.setText(result.get("noOfUnit").toString())
+                            foodKcal.setText(result.get("kcal").toString())
+                            foodProtein.setText(result.get("protein").toString())
+                            foodFat.setText(result.get("fat").toString())
+                            foodCarb.setText(result.get("carb").toString())
+                            foodSugar.setText(result.get("sugar").toString())
+                        }
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                }
+
+                foodRef.get().addOnSuccessListener { result ->
+                    if(result != null){
+                        if(result.getString("userID") == userID){
+                            scannerFoodDetail_BtnAction.text = "Delete from Food List"
+                            scannerFoodDetail_BtnAction.setBackgroundResource(R.drawable.custom_button_red)
+                            //Delete from food list
+                            scannerFoodDetail_BtnAction.setOnClickListener {
+                                val deleteViewBuilder = AlertDialog.Builder(this).setTitle("Delete Food from Food List")
+                                    .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this food from food list?")
+                                    .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                                        dialog.dismiss()
+                                        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+                                    })
+                                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                                        foodRef.delete().addOnSuccessListener {
+                                            dialog.dismiss()
+                                            finish()
+                                            Toast.makeText(this, "Food deleted from food list", Toast.LENGTH_SHORT).show()
+                                        }.addOnFailureListener {
+                                            Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
+                                        }
+                                    })
+                                //show dialog
+                                val displayDialog = deleteViewBuilder.create()
+                                displayDialog.show()
+                            }
+
+                            // Update both historyfood and food list details
+                            scannerFoodDetail_BtnUpdate.setOnClickListener {
+                                val foodName = scanner_foodName.text.toString()
+                                val kcal = foodKcal.text.toString()
+                                val protein = foodProtein.text.toString()
+                                val fat = foodFat.text.toString()
+                                val carb = foodCarb.text.toString()
+                                val sugar = foodSugar.text.toString()
+                                val noOfUnit = noOfUnit.text.toString()
+
+                                if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
+                                    val foodUpdated = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, intentFoodID)
+                                    foodHistoryRef.set(foodUpdated).addOnSuccessListener {
+                                        foodRef.set(foodUpdated).addOnSuccessListener {
+                                            Toast.makeText(this,"Food detail has been updated", Toast.LENGTH_SHORT).show()
+                                            finish()
+                                        }.addOnFailureListener {
+                                            Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }.addOnFailureListener {
+                                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                }
+
+                //Add to food list
+                scannerFoodDetail_BtnAction.setOnClickListener {
+                    val addToFoodListRef = firebase.collection("Food")
+                    foodHistoryRef.get().addOnSuccessListener { result ->
+                        if(result != null){
+                            val food: FoodDC = FoodDC(result.get("foodName").toString(), result.get("kcal").toString().toInt(), result.get("protein").toString().toInt(),
+                                result.get("fat").toString().toInt(), result.get("carb").toString().toInt(), result.get("sugar").toString().toInt(), result.get("noOfUnit").toString().toInt(),
+                                result.get("userID").toString(), result.get("foodID").toString())
+                            addToFoodListRef.document(intentFoodID).set(food)
+                            Toast.makeText(this,"Food added to food list", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                //Update historyfood only
+                scannerFoodDetail_BtnUpdate.setOnClickListener {
+                    val foodName = scanner_foodName.text.toString()
+                    val kcal = foodKcal.text.toString()
+                    val protein = foodProtein.text.toString()
+                    val fat = foodFat.text.toString()
+                    val carb = foodCarb.text.toString()
+                    val sugar = foodSugar.text.toString()
+                    val noOfUnit = noOfUnit.text.toString()
+
+                    if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
+                        val foodHistoryUpdated = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, intentFoodID)
+                        foodHistoryRef.set(foodHistoryUpdated).addOnSuccessListener {
+                            Toast.makeText(this,"Food detail in history has been updated", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                scannerFoodDetail_BtnOk.setOnClickListener {
+                    finish()
                 }
             }
         }
