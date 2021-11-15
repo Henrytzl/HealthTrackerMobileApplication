@@ -1,39 +1,53 @@
 package com.example.healthtracker.healthymeal.ui.main
 
-import android.content.Context
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.example.healthtracker.R
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.healthtracker.healthymeal.FragmentFood
 import com.example.healthtracker.healthymeal.FragmentNutrition
 
-private val TAB_TITLES = arrayOf(
-        R.string.tab_text_1,
-        R.string.tab_text_2
-)
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
-    : FragmentPagerAdapter(fm) {
+class SectionsPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle, bundle: Bundle)
+    : FragmentStateAdapter(fm, lifecycle) {
 
-    override fun getItem(position: Int): Fragment {
-        return when(position){
-            0 -> FragmentFood()
-            else -> FragmentNutrition()
-        }
-        //return PlaceholderFragment.newInstance(position + 1)
-    }
+    private val activityBundle = bundle
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
-    }
-
-    override fun getCount(): Int {
-        // Show 2 total pages.
+    override fun getItemCount(): Int {
         return 2
     }
+
+    override fun createFragment(position: Int): Fragment {
+        return when(position){
+            0 -> {
+                val mealID = activityBundle.get("mealID").toString()
+                val bundle: Bundle = Bundle()
+                bundle.putString("mealID", mealID)
+                val fragmentFood:FragmentFood = FragmentFood()
+                fragmentFood.arguments = bundle
+                fragmentFood
+            }
+            else -> {
+                FragmentNutrition()
+            }
+        }
+    }
+
+//    override fun getItem(position: Int): Fragment {
+//        return when(position){
+//            0 -> FragmentFood()
+//            else -> FragmentNutrition()
+//        }
+//        //return PlaceholderFragment.newInstance(position + 1)
+//    }
+//
+//    override fun getPageTitle(position: Int): CharSequence? {
+//        return context.resources.getString(TAB_TITLES[position])
+//    }
+//
+//    override fun getCount(): Int {
+//        // Show 2 total pages.
+//        return 2
+//    }
 }

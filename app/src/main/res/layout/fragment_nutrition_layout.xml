@@ -9,7 +9,8 @@
         android:id="@+id/nutrition_mealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Meal Name..."
+        android:text=""
+        android:hint="Meal Name..."
         android:textColor="@color/black"
         android:textSize="35dp"
         android:layout_marginTop="15dp"
@@ -91,7 +92,7 @@
             android:id="@+id/mealKcal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="1234"
+            android:text="-"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -127,7 +128,7 @@
             android:id="@+id/mealProtein"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="1234"
+            android:text="-"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -163,7 +164,7 @@
             android:id="@+id/mealFat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="1234"
+            android:text="-"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -199,7 +200,7 @@
             android:id="@+id/mealCarb"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="1234"
+            android:text="-"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>
@@ -235,7 +236,7 @@
             android:id="@+id/mealSugar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="1234"
+            android:text="-"
             android:textColor="@color/purple_500"
             android:textSize="20dp"
             android:layout_marginRight="5dp"/>

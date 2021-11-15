@@ -1,6 +1,7 @@
 package com.example.healthtracker.healthymeal
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -118,11 +119,32 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val clickedItem = list[position]
+        val intent = Intent(this, MealDetail::class.java)
+        intent.putExtra("mealID", clickedItem.mealID)
+        startActivity(intent)
     }
 
     override fun onItemDelete(position: Int) {
-        TODO("Not yet implemented")
+        val clickedItem = list[position]
+        val deleteViewBuilder = AlertDialog.Builder(this).setTitle("Delete Meal")
+            .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this meal?")
+            .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+            }).setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                firebase.collection("Meals").document(userID).collection("Meal Detail").document(clickedItem.mealID).delete().addOnSuccessListener {
+                    dialog.dismiss()
+                    Toast.makeText(this, "Meal deleted successfully", Toast.LENGTH_SHORT).show()
+                    list.removeAt(position)
+                    adapter.notifyDataSetChanged()
+                }.addOnFailureListener {
+                    Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
+                }
+            })
+        //show dialog
+        val displayDialog = deleteViewBuilder.create()
+        displayDialog.show()
     }
 
     private fun setUpFirebase(){
