@@ -49,6 +49,7 @@ class RegisterActivity : AppCompatActivity() {
                             val documentRef = firebase.collection("User").document(userID)
                             val user = User("",  0, "", 0, email)
                             documentRef.set(user).addOnSuccessListener {
+                                addDefaultDaysData(userID)
                                 val intent = Intent(this, LoginActivity::class.java)
                                 startActivity(intent)
                                 Toast.makeText(this,"Your account has successfully registered", Toast.LENGTH_SHORT).show()
