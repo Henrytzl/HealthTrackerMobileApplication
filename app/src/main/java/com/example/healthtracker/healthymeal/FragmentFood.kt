@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthtracker.R
+import com.example.healthtracker.dataclass.FoodWithQtyDC
 import com.example.healthtracker.healthymeal.FoodListRecycleView.RecycleViewFoodList
 import com.example.healthtracker.healthymeal.FoodListRecycleView.RecycleViewFoodListAdapter
 import com.google.firebase.auth.FirebaseAuth
@@ -73,7 +74,39 @@ class FragmentFood: Fragment(), RecycleViewFoodListAdapter.OnItemClickListener, 
     }
 
     override fun onAddClick(position: Int) {
+        pd = activity as PassingDataTabs
         val clickedItem = list[position]
+        val food: FoodWithQtyDC = FoodWithQtyDC(clickedItem.foodName, clickedItem.kcal, clickedItem.protein, clickedItem.fat, clickedItem.carb, clickedItem.sugar, clickedItem.noOfUnit, clickedItem.userID, clickedItem.foodID, 1)
+        val checkFood = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(clickedItem.foodID)
+        checkFood.get().addOnSuccessListener { result->
+            if (result.exists()){
+                Toast.makeText(context, "This food is already added", Toast.LENGTH_SHORT).show()
+            }else{
+                firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(clickedItem.foodID).set(food).addOnSuccessListener {
+                    firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).get().addOnSuccessListener { getResult ->
+                        firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).update(
+                            "carb", (getResult.get("carb").toString().toInt() + food.carb),
+                            "fat", (getResult.get("fat").toString().toInt() + food.fat),
+                            "kcal", (getResult.get("kcal").toString().toInt() + food.kcal),
+                            "protein", (getResult.get("protein").toString().toInt() + food.protein),
+                            "sugar", (getResult.get("sugar").toString().toInt() + food.sugar),
+                        ).addOnSuccessListener {
+                            Toast.makeText(context, "Food added", Toast.LENGTH_SHORT).show()
+                            pd.sendMealID(mealID)
+                            pd.sendFoodID(clickedItem.foodID)
+                        }.addOnFailureListener {
+                            Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.addOnFailureListener {
+            Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,7 +117,7 @@ class FragmentFood: Fragment(), RecycleViewFoodListAdapter.OnItemClickListener, 
             if(mealNameValidation(mealName)){
                 firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).update("mealName", mealName).addOnSuccessListener {
                     Toast.makeText(context, "Meal Name has been updated", Toast.LENGTH_SHORT).show()
-                    pd.sendData(mealID)
+                    pd.sendMealID(mealID)
                     view.txtMealName.clearFocus()
                 }.addOnFailureListener {
                     Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()

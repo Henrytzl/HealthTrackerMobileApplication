@@ -21,8 +21,8 @@ class RecycleViewFoodListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecycleViewFoodListAdapter.MyViewHolder, position: Int) {
-        val foodList: RecycleViewFoodList = list[position]
-        holder.foodName.text = foodList.getFoodName()
+        val food: RecycleViewFoodList = list[position]
+        holder.foodName.text = food.getFoodName()
         holder.addBtn.setOnClickListener {
             addListener.onAddClick(position)
         }

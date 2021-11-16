@@ -2,5 +2,6 @@ package com.example.healthtracker.healthymeal
 
 interface PassingDataTabs {
 
-    fun sendData(data: String)
+    fun sendMealID(mealID: String)
+    fun sendFoodID(foodID: String)
 }

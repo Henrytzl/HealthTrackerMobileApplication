@@ -41,20 +41,4 @@ class SectionsPagerAdapter(fm: FragmentManager, mealID: String): FragmentPagerAd
     override fun getCount(): Int {
         return 2
     }
-
-//    override fun createFragment(position: Int): Fragment {
-//        return when(position){
-//            0 -> {
-//                val mealID = activityBundle.get("mealID").toString()
-//                val bundle: Bundle = Bundle()
-//                bundle.putString("mealID", mealID)
-//                val fragmentFood:FragmentFood = FragmentFood()
-//                fragmentFood.arguments = bundle
-//                fragmentFood
-//            }
-//            else -> {
-//                FragmentNutrition()
-//            }
-//        }
-//    }
 }
