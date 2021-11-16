@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.health_calculator_result.*
-import kotlin.collections.HashMap
 
 class Result : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
@@ -62,7 +61,6 @@ class Result : AppCompatActivity() {
             alertDialog.setMessage("Do you want to calculate again ?")
             alertDialog.setCancelable(true)
             alertDialog.setPositiveButton("Yes") { dialog, id ->
-                startActivity(Intent(this, HealthCalculator::class.java))
                 finish()
             }
             alertDialog.setNegativeButton("No") { dialog, id ->

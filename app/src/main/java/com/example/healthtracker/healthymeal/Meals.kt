@@ -37,7 +37,7 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
         setContentView(R.layout.activity_meals)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
+        supportActionBar?.title = "Meals"
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
