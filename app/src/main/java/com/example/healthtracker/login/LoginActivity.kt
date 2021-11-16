@@ -107,6 +107,7 @@ class LoginActivity : AppCompatActivity() {
         authentication = FirebaseAuth.getInstance()
         firebase = FirebaseFirestore.getInstance()
     }
+
     private fun updateUI(currentUser: FirebaseUser?){
         if(currentUser!=null){
             startActivity(Intent(this, MainActivity::class.java))

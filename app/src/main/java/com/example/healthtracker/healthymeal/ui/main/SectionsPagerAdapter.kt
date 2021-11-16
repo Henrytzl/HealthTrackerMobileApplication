@@ -1,39 +1,44 @@
 package com.example.healthtracker.healthymeal.ui.main
 
-import android.content.Context
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.healthtracker.R
 import com.example.healthtracker.healthymeal.FragmentFood
 import com.example.healthtracker.healthymeal.FragmentNutrition
 
-private val TAB_TITLES = arrayOf(
-        R.string.tab_text_1,
-        R.string.tab_text_2
-)
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
-    : FragmentPagerAdapter(fm) {
-
+class SectionsPagerAdapter(fm: FragmentManager, mealID: String): FragmentPagerAdapter(fm) {
+    private val mealID = mealID
     override fun getItem(position: Int): Fragment {
-        return when(position){
-            0 -> FragmentFood()
-            else -> FragmentNutrition()
+        var getFragment :Fragment? = null
+        val bundle: Bundle = Bundle()
+        when(position){
+            0 -> {
+                getFragment = FragmentFood()
+            }
+            1 -> {
+                getFragment = FragmentNutrition()
+            }
         }
+        bundle.putString("mealID", mealID)
+        getFragment!!.arguments = bundle
+
+        return  getFragment!!
         //return PlaceholderFragment.newInstance(position + 1)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
+        var title :String? = null
+        when(position){
+            0 -> title = "Food"
+            1 -> title = "Nutrition"
+        }
+
+        return title
     }
 
     override fun getCount(): Int {
-        // Show 2 total pages.
         return 2
     }
 }

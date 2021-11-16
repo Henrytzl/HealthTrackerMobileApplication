@@ -1,7 +1,10 @@
 package com.example.healthtracker.reminder
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.R
@@ -16,6 +19,7 @@ class ReminderDetail : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
+    var reminderID: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,58 @@ class ReminderDetail : AppCompatActivity() {
 
         setUpFirebase()
 
+        val intentFound = intent
+        reminderID = intent.getStringExtra("reminderID").toString()
+
+        if(reminderID == "null"){   // Add reminder
+            deleteReminder.visibility = View.GONE
+        }else{                      // Modify reminder
+
+            deleteReminder.visibility = View.VISIBLE
+            firebase.collection("Reminder").document(userID)
+                .collection("Reminder Detail").document(reminderID).get().addOnSuccessListener { document ->
+                    if(document != null) {
+                        txtReminderSwitch.isChecked = document.getBoolean("reminderActivate")!!
+                        txtReminderTitle.setText(document.getString("reminderTitle"))
+                        txtReminderDesc.setText(document.getString("reminderDesc"))
+                        val time = document.getString("reminderTime")
+                        val hr: String = "${time?.get(0)}" + "${time?.get(1)}"
+                        val min: String = "${time?.get(3)}" + "${time?.get(4)}"
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                            txtReminderTime.hour = hr.toInt()
+                            txtReminderTime.minute = min.toInt()
+                        } else {
+                            Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT)
+                }
+
+            deleteReminder.setOnClickListener {
+                val deleteViewBuilder = AlertDialog.Builder(this).setTitle("Delete Reminder")
+                    .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this reminder?")
+                    .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+                    })
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                        firebase.collection("Reminder").document(userID)
+                            .collection("Reminder Detail").document(reminderID).delete().addOnSuccessListener {
+                                dialog.dismiss()
+                                finish()
+                                Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
+                            }.addOnFailureListener {
+                                Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
+                            }
+                    })
+                //show dialog
+                val displayDialog = deleteViewBuilder.create()
+                displayDialog.show()
+            }
+        }
+        //Clicking tick button
         save_reminder.setOnClickListener {
             val reminderTitle = txtReminderTitle.text.toString()
             val reminderDesc = txtReminderDesc.text.toString()
@@ -57,37 +113,32 @@ class ReminderDetail : AppCompatActivity() {
             }
 
             if(hr == -1 || min == -1){
-                Toast.makeText(this, "SDK Version Problem Occured", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT).show()
             }else if(reminderTitle.isEmpty() || reminderDesc.isEmpty()){
                 Toast.makeText(this, "Please fill in the reminder details", Toast.LENGTH_SHORT).show()
             }else{
                 val documentRef = firebase.collection("Reminder").document(userID)
-                val reminderDetail = ReminderDetailDC(reminderTitle, reminderDesc, time, switch)
-                documentRef.collection("Reminder Detail").add(reminderDetail).addOnSuccessListener {
-                    Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
-                    finish()
-                }.addOnFailureListener {
-                    Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                if(reminderID == "null"){           // Create Reminder
+                    val getDocID = documentRef.collection("Reminder Detail").document()
+                    val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch)
+                    val detailDocumentRef1 = documentRef.collection("Reminder Detail")
+                    detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
+                        Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }.addOnFailureListener {
+                        Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }else{                              // Update Reminder
+                    val update = documentRef.collection("Reminder Detail").document("$reminderID")
+                    val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch)
+                    update.set(reminderDetail).addOnSuccessListener {
+                        Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }.addOnFailureListener {
+                        Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-            //testing123.text = txtReminderDate.dayOfMonth.toString() + "/" + txtReminderDate.month + "/" + txtReminderDate.year
-            //testing123.text = txtReminderTime.hour.toString() + txtReminderTime.minute.toString()
-        }
-
-//        txtReminderDate.addTextChangedListener {object : TextWatcher{
-//            override fun beforeTextChanged (s: CharSequence, start: Int, count: Int, after: Int){
-//
-//            }
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//            }
-//            override fun afterTextChanged(s: Editable) {
-//
-//            }
-//        }
-//        }
-
-        deleteReminder.setOnClickListener {
-            Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -107,5 +158,8 @@ class ReminderDetail : AppCompatActivity() {
     private fun setUpFirebase(){
         authentication = FirebaseAuth.getInstance()
         firebase = FirebaseFirestore.getInstance()
+        if(authentication.currentUser != null) {
+            userID = authentication.currentUser!!.uid
+        }
     }
 }

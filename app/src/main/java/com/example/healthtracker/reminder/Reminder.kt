@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reminder.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
-class Reminder : AppCompatActivity() {
+class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickListener, RecycleViewReminderAdapter.OnSwitchClickListener {
 
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
@@ -40,33 +40,6 @@ class Reminder : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // getInstance database
         setUpFirebase()
-
-        //Recycle View
-        recyclerView = recyclerViewReminder
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = true
-        recyclerView.setHasFixedSize(true)
-        list = arrayListOf()
-
-        adapter = RecycleViewReminderAdapter(list)
-
-        recyclerView.adapter = adapter
-
-        //if(authentication.currentUser != null) {
-            firebase.collection("Reminder/$userID/Reminder Detail")
-                .addSnapshotListener { value, error ->
-                    if (error != null) {
-                        Log.e("FireStore Error", error.message.toString())
-                    }else {
-                        for (dc: DocumentChange in value?.documentChanges!!) {
-                            if (dc.type == DocumentChange.Type.ADDED) {
-                                list.add(dc.document.toObject(RecycleViewReminder::class.java))
-                            }
-                        }
-                        adapter.notifyDataSetChanged()
-                    }
-                }
-        //}
 
         //Drawer
         navView.setNavigationItemSelectedListener{
@@ -109,6 +82,28 @@ class Reminder : AppCompatActivity() {
         }
     }
 
+    override fun onItemClick(position: Int) {
+        val clickedItem = list[position]
+        val intent = Intent(this, ReminderDetail::class.java)
+        intent.putExtra("reminderID", clickedItem.reminderID)
+        startActivity(intent)
+    }
+
+    override fun onSwitchClickListener(position: Int) {
+        val switchClickedItem = list[position]
+        switchClickedItem.reminderActivate = !switchClickedItem.getReminderActivate()
+        val text: String =
+            if(switchClickedItem.reminderActivate){
+                "Activated"
+            }else{
+                "Deactivated"
+            }
+        Toast.makeText(this,"${switchClickedItem.reminderTitle} Reminder" + " " + "${text}", Toast.LENGTH_SHORT).show()
+        firebase.collection("Reminder").document("$userID")
+            .collection("Reminder Detail").document("${switchClickedItem.getReminderID()}").update("reminderActivate", switchClickedItem.reminderActivate)
+        adapter.notifyItemChanged(position)
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -133,6 +128,30 @@ class Reminder : AppCompatActivity() {
                 navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
             }
         }
+        //Recycle View
+        recyclerView = recyclerViewReminder
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = true
+        recyclerView.setHasFixedSize(true)
+        list = arrayListOf()
+
+        adapter = RecycleViewReminderAdapter(list, this, this)
+
+        recyclerView.adapter = adapter
+
+        firebase.collection("Reminder/$userID/Reminder Detail")
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e("FireStore Error", error.message.toString())
+                }else {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            list.add(dc.document.toObject(RecycleViewReminder::class.java))
+                        }
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

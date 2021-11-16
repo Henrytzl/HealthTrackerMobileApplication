@@ -39,7 +39,6 @@
         <activity
             android:name=".healthymeal.MealDetail"
             android:label="@string/title_activity_meal_detail"
-            android:parentActivityName=".healthymeal.Meals"
             android:theme="@style/Theme.HealthTracker.NoActionBar.NoActionBar" />
         <activity
             android:name=".healthymeal.Meals"
@@ -136,6 +135,16 @@
             android:value="ocr" />
         <!-- To use multiple models: android:value="ocr,model2,model3" -->
 
+<!--        &lt;!&ndash;Service and broadcastReceiver&ndash;&gt;-->
+<!--        <service-->
+<!--            android:name=".fcm.MyFirebaseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+<!--        <receiver android:name=".fcm.NotificationBroadcastReceiver" />-->
     </application>
 
 </manifest>
