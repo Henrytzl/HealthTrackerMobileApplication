@@ -224,7 +224,7 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
                 sb.append("\n")
                 i++
             }
-            testTV.text = sb.toString()
+            //testTV.text = sb.toString()
         }
 
 //        val intent =Intent(this, ScannerFoodDetail::class.java)
