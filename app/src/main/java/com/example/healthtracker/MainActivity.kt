@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 R.id.mHelp -> {
-
+                    startActivity(Intent(this, ChatBot::class.java))
                 }
                 R.id.mAboutUs -> {
 

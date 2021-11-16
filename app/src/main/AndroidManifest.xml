@@ -120,6 +120,11 @@
 
         </activity>
 
+        <activity android:name=".ChatBot"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+
         <!--add in application tag-->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

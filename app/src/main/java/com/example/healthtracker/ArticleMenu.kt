@@ -53,7 +53,8 @@ class ArticleMenu : AppCompatActivity() {
 
                 }
                 R.id.mHelp -> {
-
+                    startActivity(Intent(this, ChatBot::class.java))
+                    finish()
                 }
                 R.id.mAboutUs -> {
 

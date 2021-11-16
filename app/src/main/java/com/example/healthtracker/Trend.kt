@@ -6,8 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,11 +18,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.trend.*
 import kotlinx.android.synthetic.main.trend.imageHome
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class Trend : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+class Trend : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
     private lateinit var db: FirebaseFirestore
@@ -32,14 +31,10 @@ class Trend : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     lateinit var lineList: ArrayList<Entry>
     lateinit var lineDataSet: LineDataSet
     private lateinit var lineData: LineData
+    lateinit var xDataList: ArrayList<Date>
+    lateinit var yDataList: ArrayList<Double>
 
-    var day = 0
-    var month = 0
-    var year = 0
-
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
+    var formatDate = SimpleDateFormat("dd MMMM yyyy", Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +69,8 @@ class Trend : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
                 }
                 R.id.mHelp -> {
-
+                    startActivity(Intent(this, ChatBot::class.java))
+                    finish()
                 }
                 R.id.mAboutUs -> {
 
@@ -138,8 +134,7 @@ class Trend : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.calendar -> {
-                pickFromDate()
-                pickToDate()
+                calendar()
             }
         }
         if (toggle.onOptionsItemSelected(item)) {
@@ -167,36 +162,70 @@ class Trend : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         lineDataSet.setDrawFilled(true)
     }
 
-    private fun getDateCalendar() {
-        val cal: Calendar = Calendar.getInstance()
-        day = cal.get(Calendar.DAY_OF_MONTH)
-        month = cal.get(Calendar.MONTH)
-        year = cal.get(Calendar.YEAR)
+    private fun calendar() {
+        dateTo()
+        dateFrom()
     }
 
-    private fun pickFromDate() {
-        getDateCalendar()
+    private fun dateFrom() {
+        val getDate = Calendar.getInstance()
+        val datePicker = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
 
-//        DatePickerDialog.BUTTON_POSITIVE
-        DatePickerDialog(this, this, year, month, day).show()
+                val selectDate = Calendar.getInstance()
+                selectDate.set(Calendar.YEAR, i)
+                selectDate.set(Calendar.MONTH, i2)
+                selectDate.set(Calendar.DAY_OF_MONTH, i3)
+                val date = formatDate.format(selectDate.time)
 
-        Toast.makeText(this, "Select date from", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Date From: " + date, Toast.LENGTH_SHORT).show()
+
+            },
+            getDate.get(Calendar.YEAR),
+            getDate.get(Calendar.MONTH),
+            getDate.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
     }
 
-    private fun pickToDate() {
-        getDateCalendar()
+    private fun dateTo() {
+        val getDate = Calendar.getInstance()
+        val datePicker = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
 
-        DatePickerDialog(this, this, year, month, day).show()
-        Toast.makeText(this, "Select date from", Toast.LENGTH_SHORT).show()
+                val selectDate = Calendar.getInstance()
+                selectDate.set(Calendar.YEAR, i)
+                selectDate.set(Calendar.MONTH, i2)
+                selectDate.set(Calendar.DAY_OF_MONTH, i3)
+                val date = formatDate.format(selectDate.time)
+
+                Toast.makeText(this, "Date To: " + date, Toast.LENGTH_SHORT).show()
+
+            },
+            getDate.get(Calendar.YEAR),
+            getDate.get(Calendar.MONTH),
+            getDate.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
     }
 
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        savedDay = dayOfMonth
-        savedMonth = month
-        savedYear = year
+    private fun retrieveData() {
+        val db = FirebaseFirestore.getInstance()
+        val trendDocRef = db.collection("Results").document(userID)
+        trendDocRef.collection("Result Details")
+            .get()
+            .addOnSuccessListener {
+                //date data
+                xDataList
+            }
 
-        getDateCalendar()
+
+        //weight data
+        yDataList
     }
+
 
     override fun onStart() {
         super.onStart()
