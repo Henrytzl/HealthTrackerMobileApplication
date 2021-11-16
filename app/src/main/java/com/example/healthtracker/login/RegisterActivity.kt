@@ -39,26 +39,26 @@ class RegisterActivity : AppCompatActivity() {
             val confirmPassword = confirmPasswordTextRegister.text.toString().trim()
 
             if(check(email, password, confirmPassword)){
-                authentication.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-                    try{
-                        val currentUser = authentication.currentUser
-                        if(currentUser != null){
-                            userID = currentUser.uid
+                authentication.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        try{
+                            val currentUser = authentication.currentUser
+                            if(currentUser != null){
+                                userID = currentUser.uid
+                            }
+                            val documentRef = firebase.collection("User").document(userID)
+                            val user = User("",  0, "", 0, email)
+                            documentRef.set(user).addOnSuccessListener {
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                                Toast.makeText(this,"Your account has successfully registered", Toast.LENGTH_SHORT).show()
+                                finish()
+                            }.addOnFailureListener {
+                                Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }catch (e :Exception){
+                            Toast.makeText(this," "+e.message, Toast.LENGTH_SHORT).show()
                         }
-                        val documentRef = firebase.collection("User").document(userID)
-                        val user = User("",  0, "", 0)
-                        documentRef.set(user).addOnSuccessListener {
-                            addDefaultDaysData(userID)
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(this,"Your account has successfully registered", Toast.LENGTH_SHORT).show()
-                            finish()
-                        }.addOnFailureListener {
-                            Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }catch (e :Exception){
-                        Toast.makeText(this," "+e.message, Toast.LENGTH_SHORT).show()
-                    }
                 }.addOnFailureListener{
                     Toast.makeText(this," "+it.message, Toast.LENGTH_SHORT).show()
                 }

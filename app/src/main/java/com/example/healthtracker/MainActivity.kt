@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var authentication: FirebaseAuth
     private lateinit var firebase: FirebaseFirestore
-    private lateinit var userID : String
+    private lateinit var userID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         setUpFirebase()
 
-        navView.setNavigationItemSelectedListener{
-            when(it.itemId){
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
                 R.id.mProfile -> {
                     startActivity(Intent(this, AuthorisedUser::class.java))
                 }
@@ -48,14 +48,14 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 R.id.mHelp -> {
-
+                    startActivity(Intent(this, ChatBot::class.java))
                 }
                 R.id.mAboutUs -> {
 
                 }
                 R.id.mLogout -> {
                     authentication.signOut()
-                    Toast.makeText(this,"Successfully Logout", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Successfully Logout", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                     finishAffinity()
@@ -101,10 +101,10 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         // Get current User id and email
-        if(authentication.currentUser != null) {
+        if (authentication.currentUser != null) {
             userID = authentication.currentUser!!.uid
             navView.getHeaderView(0).dhEmail.text = authentication.currentUser!!.email
-        }else{
+        } else {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             finishAffinity()
@@ -112,17 +112,18 @@ class MainActivity : AppCompatActivity() {
         // Get Drawer Header information from database
         val nameDocRef = firebase.collection("User").document(userID)
         nameDocRef.get().addOnSuccessListener { name ->
-            if(name != null){
+            if (name != null) {
                 navView.getHeaderView(0).dhName.text = name.getString("userName")
             }
         }
         val caloriesDocRef = firebase.collection("User").document(userID)
         caloriesDocRef.get().addOnSuccessListener { kcal ->
-            if(kcal != null){
-                navView.getHeaderView(0).dhKcal.text = kcal.get("calories").toString()
+            if (kcal != null) {
+                navView.getHeaderView(0).dhKcal.text =
+                    kcal.get("calories").toString().toInt().toString()
             }
         }
-        
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -132,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setUpFirebase(){
+    private fun setUpFirebase() {
         authentication = FirebaseAuth.getInstance()
         firebase = FirebaseFirestore.getInstance()
     }

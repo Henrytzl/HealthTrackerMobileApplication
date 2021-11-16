@@ -5,8 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,15 +19,18 @@
 
         </activity>
 
-        <activity android:name=".AuthorisedUser">
+        <activity
+            android:name=".AuthorisedUser"
+            android:parentActivityName=".MainActivity">
 
         </activity>
 
         <activity android:name=".HealthCalculator">
 
         </activity>
-  
-        <activity android:name=".scanner.ScannerFoodDetail"
+
+        <activity
+            android:name=".scanner.ScannerFoodDetail"
             android:parentActivityName=".scanner.Scanner"></activity>
         <activity
             android:name=".scanner.Scanner"
@@ -47,6 +50,11 @@
         <activity
             android:name=".reminder.ReminderDetail"
             android:parentActivityName=".reminder.Reminder" />
+
+        <activity
+            android:name=".Result"
+            android:parentActivityName=".HealthCalculator" />
+
         <activity android:name=".reminder.Reminder" />
         <activity android:name=".login.ResetPasswordActivity" />
         <activity android:name=".login.RegisterActivity" />
@@ -60,39 +68,49 @@
         </activity>
 
 
-        <activity android:name=".Result">
-
-        </activity>
-
         <activity android:name=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".Article1">
+        <activity
+            android:name=".Article1"
+            android:parentActivityName=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".Article2">
+        <activity
+            android:name=".Article2"
+            android:parentActivityName=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".Article3">
+        <activity
+            android:name=".Article3"
+            android:parentActivityName=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".Article4">
+        <activity
+            android:name=".Article4"
+            android:parentActivityName=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".Article5">
+        <activity
+            android:name=".Article5"
+            android:parentActivityName=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".Article6">
+        <activity
+            android:name=".Article6"
+            android:parentActivityName=".ArticleMenu">
 
         </activity>
 
-        <activity android:name=".VideoMenu"
+        <activity
+            android:name=".VideoMenu"
+            android:parentActivityName=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
 
         </activity>
@@ -101,9 +119,15 @@
 
         </activity>
 
+        <activity android:name=".ChatBot"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+
         <!--add in application tag-->
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/CropTheme"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/CropTheme" />
 
         <!--ML Kit Text Recognition-->
         <meta-data
