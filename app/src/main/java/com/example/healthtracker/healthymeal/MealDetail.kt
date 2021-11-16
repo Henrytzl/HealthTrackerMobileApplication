@@ -6,21 +6,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
 import com.example.healthtracker.R
 import com.example.healthtracker.healthymeal.ui.main.SectionsPagerAdapter
 import com.example.healthtracker.login.LoginActivity
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_meal_detail.*
 
-class MealDetail : AppCompatActivity() {
+class MealDetail : AppCompatActivity(), PassingDataTabs {
 
     private lateinit var authentication: FirebaseAuth
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
+    private lateinit var viewPagerAdapter: SectionsPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,19 +35,9 @@ class MealDetail : AppCompatActivity() {
         val intentMeal = intent.getStringExtra("mealID")
         val mealID : String = intentMeal.toString()
 
-        val bundle: Bundle = Bundle()
-        bundle.putString("mealID", mealID)
-
-        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, lifecycle, bundle)
-        val viewPager: ViewPager2 = findViewById(R.id.view_pager)
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        TabLayoutMediator(tabs, viewPager){ tab, position ->
-            when(position){
-                0 -> tab.setText(R.string.tab_text_1)
-                1 -> tab.setText(R.string.tab_text_2)
-            }
-        }.attach()
+        viewPagerAdapter = SectionsPagerAdapter(supportFragmentManager, mealID)
+        view_pager.adapter = viewPagerAdapter
+        tabs.setupWithViewPager(view_pager)
         tabs.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#FF6200EE") )
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()
@@ -96,5 +84,12 @@ class MealDetail : AppCompatActivity() {
         if(authentication.currentUser != null) {
             userID = authentication.currentUser!!.uid
         }
+    }
+
+    override fun sendData(data: String) {
+        val tag = "android:switcher:" + R.id.view_pager.toString() + ":" + 1
+        val f = supportFragmentManager.findFragmentByTag(tag) as FragmentNutrition?
+
+        f!!.receiveMealID(data!!)
     }
 }
