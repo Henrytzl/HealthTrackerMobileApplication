@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
                                 userID = currentUser.uid
                             }
                             val documentRef = firebase.collection("User").document(userID)
-                            val user = User("",  0, "", 0)
+                            val user = User("",  0, "", 0, email)
                             documentRef.set(user).addOnSuccessListener {
                                 val intent = Intent(this, LoginActivity::class.java)
                                 startActivity(intent)
