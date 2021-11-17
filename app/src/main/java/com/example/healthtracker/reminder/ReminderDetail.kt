@@ -20,6 +20,7 @@ class ReminderDetail : AppCompatActivity() {
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
     var reminderID: String = ""
+    private lateinit var selectedDayList: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +35,36 @@ class ReminderDetail : AppCompatActivity() {
 
         setUpFirebase()
 
+        selectedDayList = ArrayList()
+        selectDayBtn.setOnClickListener {
+            val daySelectorViewBuilder = AlertDialog.Builder(this).setTitle("Choose Repeat Day").setIcon(R.drawable.ic_day)
+            daySelectorViewBuilder.setMultiChoiceItems(R.array.Day, null) { dialog, which, isChecked ->
+
+                val items: Array<String> = resources.getStringArray(R.array.Day)
+
+                if (isChecked) {
+                    (selectedDayList as ArrayList<String>).add(items[which])
+                } else if (selectedDayList.contains(items[which])) {
+                    (selectedDayList as ArrayList<String>).remove(items[which])
+                }
+            }
+            daySelectorViewBuilder.setCancelable(false).setNegativeButton("Cancel", DialogInterface.OnClickListener{ dialog, which ->
+                dialog.dismiss()
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+            }).setPositiveButton("Done", DialogInterface.OnClickListener{ dialog, which ->
+                Toast.makeText(this, "Done Selection", Toast.LENGTH_SHORT).show()
+            })
+            //show dialog
+            val displayDialog = daySelectorViewBuilder.create()
+            displayDialog.show()
+        }
+
         val intentFound = intent
         reminderID = intent.getStringExtra("reminderID").toString()
 
         if(reminderID == "null"){   // Add reminder
             deleteReminder.visibility = View.GONE
         }else{                      // Modify reminder
-
             deleteReminder.visibility = View.VISIBLE
             firebase.collection("Reminder").document(userID)
                 .collection("Reminder Detail").document(reminderID).get().addOnSuccessListener { document ->
