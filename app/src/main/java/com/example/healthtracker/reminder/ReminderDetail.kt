@@ -52,7 +52,11 @@ class ReminderDetail : AppCompatActivity() {
                 dialog.dismiss()
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
             }).setPositiveButton("Done", DialogInterface.OnClickListener{ dialog, which ->
-                Toast.makeText(this, "Done Selection", Toast.LENGTH_SHORT).show()
+                var text : String = ""
+                for(item in selectedDayList){
+                    text = text + "\n" + item
+                }
+                Toast.makeText(this, "Done Selection: $text", Toast.LENGTH_SHORT).show()
             })
             //show dialog
             val displayDialog = daySelectorViewBuilder.create()
