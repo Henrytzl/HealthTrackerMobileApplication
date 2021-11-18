@@ -11,16 +11,6 @@
         <item>Female</item>
     </string-array>
 
-    <string-array name="Day">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-
     //User Profile
     <string name="userProfile_title_name">User Profile</string>
     <string name="userProfile_username_hint">Username</string>

@@ -13,6 +13,8 @@ import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reminder_detail.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ReminderDetail : AppCompatActivity() {
 
@@ -20,7 +22,9 @@ class ReminderDetail : AppCompatActivity() {
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
     var reminderID: String = ""
-    private lateinit var selectedDayList: List<String>
+    private lateinit var dayList: List<String>
+    private val dayArray = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    private var selectedDayListBoolean = booleanArrayOf(false, false, false, false, false, false, false, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,37 +39,9 @@ class ReminderDetail : AppCompatActivity() {
 
         setUpFirebase()
 
-        selectedDayList = ArrayList()
-        selectDayBtn.setOnClickListener {
-            val daySelectorViewBuilder = AlertDialog.Builder(this).setTitle("Choose Repeat Day").setIcon(R.drawable.ic_day)
-            daySelectorViewBuilder.setMultiChoiceItems(R.array.Day, null) { dialog, which, isChecked ->
-
-                val items: Array<String> = resources.getStringArray(R.array.Day)
-
-                if (isChecked) {
-                    (selectedDayList as ArrayList<String>).add(items[which])
-                } else if (selectedDayList.contains(items[which])) {
-                    (selectedDayList as ArrayList<String>).remove(items[which])
-                }
-            }
-            daySelectorViewBuilder.setCancelable(false).setNegativeButton("Cancel", DialogInterface.OnClickListener{ dialog, which ->
-                dialog.dismiss()
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
-            }).setPositiveButton("Done", DialogInterface.OnClickListener{ dialog, which ->
-                var text : String = ""
-                for(item in selectedDayList){
-                    text = text + "\n" + item
-                }
-                Toast.makeText(this, "Done Selection: $text", Toast.LENGTH_SHORT).show()
-            })
-            //show dialog
-            val displayDialog = daySelectorViewBuilder.create()
-            displayDialog.show()
-        }
-
         val intentFound = intent
         reminderID = intent.getStringExtra("reminderID").toString()
-
+        dayList = Arrays.asList(*dayArray)
         if(reminderID == "null"){   // Add reminder
             deleteReminder.visibility = View.GONE
         }else{                      // Modify reminder
@@ -85,6 +61,16 @@ class ReminderDetail : AppCompatActivity() {
                         } else {
                             Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT)
                                 .show()
+                        }
+                        //set day list
+                        val dayListFromDb: ArrayList<String> = document.get("selectedDay") as ArrayList<String>
+
+                        for(x in dayList.indices){
+                            for(y in dayListFromDb.indices){
+                                if(dayList[x] == dayListFromDb[y]){
+                                    selectedDayListBoolean[x] = true
+                                }
+                            }
                         }
                     }
                 }.addOnFailureListener {
@@ -113,6 +99,22 @@ class ReminderDetail : AppCompatActivity() {
                 displayDialog.show()
             }
         }
+
+        //Day selector onClickListener
+        selectDayBtn.setOnClickListener {
+            val daySelectorViewBuilder = AlertDialog.Builder(this).setTitle("Choose Repeat Day").setIcon(R.drawable.ic_day)
+
+            daySelectorViewBuilder.setMultiChoiceItems(dayArray, selectedDayListBoolean) { dialog, which, isChecked ->
+                selectedDayListBoolean[which] = isChecked
+            }
+            daySelectorViewBuilder.setCancelable(false).setPositiveButton("Done", DialogInterface.OnClickListener{ dialog, which ->
+                Toast.makeText(this, "Done Selection", Toast.LENGTH_SHORT).show()
+            })
+            //show dialog
+            val displayDialog = daySelectorViewBuilder.create()
+            displayDialog.show()
+        }
+
         //Clicking tick button
         save_reminder.setOnClickListener {
             val reminderTitle = txtReminderTitle.text.toString()
@@ -145,29 +147,54 @@ class ReminderDetail : AppCompatActivity() {
             }else if(reminderTitle.isEmpty() || reminderDesc.isEmpty()){
                 Toast.makeText(this, "Please fill in the reminder details", Toast.LENGTH_SHORT).show()
             }else{
-                val documentRef = firebase.collection("Reminder").document(userID)
-                if(reminderID == "null"){           // Create Reminder
-                    val getDocID = documentRef.collection("Reminder Detail").document()
-                    val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch)
-                    val detailDocumentRef1 = documentRef.collection("Reminder Detail")
-                    detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
-                        Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }.addOnFailureListener {
-                        Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                if(checkSelectedDayList(selectedDayListBoolean)){
+                    val documentRef = firebase.collection("Reminder").document(userID)
+                    val insertDayList = convertToInsertDayList(selectedDayListBoolean, dayList)
+                    if(reminderID == "null"){           // Create Reminder
+                        val getDocID = documentRef.collection("Reminder Detail").document()
+                        val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch, insertDayList)
+                        val detailDocumentRef1 = documentRef.collection("Reminder Detail")
+                        detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
+                            Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }else{                              // Update Reminder
+                        val update = documentRef.collection("Reminder Detail").document("$reminderID")
+                        val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList)
+                        update.set(reminderDetail).addOnSuccessListener {
+                            Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }else{                              // Update Reminder
-                    val update = documentRef.collection("Reminder Detail").document("$reminderID")
-                    val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch)
-                    update.set(reminderDetail).addOnSuccessListener {
-                        Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }.addOnFailureListener {
-                        Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
-                    }
+                }else{
+                    Toast.makeText(this,"Please select the reminder day", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+    }
+
+    private fun checkSelectedDayList(selectedDayListBoolean: BooleanArray):Boolean{
+        for(i in selectedDayListBoolean.indices){
+            val selected = selectedDayListBoolean[i]
+            if(selected){
+                return true
+            }
+        }
+        return false
+    }
+    private fun convertToInsertDayList(selectedDayListBoolean: BooleanArray, dayList: List<String>): ArrayList<String>{
+        var insertDayList: ArrayList<String> = ArrayList()
+        for(i in selectedDayListBoolean.indices){
+            val selected = selectedDayListBoolean[i]
+            if(selected){
+                insertDayList.add(dayList[i])
+            }
+        }
+        return insertDayList
     }
 
     override fun onStart() {
