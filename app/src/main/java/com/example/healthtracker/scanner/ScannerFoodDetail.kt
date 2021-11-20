@@ -192,7 +192,7 @@ class ScannerFoodDetail : AppCompatActivity() {
                                                     listOfDocument.add(i.reference.id)
                                                 }
                                                 for(i in listOfDocument.indices){
-                                                    Toast.makeText(this,"${listOfDocument[i]}", Toast.LENGTH_SHORT).show()
+                                                    //Toast.makeText(this,"${listOfDocument[i]}", Toast.LENGTH_SHORT).show()
                                                     val mealFoods = firebase.collection("Meals").document(userID).collection("Meal Detail").document(listOfDocument[i]).collection("Foods").document(intentFoodID)
                                                     firebase.runTransaction { transaction ->
                                                         transaction.update(mealFoods,
