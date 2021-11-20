@@ -1,5 +1,7 @@
 package com.example.healthtracker.healthymeal
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -82,18 +84,107 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
         }.addOnFailureListener {
             Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
         }
+        mealKcal.onFocusChangeListener
     }
 
     override fun onAddClick(position: Int) {
-        val clickedItem = list[position]
+        list[position].qty++
+        adapter.notifyDataSetChanged()
+        val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
+        val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
+        //Update food qty and UI meal nutrition
+        foodInMealRef.update("qty", list[position].qty).addOnSuccessListener {
+            mealKcal.text = (mealKcal.text.toString().toInt() + list[position].kcal).toString()
+            mealProtein.text = (mealProtein.text.toString().toInt() + list[position].protein).toString()
+            mealFat.text = (mealFat.text.toString().toInt() + list[position].fat).toString()
+            mealCarb.text = (mealCarb.text.toString().toInt() + list[position].carb).toString()
+            mealSugar.text = (mealSugar.text.toString().toInt() + list[position].sugar).toString()
+
+            //Update Meal Nutrition
+            mealRef.update(
+                "carb", mealCarb.text.toString().toInt() + list[position].carb,
+                "kcal", mealKcal.text.toString().toInt() + list[position].kcal,
+                "protein", mealProtein.text.toString().toInt() + list[position].protein,
+                "fat", mealFat.text.toString().toInt() + list[position].fat,
+                "sugar", mealSugar.text.toString().toInt() + list[position].sugar
+            ).addOnFailureListener {
+                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onMinusClick(position: Int) {
-        val clickedItem = list[position]
+        if(list[position].qty > 1){
+            list[position].qty--
+            adapter.notifyDataSetChanged()
+            val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
+            val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
+            //Update food qty and UI meal nutrition
+            foodInMealRef.update("qty", list[position].qty).addOnSuccessListener {
+                mealKcal.text = (mealKcal.text.toString().toInt() - list[position].kcal).toString()
+                mealProtein.text = (mealProtein.text.toString().toInt() - list[position].protein).toString()
+                mealFat.text = (mealFat.text.toString().toInt() - list[position].fat).toString()
+                mealCarb.text = (mealCarb.text.toString().toInt() - list[position].carb).toString()
+                mealSugar.text = (mealSugar.text.toString().toInt() - list[position].sugar).toString()
+
+                //Update Meal Nutrition
+                mealRef.update(
+                    "carb", mealCarb.text.toString().toInt() - list[position].carb,
+                    "kcal", mealKcal.text.toString().toInt() - list[position].kcal,
+                    "protein", mealProtein.text.toString().toInt() - list[position].protein,
+                    "fat", mealFat.text.toString().toInt() - list[position].fat,
+                    "sugar", mealSugar.text.toString().toInt() - list[position].sugar
+                ).addOnFailureListener {
+                    Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(context, "Minimum quantity is 1", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDeleteClick(position: Int) {
         val clickedItem = list[position]
+        val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
+        val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
+        val deleteViewBuilder = AlertDialog.Builder(context).setTitle("Delete Food")
+            .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this food?")
+            .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
+            }).setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                foodInMealRef.delete().addOnSuccessListener {
+                    mealKcal.text = (mealKcal.text.toString().toInt() - (clickedItem.kcal * clickedItem.qty)).toString()
+                    mealProtein.text = (mealProtein.text.toString().toInt() - (clickedItem.protein * clickedItem.qty)).toString()
+                    mealFat.text = (mealFat.text.toString().toInt() - (clickedItem.fat * clickedItem.qty)).toString()
+                    mealCarb.text = (mealCarb.text.toString().toInt() - (clickedItem.carb * clickedItem.qty)).toString()
+                    mealSugar.text = (mealSugar.text.toString().toInt() - (clickedItem.sugar * clickedItem.qty)).toString()
+                    dialog.dismiss()
+                    Toast.makeText(context, "Meal deleted successfully", Toast.LENGTH_SHORT).show()
+                    list.removeAt(position)
+                    adapter.notifyDataSetChanged()
+
+                    mealRef.update(
+                        "carb", mealCarb.text.toString().toInt() - (clickedItem.carb * clickedItem.qty),
+                        "kcal", mealKcal.text.toString().toInt() - (clickedItem.kcal * clickedItem.qty),
+                        "protein", mealProtein.text.toString().toInt() - (clickedItem.protein * clickedItem.qty),
+                        "fat", mealFat.text.toString().toInt() - (clickedItem.fat * clickedItem.qty),
+                        "sugar", mealSugar.text.toString().toInt() - (clickedItem.sugar * clickedItem.qty)
+                    ).addOnFailureListener {
+                        Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(context," " + it.message, Toast.LENGTH_LONG).show()
+                }
+
+            })
+        //show dialog
+        val displayDialog = deleteViewBuilder.create()
+        displayDialog.show()
     }
 
     fun receiveMealID(data: String?){

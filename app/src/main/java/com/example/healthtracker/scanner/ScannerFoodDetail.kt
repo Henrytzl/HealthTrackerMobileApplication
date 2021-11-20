@@ -171,7 +171,7 @@ class ScannerFoodDetail : AppCompatActivity() {
                                 displayDialog.show()
                             }
 
-                            // Update both historyfood and food list details
+                            // Update both history food and food list details
                             scannerFoodDetail_BtnUpdate.setOnClickListener {
                                 val foodName = scanner_foodName.text.toString()
                                 val kcal = foodKcal.text.toString()
@@ -185,6 +185,30 @@ class ScannerFoodDetail : AppCompatActivity() {
                                     val foodUpdated = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, intentFoodID)
                                     foodHistoryRef.set(foodUpdated).addOnSuccessListener {
                                         foodRef.set(foodUpdated).addOnSuccessListener {
+                                            val listOfDocument: ArrayList<String> = ArrayList()
+                                            val abc = firebase.collection("Meals").document(userID).collection("Meal Detail")
+                                            abc.get().addOnSuccessListener { it ->
+                                                for(i in it){
+                                                    listOfDocument.add(i.reference.id)
+                                                }
+                                                for(i in listOfDocument.indices){
+                                                    Toast.makeText(this,"${listOfDocument[i]}", Toast.LENGTH_SHORT).show()
+                                                    val mealFoods = firebase.collection("Meals").document(userID).collection("Meal Detail").document(listOfDocument[i]).collection("Foods").document(intentFoodID)
+                                                    firebase.runTransaction { transaction ->
+                                                        transaction.update(mealFoods,
+                                                            "carb", carb.toInt(),
+                                                            "fat", fat.toInt(),
+                                                            "foodName", foodName,
+                                                            "kcal", kcal.toInt(),
+                                                            "noOfUnit", noOfUnit.toInt(),
+                                                            "protein", protein.toInt(),
+                                                            "sugar", sugar.toInt()
+                                                        )
+                                                    }.addOnFailureListener {
+                                                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                            }
                                             Toast.makeText(this,"Food detail has been updated", Toast.LENGTH_SHORT).show()
                                             finish()
                                         }.addOnFailureListener {
@@ -218,7 +242,7 @@ class ScannerFoodDetail : AppCompatActivity() {
                     }
                 }
 
-                //Update historyfood only
+                //Update history food only
                 scannerFoodDetail_BtnUpdate.setOnClickListener {
                     val foodName = scanner_foodName.text.toString()
                     val kcal = foodKcal.text.toString()
