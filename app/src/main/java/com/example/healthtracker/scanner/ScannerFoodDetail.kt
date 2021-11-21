@@ -186,26 +186,46 @@ class ScannerFoodDetail : AppCompatActivity() {
                                     foodHistoryRef.set(foodUpdated).addOnSuccessListener {
                                         foodRef.set(foodUpdated).addOnSuccessListener {
                                             val listOfDocument: ArrayList<String> = ArrayList()
-                                            val abc = firebase.collection("Meals").document(userID).collection("Meal Detail")
-                                            abc.get().addOnSuccessListener { it ->
+                                            val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail")
+                                            mealRef.get().addOnSuccessListener { it ->
                                                 for(i in it){
-                                                    listOfDocument.add(i.reference.id)
+                                                    listOfDocument.add(i.reference.id)      //to get all the document or mealID
                                                 }
                                                 for(i in listOfDocument.indices){
                                                     //Toast.makeText(this,"${listOfDocument[i]}", Toast.LENGTH_SHORT).show()
+                                                    //Update all the food that being affected to be updated in all meals
                                                     val mealFoods = firebase.collection("Meals").document(userID).collection("Meal Detail").document(listOfDocument[i]).collection("Foods").document(intentFoodID)
-                                                    firebase.runTransaction { transaction ->
-                                                        transaction.update(mealFoods,
-                                                            "carb", carb.toInt(),
-                                                            "fat", fat.toInt(),
-                                                            "foodName", foodName,
-                                                            "kcal", kcal.toInt(),
-                                                            "noOfUnit", noOfUnit.toInt(),
-                                                            "protein", protein.toInt(),
-                                                            "sugar", sugar.toInt()
-                                                        )
-                                                    }.addOnFailureListener {
-                                                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                    mealFoods.get().addOnSuccessListener { result ->
+                                                        if(result.exists()){
+                                                            val foodQty = result.get("qty").toString().toInt()
+                                                            mealRef.document(listOfDocument[i]).get().addOnSuccessListener { mealDetail ->
+                                                                mealRef.document(listOfDocument[i]).update(
+                                                                    "carb", (mealDetail.get("carb").toString().toInt() - (result.get("carb").toString().toInt() * foodQty) + (carb.toInt() * foodQty)),
+                                                                    "fat", (mealDetail.get("fat").toString().toInt() - (result.get("fat").toString().toInt() * foodQty) + (fat.toInt() * foodQty)),
+                                                                    "kcal", (mealDetail.get("kcal").toString().toInt() - (result.get("kcal").toString().toInt() * foodQty) + (kcal.toInt() * foodQty)),
+                                                                    "protein", (mealDetail.get("protein").toString().toInt() - (result.get("protein").toString().toInt() * foodQty) + (protein.toInt() * foodQty)),
+                                                                    "sugar", (mealDetail.get("sugar").toString().toInt() - (result.get("sugar").toString().toInt() * foodQty) + (sugar.toInt() * foodQty))
+                                                                ).addOnSuccessListener {
+                                                                    firebase.runTransaction { transaction ->
+                                                                        transaction.update(mealFoods,
+                                                                            "carb", carb.toInt(),
+                                                                            "fat", fat.toInt(),
+                                                                            "foodName", foodName,
+                                                                            "kcal", kcal.toInt(),
+                                                                            "noOfUnit", noOfUnit.toInt(),
+                                                                            "protein", protein.toInt(),
+                                                                            "sugar", sugar.toInt()
+                                                                        )
+                                                                    }.addOnFailureListener {
+                                                                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                                    }
+                                                                }.addOnFailureListener {
+                                                                    Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                                }
+                                                            }.addOnFailureListener {
+                                                                Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
@@ -255,6 +275,50 @@ class ScannerFoodDetail : AppCompatActivity() {
                     if(inputValidation(foodName, kcal, protein, fat, carb, sugar, noOfUnit)){
                         val foodHistoryUpdated = FoodDC(foodName, kcal.toInt(), protein.toInt(), fat.toInt(), carb.toInt(), sugar.toInt(), noOfUnit.toInt(), userID, intentFoodID)
                         foodHistoryRef.set(foodHistoryUpdated).addOnSuccessListener {
+                            val listOfDocument: ArrayList<String> = ArrayList()
+                            val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail")
+                            mealRef.get().addOnSuccessListener { it ->
+                                for(i in it){
+                                    listOfDocument.add(i.reference.id)      //to get all the document or mealID
+                                }
+                                for(i in listOfDocument.indices){
+                                    //Toast.makeText(this,"${listOfDocument[i]}", Toast.LENGTH_SHORT).show()
+                                    //Update all the food that being affected to be updated in all meals
+                                    val mealFoods = firebase.collection("Meals").document(userID).collection("Meal Detail").document(listOfDocument[i]).collection("Foods").document(intentFoodID)
+                                    mealFoods.get().addOnSuccessListener { result ->
+                                        if(result.exists()){
+                                            val foodQty = result.get("qty").toString().toInt()
+                                            mealRef.document(listOfDocument[i]).get().addOnSuccessListener { mealDetail ->
+                                                mealRef.document(listOfDocument[i]).update(
+                                                    "carb", (mealDetail.get("carb").toString().toInt() - (result.get("carb").toString().toInt() * foodQty) + (carb.toInt() * foodQty)),
+                                                    "fat", (mealDetail.get("fat").toString().toInt() - (result.get("fat").toString().toInt() * foodQty) + (fat.toInt() * foodQty)),
+                                                    "kcal", (mealDetail.get("kcal").toString().toInt() - (result.get("kcal").toString().toInt() * foodQty) + (kcal.toInt() * foodQty)),
+                                                    "protein", (mealDetail.get("protein").toString().toInt() - (result.get("protein").toString().toInt() * foodQty) + (protein.toInt() * foodQty)),
+                                                    "sugar", (mealDetail.get("sugar").toString().toInt() - (result.get("sugar").toString().toInt() * foodQty) + (sugar.toInt() * foodQty))
+                                                ).addOnSuccessListener {
+                                                    firebase.runTransaction { transaction ->
+                                                        transaction.update(mealFoods,
+                                                            "carb", carb.toInt(),
+                                                            "fat", fat.toInt(),
+                                                            "foodName", foodName,
+                                                            "kcal", kcal.toInt(),
+                                                            "noOfUnit", noOfUnit.toInt(),
+                                                            "protein", protein.toInt(),
+                                                            "sugar", sugar.toInt()
+                                                        )
+                                                    }.addOnFailureListener {
+                                                        Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }.addOnFailureListener {
+                                                    Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                                }
+                                            }.addOnFailureListener {
+                                                Toast.makeText(this," " + it.message, Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             Toast.makeText(this,"Food detail in history has been updated", Toast.LENGTH_SHORT).show()
                             finish()
                         }.addOnFailureListener {

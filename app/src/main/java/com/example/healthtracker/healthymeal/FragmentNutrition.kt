@@ -34,11 +34,7 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
     private lateinit var list: ArrayList<RecycleViewFoodAdded>
     private lateinit var adapter: RecycleViewFoodAddedAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_nutrition_layout, container, false)
 
         setUpFirebase()
@@ -89,7 +85,7 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
 
     override fun onAddClick(position: Int) {
         list[position].qty++
-        adapter.notifyDataSetChanged()
+        //adapter.notifyDataSetChanged()
         val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
         val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
         //Update food qty and UI meal nutrition
@@ -118,7 +114,7 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
     override fun onMinusClick(position: Int) {
         if(list[position].qty > 1){
             list[position].qty--
-            adapter.notifyDataSetChanged()
+            //adapter.notifyDataSetChanged()
             val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
             val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
             //Update food qty and UI meal nutrition
@@ -164,7 +160,7 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
                     mealCarb.text = (mealCarb.text.toString().toInt() - (clickedItem.carb * clickedItem.qty)).toString()
                     mealSugar.text = (mealSugar.text.toString().toInt() - (clickedItem.sugar * clickedItem.qty)).toString()
                     dialog.dismiss()
-                    Toast.makeText(context, "Meal deleted successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Food deleted successfully", Toast.LENGTH_SHORT).show()
                     list.removeAt(position)
                     adapter.notifyDataSetChanged()
 
