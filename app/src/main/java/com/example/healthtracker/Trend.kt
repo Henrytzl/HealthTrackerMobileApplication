@@ -262,7 +262,7 @@ class Trend : AppCompatActivity() {
 
 
                 val newResultList = ArrayList<Results>()
-                val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+                val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")   // to format date to compare date ONLY
 
                 var larger: Results?                    // condition: same date but later (bcz of the time)
                 for(x in resultListA.indices){
@@ -270,13 +270,13 @@ class Trend : AppCompatActivity() {
                     for(y in resultListA.indices){
                         if (simpleDateFormat.format(larger!!.date) == simpleDateFormat.format(resultListA[y].date)) {
                             if(larger!!.date!!.time < resultListA[y].date!!.time){
-                                larger = resultListA[y]
+                                larger = resultListA[y]    // get the latest within the same date
                             }
                         }
                     }
                     if(newResultList.isNotEmpty()){
                         if(newResultList[newResultList.size - 1] != larger){
-                            newResultList.add(larger!!)
+                            newResultList.add(larger!!)         // if the same date and latest time already added then will not come in
                         }
                     }else {
                         newResultList.add(larger!!)
