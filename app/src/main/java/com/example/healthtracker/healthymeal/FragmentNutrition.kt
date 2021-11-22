@@ -80,12 +80,11 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
         }.addOnFailureListener {
             Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
         }
-        mealKcal.onFocusChangeListener
     }
 
     override fun onAddClick(position: Int) {
         list[position].qty++
-        //adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
         val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
         val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
         //Update food qty and UI meal nutrition
@@ -98,11 +97,11 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
 
             //Update Meal Nutrition
             mealRef.update(
-                "carb", mealCarb.text.toString().toInt() + list[position].carb,
-                "kcal", mealKcal.text.toString().toInt() + list[position].kcal,
-                "protein", mealProtein.text.toString().toInt() + list[position].protein,
-                "fat", mealFat.text.toString().toInt() + list[position].fat,
-                "sugar", mealSugar.text.toString().toInt() + list[position].sugar
+                "carb", mealCarb.text.toString().toInt(),
+                "kcal", mealKcal.text.toString().toInt(),
+                "protein", mealProtein.text.toString().toInt(),
+                "fat", mealFat.text.toString().toInt(),
+                "sugar", mealSugar.text.toString().toInt()
             ).addOnFailureListener {
                 Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
             }
@@ -114,7 +113,7 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
     override fun onMinusClick(position: Int) {
         if(list[position].qty > 1){
             list[position].qty--
-            //adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
             val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID)
             val foodInMealRef = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(list[position].foodID)
             //Update food qty and UI meal nutrition
@@ -127,11 +126,11 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
 
                 //Update Meal Nutrition
                 mealRef.update(
-                    "carb", mealCarb.text.toString().toInt() - list[position].carb,
-                    "kcal", mealKcal.text.toString().toInt() - list[position].kcal,
-                    "protein", mealProtein.text.toString().toInt() - list[position].protein,
-                    "fat", mealFat.text.toString().toInt() - list[position].fat,
-                    "sugar", mealSugar.text.toString().toInt() - list[position].sugar
+                    "carb", mealCarb.text.toString().toInt(),
+                    "kcal", mealKcal.text.toString().toInt(),
+                    "protein", mealProtein.text.toString().toInt(),
+                    "fat", mealFat.text.toString().toInt(),
+                    "sugar", mealSugar.text.toString().toInt()
                 ).addOnFailureListener {
                     Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
                 }
@@ -165,18 +164,17 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
                     adapter.notifyDataSetChanged()
 
                     mealRef.update(
-                        "carb", mealCarb.text.toString().toInt() - (clickedItem.carb * clickedItem.qty),
-                        "kcal", mealKcal.text.toString().toInt() - (clickedItem.kcal * clickedItem.qty),
-                        "protein", mealProtein.text.toString().toInt() - (clickedItem.protein * clickedItem.qty),
-                        "fat", mealFat.text.toString().toInt() - (clickedItem.fat * clickedItem.qty),
-                        "sugar", mealSugar.text.toString().toInt() - (clickedItem.sugar * clickedItem.qty)
+                        "carb", mealCarb.text.toString().toInt(),
+                        "kcal", mealKcal.text.toString().toInt(),
+                        "protein", mealProtein.text.toString().toInt(),
+                        "fat", mealFat.text.toString().toInt(),
+                        "sugar", mealSugar.text.toString().toInt()
                     ).addOnFailureListener {
                         Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
                     }
                 }.addOnFailureListener {
                     Toast.makeText(context," " + it.message, Toast.LENGTH_LONG).show()
                 }
-
             })
         //show dialog
         val displayDialog = deleteViewBuilder.create()
@@ -199,33 +197,32 @@ class FragmentNutrition: Fragment(), RecycleViewFoodAddedAdapter.OnQtyAddListene
         }
     }
 
-    fun receiveFoodID(foodID: String?){
-        if (foodID != null) {
-            var food: RecycleViewFoodAdded = RecycleViewFoodAdded()
-            firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(foodID).get().addOnSuccessListener { it ->
-                food.carb = it.get("carb").toString().toInt()
-                food.fat = it.get("fat").toString().toInt()
-                food.foodID = foodID
-                food.foodName = it.get("foodName").toString()
-                food.kcal = it.get("kcal").toString().toInt()
-                food.protein = it.get("protein").toString().toInt()
-                food.sugar = it.get("sugar").toString().toInt()
-                food.noOfUnit = it.get("noOfUnit").toString().toInt()
-                food.qty = 1
-                food.userID = it.get("userID").toString()
-
-                list.add(list.size, food)
-                adapter.notifyItemInserted(list.size)
-            }.addOnFailureListener {
-                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
-            }
-
-//        val item = "l"
-//        val insertIndex = 2
-//        data.add(insertIndex, item)
-//        adapter.notifyItemInserted(insertIndex)
-        }
-    }
+//    fun receiveFoodID(foodID: String?){
+//        if (foodID != null) {
+//            var food: RecycleViewFoodAdded = RecycleViewFoodAdded()
+//            firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document(foodID).get().addOnSuccessListener { it ->
+//                food.carb = it.get("carb").toString().toInt()
+//                food.fat = it.get("fat").toString().toInt()
+//                food.foodID = foodID
+//                food.foodName = it.get("foodName").toString()
+//                food.kcal = it.get("kcal").toString().toInt()
+//                food.protein = it.get("protein").toString().toInt()
+//                food.sugar = it.get("sugar").toString().toInt()
+//                food.noOfUnit = it.get("noOfUnit").toString().toInt()
+//                food.qty = 1
+//                food.userID = it.get("userID").toString()
+//
+//                adapter.notifyDataSetChanged()
+//            }.addOnFailureListener {
+//                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//            }
+//
+////        val item = "l"
+////        val insertIndex = 2
+////        data.add(insertIndex, item)
+////        adapter.notifyItemInserted(insertIndex)
+//        }
+//    }
 
     private fun setUpFirebase(){
         authentication = FirebaseAuth.getInstance()

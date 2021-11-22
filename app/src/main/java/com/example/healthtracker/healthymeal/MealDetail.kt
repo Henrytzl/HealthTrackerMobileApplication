@@ -93,10 +93,10 @@ class MealDetail : AppCompatActivity(), PassingDataTabs {
         f!!.receiveMealID(mealID!!)
     }
 
-    override fun sendFoodID(foodID: String) {
-        val tag = "android:switcher:" + R.id.view_pager.toString() + ":" + 1
-        val f = supportFragmentManager.findFragmentByTag(tag) as FragmentNutrition?
-
-        f!!.receiveFoodID(foodID!!)
-    }
+//    override fun sendFoodID(foodID: String) {
+//        val tag = "android:switcher:" + R.id.view_pager.toString() + ":" + 1
+//        val f = supportFragmentManager.findFragmentByTag(tag) as FragmentNutrition?
+//
+//        f!!.receiveFoodID(foodID!!)
+//    }
 }

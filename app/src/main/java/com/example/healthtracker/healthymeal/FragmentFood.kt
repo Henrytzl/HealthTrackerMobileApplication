@@ -67,10 +67,130 @@ class FragmentFood: Fragment(), RecycleViewFoodListAdapter.OnItemClickListener, 
                 }
             }
 
+        view.btn_add_defaultMeal1.setOnClickListener {
+//            pd = activity as PassingDataTabs
+//            var breakfast1: FoodWithQtyDC? = null
+//            var breakfast2: FoodWithQtyDC? = null
+//            var breakfast3: FoodWithQtyDC? = null
+//            val checkApple = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document("apple")
+//            val checkMilk = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document("milk")
+//            val checkBread = firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document("bread")
+//            checkApple.get().addOnSuccessListener { result ->
+//                if (result.exists()) {
+//                    Toast.makeText(context, "Apple is already added", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    for (i in list.indices) {
+//                        if (list[i].foodID == "apple") {
+//                            breakfast1 = FoodWithQtyDC(list[i].foodName, list[i].kcal, list[i].protein, list[i].fat, list[i].carb, list[i].sugar, list[i].noOfUnit, list[i].userID, list[i].foodID, 1)
+//                            firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document("apple").set(breakfast1!!).addOnSuccessListener {
+//                                firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).get().addOnSuccessListener { getResult ->
+//                                    firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).update(
+//                                        "carb", (getResult.get("carb").toString().toInt() + breakfast1!!.carb),
+//                                        "fat", (getResult.get("fat").toString().toInt() + breakfast1!!.fat),
+//                                        "kcal", (getResult.get("kcal").toString().toInt() + breakfast1!!.kcal),
+//                                        "protein", (getResult.get("protein").toString().toInt() + breakfast1!!.protein),
+//                                        "sugar", (getResult.get("sugar").toString().toInt() + breakfast1!!.sugar),
+//                                    ).addOnSuccessListener {
+//                                        Toast.makeText(context, "Apple added successfully", Toast.LENGTH_SHORT).show()
+//                                        pd.sendMealID(mealID)
+//                                    }.addOnFailureListener {
+//                                        Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                                    }
+//                                }.addOnFailureListener {
+//                                    Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                                }
+//                            }.addOnFailureListener {
+//                                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            }.addOnFailureListener {
+//                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//            }
+//            checkMilk.get().addOnSuccessListener { result ->
+//                if (result.exists()) {
+//                    Toast.makeText(context, "Milk is already added", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    for (i in list.indices) {
+//                        if (list[i].foodID == "milk") {
+//                            breakfast2 = FoodWithQtyDC(list[i].foodName, list[i].kcal, list[i].protein, list[i].fat, list[i].carb, list[i].sugar, list[i].noOfUnit, list[i].userID, list[i].foodID, 1)
+//                            firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document("milk").set(breakfast2!!).addOnSuccessListener {
+//                                firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).get().addOnSuccessListener { getResult ->
+//                                    firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).update(
+//                                        "carb", (getResult.get("carb").toString().toInt() + breakfast2!!.carb),
+//                                        "fat", (getResult.get("fat").toString().toInt() + breakfast2!!.fat),
+//                                        "kcal", (getResult.get("kcal").toString().toInt() + breakfast2!!.kcal),
+//                                        "protein", (getResult.get("protein").toString().toInt() + breakfast2!!.protein),
+//                                        "sugar", (getResult.get("sugar").toString().toInt() + breakfast2!!.sugar),
+//                                    ).addOnSuccessListener {
+//                                        Toast.makeText(context, "Apple added successfully", Toast.LENGTH_SHORT).show()
+//                                        pd.sendMealID(mealID)
+//                                    }.addOnFailureListener {
+//                                        Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                                    }
+//                                }.addOnFailureListener {
+//                                    Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                                }
+//                            }.addOnFailureListener {
+//                                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            }.addOnFailureListener {
+//                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//            }
+//            checkBread.get().addOnSuccessListener { result ->
+//                if (result.exists()) {
+//                    Toast.makeText(context, "Milk is already added", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    for (i in list.indices) {
+//                        if (list[i].foodID == "bread") {
+//                            breakfast3 = FoodWithQtyDC(list[i].foodName, list[i].kcal, list[i].protein, list[i].fat, list[i].carb, list[i].sugar, list[i].noOfUnit, list[i].userID, list[i].foodID, 1)
+//                            firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).collection("Foods").document("bread").set(breakfast3!!).addOnSuccessListener {
+//                                firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).get().addOnSuccessListener { getResult ->
+//                                    firebase.collection("Meals").document(userID).collection("Meal Detail").document(mealID).update(
+//                                        "carb", (getResult.get("carb").toString().toInt() + breakfast3!!.carb),
+//                                        "fat", (getResult.get("fat").toString().toInt() + breakfast3!!.fat),
+//                                        "kcal", (getResult.get("kcal").toString().toInt() + breakfast3!!.kcal),
+//                                        "protein", (getResult.get("protein").toString().toInt() + breakfast3!!.protein),
+//                                        "sugar", (getResult.get("sugar").toString().toInt() + breakfast3!!.sugar),
+//                                    ).addOnSuccessListener {
+//                                        Toast.makeText(context, "Apple added successfully", Toast.LENGTH_SHORT).show()
+//                                        pd.sendMealID(mealID)
+//                                    }.addOnFailureListener {
+//                                        Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                                    }
+//                                }.addOnFailureListener {
+//                                    Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                                }
+//                            }.addOnFailureListener {
+//                                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            }.addOnSuccessListener {
+//
+//            }.addOnFailureListener {
+//                Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
+//            }
+        }
+
+        view.btn_add_defaultMeal2.setOnClickListener {
+
+        }
+
+        view.btn_add_defaultMeal3.setOnClickListener {
+
+        }
+
         return view
     }
     override fun onItemClick(position: Int) {
         val clickedItem = list[position]
+
     }
 
     override fun onAddClick(position: Int) {
@@ -93,7 +213,7 @@ class FragmentFood: Fragment(), RecycleViewFoodListAdapter.OnItemClickListener, 
                         ).addOnSuccessListener {
                             Toast.makeText(context, "Food added", Toast.LENGTH_SHORT).show()
                             pd.sendMealID(mealID)
-                            pd.sendFoodID(clickedItem.foodID)
+                            //pd.sendFoodID(clickedItem.foodID)
                         }.addOnFailureListener {
                             Toast.makeText(context, " " + it.message, Toast.LENGTH_SHORT).show()
                         }

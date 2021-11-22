@@ -47,6 +47,30 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
         }
         setUpFirebase()
 
+        //Recycle View
+        recyclerView = recyclerViewMeals
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = true
+        recyclerView.setHasFixedSize(true)
+        list = arrayListOf()
+
+        adapter = RecycleViewMealAdapter(list, this, this)
+        recyclerView.adapter = adapter
+
+        firebase.collection("Meals/$userID/Meal Detail").whereEqualTo("noOfDay", intent.getStringExtra("day")!!.toInt())
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e("FireStore Error", error.message.toString())
+                }else {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            list.add(dc.document.toObject(RecycleViewMeal::class.java))
+                        }
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+            }
+
         //Add Meal
         addMeal.setOnClickListener {
             if(noOfDay == 0){
@@ -62,7 +86,7 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
                     displayDialog.dismiss()
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
                 }
-                //send reset email
+
                 createMealView.btn_create.setOnClickListener {
                     val mealName = createMealView.mealName.text.toString().trim()
                     if (mealName.isNotEmpty()) {
@@ -93,29 +117,6 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
             finish()
             finishAffinity()
         }
-        //Recycle View
-        recyclerView = recyclerViewMeals
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = true
-        recyclerView.setHasFixedSize(true)
-        list = arrayListOf()
-
-        adapter = RecycleViewMealAdapter(list, this, this)
-        recyclerView.adapter = adapter
-
-        firebase.collection("Meals/$userID/Meal Detail").whereEqualTo("noOfDay", intent.getStringExtra("day")!!.toInt())
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    Log.e("FireStore Error", error.message.toString())
-                }else {
-                    for (dc: DocumentChange in value?.documentChanges!!) {
-                        if (dc.type == DocumentChange.Type.ADDED) {
-                            list.add(dc.document.toObject(RecycleViewMeal::class.java))
-                        }
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-            }
     }
 
     override fun onItemClick(position: Int) {
