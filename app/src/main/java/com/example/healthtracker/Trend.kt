@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.trend.*
-import kotlinx.android.synthetic.main.trend.imageHome
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -261,34 +260,30 @@ class Trend : AppCompatActivity() {
 //                    Toast.makeText(this, "Done Retrieve A", Toast.LENGTH_SHORT).show()
                 }
 
-                var i = 0
+
                 val newResultList = ArrayList<Results>()
                 val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
-                val simpleDateFormat2 = SimpleDateFormat("dd/MM/yyyy HH:mm")
-                while (i < resultListA.size) {
-                    if ((i+1) < resultListA.size) {
-                        if (simpleDateFormat.format(resultListA[i].date) < simpleDateFormat.format(resultListA[i + 1].date)) {
-                            Toast.makeText(this, "halo", Toast.LENGTH_SHORT).show()
-                            newResultList.add(resultListA[i + 1])
-                        } else if (simpleDateFormat.format(resultListA[i].date) > simpleDateFormat.format(resultListA[i + 1].date)) {
-                            Toast.makeText(this, "halo2", Toast.LENGTH_SHORT).show()
-                            newResultList.add(resultListA[i])
-                        } else if (simpleDateFormat.format(resultListA[i].date) == simpleDateFormat.format(resultListA[i + 1].date)) {
-                            if (simpleDateFormat2.format(resultListA[i].date!!.time) < simpleDateFormat2.format(resultListA[i + 1].date!!.time)) {
-                                newResultList.add(resultListA[i + 1])
-                            } else {
-                                newResultList.add(resultListA[i])
+
+                var larger: Results?                    // condition: same date but later (bcz of the time)
+                for(x in resultListA.indices){
+                    larger = resultListA[x]
+                    for(y in resultListA.indices){
+                        if (simpleDateFormat.format(larger!!.date) == simpleDateFormat.format(resultListA[y].date)) {
+                            if(larger!!.date!!.time < resultListA[y].date!!.time){
+                                larger = resultListA[y]
                             }
                         }
-                    } else {
-                        newResultList.add(resultListA[i])
                     }
-                    i++
+                    if(newResultList.isNotEmpty()){
+                        if(newResultList[newResultList.size - 1] != larger){
+                            newResultList.add(larger!!)
+                        }
+                    }else {
+                        newResultList.add(larger!!)
+                    }
                 }
 
-                Toast.makeText(this, "${simpleDateFormat2.format(resultListA[0].date!!.time)}", Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, "${newResultList[0].date}, ${newResultList[1].date}, ${newResultList[2].date}   oiiiasdasdasdasd", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(this, "${newResultList[0].date}, ${newResultList[1].date}, ${newResultList[2].date}, ${newResultList[3].date}   oiiiasdasdasdasd", Toast.LENGTH_SHORT).show()
             }
 
 //        val resultListB = ArrayList<Results>()
