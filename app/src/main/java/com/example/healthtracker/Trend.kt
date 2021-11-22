@@ -37,9 +37,6 @@ class Trend : AppCompatActivity() {
     private lateinit var dateFromFinal: String
     private lateinit var dateToFinal: String
 
-
-    //var formatDate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trend)
@@ -181,14 +178,11 @@ class Trend : AppCompatActivity() {
                 selectDate.set(Calendar.YEAR, i)
                 selectDate.set(Calendar.MONTH, i2)
                 selectDate.set(Calendar.DAY_OF_MONTH, i3)
-//                val date = formatDate.format(selectDate.time)
+
                 val startDate = timeStampToString(System.currentTimeMillis())
-//                val endDate = timeStampToString(System.currentTimeMillis())
                 val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
                 val dateFrom = simpleDateFormat.parse(startDate)
-//                val dateTo = simpleDateFormat.parse(endDate)
                 dateFromFinal = dateFrom.toString()
-
 
                 Toast.makeText(this, "Date From: " + dateFromFinal, Toast.LENGTH_SHORT).show()
 
@@ -219,15 +213,11 @@ class Trend : AppCompatActivity() {
                 selectDate.set(Calendar.YEAR, i)
                 selectDate.set(Calendar.MONTH, i2)
                 selectDate.set(Calendar.DAY_OF_MONTH, i3)
-                //val date = formatDate.format(selectDate.time)
-//                val startDate = timeStampToString(System.currentTimeMillis())
+
                 val endDate = timeStampToString(System.currentTimeMillis())
                 val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-//                val dateFrom = simpleDateFormat.parse(startDate)
                 dateTo = simpleDateFormat.parse(endDate)
                 dateToFinal = dateTo.toString()
-//                val date = formatDate.format(selectDate.time)
-//                dateTo = date
 
                 Toast.makeText(this, "Date To: " + dateToFinal, Toast.LENGTH_SHORT).show()
 
@@ -257,14 +247,12 @@ class Trend : AppCompatActivity() {
                 for (doc in it) {
                     val results = doc.toObject(Results::class.java)
                     resultListA.add(results)
-//                    Toast.makeText(this, "Done Retrieve A", Toast.LENGTH_SHORT).show()
                 }
-
 
                 val newResultList = ArrayList<Results>()
                 val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")   // to format date to compare date ONLY
 
-                var larger: Results?                    // condition: same date but later (bcz of the time)
+                var larger: Results?                    // condition: same date but latest (bcz of the time)
                 for(x in resultListA.indices){
                     larger = resultListA[x]
                     for(y in resultListA.indices){
@@ -274,187 +262,22 @@ class Trend : AppCompatActivity() {
                             }
                         }
                     }
+
                     if(newResultList.isNotEmpty()){
                         if(newResultList[newResultList.size - 1] != larger){
-                            newResultList.add(larger!!)         // if the same date and latest time already added then will not come in
+                            newResultList.add(larger!!)         // if the same date and latest time already added in then will not come in
                         }
                     }else {
                         newResultList.add(larger!!)
                     }
                 }
-
-                Toast.makeText(this, "${newResultList[0].date}, ${newResultList[1].date}, ${newResultList[2].date}, ${newResultList[3].date}   oiiiasdasdasdasd", Toast.LENGTH_SHORT).show()
             }
-
-//        val resultListB = ArrayList<Results>()
-//        val trendBDocRef = db.collection("Results").document(userID)
-//        trendBDocRef.collection("Result Details")
-//            .get()
-//            .addOnSuccessListener {
-//
-//                if (it.isEmpty) {
-//                    Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show()
-//                    return@addOnSuccessListener
-//                }
-//
-//                for (doc in it) {
-//                    val results = doc.toObject(Results::class.java)
-//                    resultListB.add(results)
-//                    Toast.makeText(this, "Done Retrieve B", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-
-//        for (i in resultListA.indices) {
-//            for (j in resultListB.indices) {
-//                val aDate = resultListA[i].date?.time
-//                val bDate = resultListB[j].date?.time
-//                val newResultList = ArrayList<Results>()
-//                var difference = bDate!! - aDate!!
-//                val minutes = difference / 60 / 1000
-//                val hours = difference / 60 / 1000 / 60
-//                val days = (difference / 60 / 1000 / 60) / 24
-//                val months = (difference / 60 / 1000 / 60) / 24 / (365 / 12)
-//                val years = difference / 60 / 1000 / 60 / 24 / 365
-////                Toast.makeText(this, "Done Retrieve C", Toast.LENGTH_SHORT).show()
-//
-//                if (aDate < bDate) {
-//                    if (years.equals(0)) {
-//                        if (months.equals(0)) {
-//                            if (days.equals(0)) {
-//                                if (hours.equals(0)) {
-//                                    if (minutes > 0) {
-//                                        newResultList.add(resultListB[j])
-//                                        Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                    else {
-//                                        newResultList.add(resultListA[i])
-//                                        Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                }
-//                                else {
-//                                    newResultList.add(resultListB[j])
-//                                    Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                            else {
-//                                newResultList.add(resultListB[j])
-//                                Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                        else {
-//                            newResultList.add(resultListB[j])
-//                            Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                    else {
-//                        newResultList.add(resultListB[j])
-//                        Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//                else if (aDate > bDate) {
-//                    if (years.equals(0)) {
-//                        if (months.equals(0)) {
-//                            if (days.equals(0)) {
-//                                if (hours.equals(0)) {
-//                                    if (minutes > 0) {
-//                                        newResultList.add(resultListA[i])
-//                                        Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                    else {
-//                                        newResultList.add(resultListB[j])
-//                                        Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                }
-//                                else {
-//                                    newResultList.add(resultListA[i])
-//                                    Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                            else {
-//                                newResultList.add(resultListA[i])
-//                                Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                        else {
-//                            newResultList.add(resultListA[i])
-//                            Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                    else {
-//                        newResultList.add(resultListA[i])
-//                        Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//                else if (aDate == bDate) {
-//                    newResultList.add(resultListA[i])
-//                }
-//
-//                newResultList.sortByDescending { newResultList.size }
-//
-//                Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        for (i in resultList.indices) {
-//            val firstDate = resultList[i].date?.time
-//            val compareDate = resultList[i + 1].date?.time
-//            val newResultList = ArrayList<Results>()
-//            var difference = compareDate!! - firstDate!!
-//            val minutes = difference / 60 / 1000
-//            val hours = difference / 60 / 1000 / 60
-//            val days = (difference / 60 / 1000 / 60) / 24
-//            val months = (difference / 60 / 1000 / 60) / 24 / (365 / 12)
-//            val years = difference / 60 / 1000 / 60 / 24 / 365
-//
-//            if (firstDate!! < compareDate!!) {
-//                if (years.equals(0)) {
-//                    if (months.equals(0)) {
-//                        if (days.equals(0)) {
-//                            if (hours.equals(0)) {
-//                                if (minutes > 0) {
-//                                    newResultList.add(resultList[i + 1])
-//                                    Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                } else {
-//                                    newResultList.add(resultList[i])
-//                                    Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                }
-//                            } else {
-//                                newResultList.add(resultList[i])
-//                                Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            else if (firstDate!! > compareDate!!) {
-//                if (years.equals(0)) {
-//                    if (months.equals(0)) {
-//                        if (days.equals(0)) {
-//                            if (hours.equals(0)) {
-//                                if (minutes > 0) {
-//                                    newResultList.add(resultList[i])
-//                                    Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                } else {
-//                                    newResultList.add(resultList[i + 1])
-//                                    Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                                }
-//                            } else {
-//                                newResultList.add(resultList[i + 1])
-//                                Toast.makeText(this, "${newResultList[0]}", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
 
     }
 
     private fun showTrend() {
         var difference = dateTo.time - dateFrom.time
         val days = difference / 60 / 1000 / 60 / 24
-
-
     }
 
     override fun onStart() {
