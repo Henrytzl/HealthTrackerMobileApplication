@@ -25,7 +25,7 @@ class MealDetail : AppCompatActivity(), PassingDataTabs {
         setContentView(R.layout.activity_meal_detail)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
+        supportActionBar?.title = "Meal Detail"
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
