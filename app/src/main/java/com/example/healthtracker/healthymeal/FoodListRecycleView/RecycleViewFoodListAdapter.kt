@@ -32,6 +32,7 @@ class RecycleViewFoodListAdapter(
     View.OnClickListener {
         var foodName : TextView = itemView.txt_recycleView_foodName
         var addBtn : ImageButton = itemView.btn_recycleView_addFood
+        //var linearLayout: LinearLayout = itemView.linearLayout_recycleView_foodList
 
         init{
             itemView.setOnClickListener(this)
