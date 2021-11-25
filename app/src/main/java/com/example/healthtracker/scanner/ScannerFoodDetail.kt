@@ -68,6 +68,116 @@ class ScannerFoodDetail : AppCompatActivity() {
         else if(extra == "S"){
             scannerFoodDetail_BtnAction.visibility = VISIBLE
             scannerFoodDetail_BtnUpdate.visibility = GONE
+            var getProtein: String = ""; var getKcal: String = ""; var getNoOfUnit: String = ""; var getSugar: String = ""; var getFat: String = ""; var getCarb: String = ""
+            val wholeText = intent.getStringArrayListExtra("wholeText")
+            if(!wholeText.isNullOrEmpty()) {
+                for (i in wholeText!!.indices) {
+                    if(wholeText[i].contains("protein", ignoreCase = true)){
+                        var x = i
+                        var y = i
+                        while(x < wholeText.size){
+                            if(x < wholeText.size){
+                                if(wholeText[x].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    getProtein = wholeText[x].toString()
+                                }
+                            }
+                            if(y >= 0){
+                                if(wholeText[y].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    getProtein = wholeText[y].toString()
+                                }
+                            }
+                            x++
+                            y--
+                        }
+                    }
+                    if(wholeText[i].contains("Calorie", ignoreCase = true) || wholeText[i].contains("Calories", ignoreCase = true) || wholeText[i].contains("Energy", ignoreCase = true)){
+                        var x = i
+                        var y = i
+                        while(x < wholeText.size){
+                            if(x < wholeText.size){
+                                if(wholeText[x].matches("\\d+(\\.\\d+)?+[kcal]?".toRegex()) && !wholeText[x].contains("[gG]".toRegex())){
+                                    if(getKcal == "")
+                                        getKcal = wholeText[x].toString()
+                                }
+                            }
+                            if(y >= 0){
+                                if(wholeText[y].matches("\\d+(\\.\\d+)?+[kcal]?".toRegex()) && !wholeText[y].contains("[gG]".toRegex())){
+                                    if(getKcal == "")
+                                        getKcal = wholeText[y].toString()
+                                }
+                            }
+                            x++
+                            y--
+                        }
+                    }
+                    if(wholeText[i].contains("carb", ignoreCase = true)){
+                        var x = i
+                        var y = i
+                        while(x < wholeText.size){
+                            if(x < wholeText.size){
+                                if(wholeText[x].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    if(getCarb == "")
+                                        getCarb = wholeText[x].toString()
+                                }
+                            }
+                            if(y >= 0){
+                                if(wholeText[y].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    if(getCarb == "")
+                                        getCarb = wholeText[y].toString()
+                                }
+                            }
+                            x++
+                            y--
+                        }
+                    }
+                    if(wholeText[i].contains("fat", ignoreCase = true)){
+                        var x = i
+                        var y = i
+                        while(x < wholeText.size){
+                            if(x < wholeText.size){
+                                if(wholeText[x].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    if(getFat == "")
+                                        getFat = wholeText[x].toString()
+                                }
+                            }
+                            if(y >= 0){
+                                if(wholeText[y].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    if(getFat == "")
+                                        getFat = wholeText[y].toString()
+                                }
+                            }
+                            x++
+                            y--
+                        }
+                    }
+                    if(wholeText[i].contains("sugar", ignoreCase = true)){
+                        var x = i
+                        var y = i
+                        while(x < wholeText.size){
+                            if(x < wholeText.size){
+                                if(wholeText[x].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    if(getSugar == "")
+                                        getSugar = wholeText[x].toString()
+                                }
+                            }
+                            if(y >= 0){
+                                if(wholeText[y].matches("\\d+(\\.\\d+)?+[gG]?".toRegex()) && !wholeText[x].contains("[kcal]".toRegex())){
+                                    if(getSugar == "")
+                                        getSugar = wholeText[y].toString()
+                                }
+                            }
+                            x++
+                            y--
+                        }
+                    }
+                }
+            }
+            foodProtein.setText(getProtein)
+            foodKcal.setText(getKcal)
+            foodCarb.setText(getCarb)
+            foodFat.setText(getFat)
+            foodSugar.setText(getSugar)
+
             scannerFoodDetail_BtnOk.setOnClickListener {
                 val foodName = scanner_foodName.text.toString()
                 val kcal = foodKcal.text.toString()

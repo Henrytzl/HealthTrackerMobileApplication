@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.util.SparseArray
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -26,17 +25,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.util.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
-import com.google.android.gms.vision.Frame
-import com.google.android.gms.vision.text.TextBlock
-import com.google.android.gms.vision.text.TextRecognizer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_scanner.*
@@ -49,11 +47,10 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
     private lateinit var firebase: FirebaseFirestore
     private lateinit var userID : String
 
-    lateinit var cameraPermission: Array<String>
-    lateinit var storagePermission: Array<String>
-    lateinit var wholeText: String
-    lateinit var image_uri: Uri
-    lateinit var btnAction: String      //S for scanner, C for customize (putExtra value), H for History
+    private lateinit var cameraPermission: Array<String>
+    private lateinit var storagePermission: Array<String>
+    private lateinit var image_uri: Uri
+    private lateinit var btnAction: String      //S for scanner, C for customize (putExtra value), H for History
 
     //Recycle View
     private lateinit var recyclerView: RecyclerView
@@ -175,62 +172,83 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
     }
     //Convert the cropped image to text
     private fun convertToText(uri: Uri) {
-//        image_uri = uri
         val resultUri: Uri = uri
-
-//        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-
-
-        val recognizer: TextRecognizer = TextRecognizer.Builder(applicationContext).build()
+        // ML kit (from firebase recognizer)
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        //val recognizer1: TextRecognizer = TextRecognizer.Builder(applicationContext).build()
         val stream: InputStream? = contentResolver.openInputStream(resultUri)
         val drawable = Drawable.createFromStream(stream, resultUri.toString())
         val bitmap: Bitmap = drawable.toBitmap()
-//        val image = InputImage.fromBitmap(bitmap, 0)
-//        var sb: StringBuilder = StringBuilder()
-//        val result = recognizer.process(image).addOnSuccessListener {
-//            val resultText = it.text
-//            for (block in it.textBlocks) {
-//                val blockText = block.text
-//                val blockCornerPoints = block.cornerPoints
-//                val blockFrame = block.boundingBox
-//                for (line in block.lines) {
-//                    val lineText = line.text
-//                    val lineCornerPoints = line.cornerPoints
-//                    val lineFrame = line.boundingBox
-//                    sb.append(lineText)
-//                    sb.append("\n")
-//                    for (element in line.elements) {
-//                        sb.append(element)
-//                        sb.append(" ")
-//                    }
-//                }
-//            }
-//            Toast.makeText(this, "Scanning..", Toast.LENGTH_SHORT).show()
-//        }.addOnFailureListener {
-//            Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
-//        }
-//        testTV.text = sb.toString()
-//
-        if (!recognizer.isOperational) {
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-        } else {
-            val frame: Frame = Frame.Builder().setBitmap(bitmap).build()
-            val items: SparseArray<TextBlock> = recognizer.detect(frame)
-            var sb: StringBuilder = StringBuilder()
-            var i = 0
-            while (i < items.size) {
-                var myItem: TextBlock = items.valueAt(i)
-                sb.append(myItem.value)
-                sb.append("\n")
-                i++
+
+        // Method 2 ML KIT
+        val image = InputImage.fromBitmap(bitmap, 0)
+        var wholeText: ArrayList<String> = ArrayList()
+        val result = recognizer.process(image).addOnSuccessListener {
+            if(it != null) {
+                val resultText = it.text
+                for (block in it.textBlocks) {
+                    for (line in block.lines) {
+//                        for (i in line.elements.indices) {
+//                            if(line.elements[i].text.equals("protein", ignoreCase = true)){
+////                                if(line.elements[i - 1].text.matches(Regex(".*\\d.*"))){
+////                                    protein = line.elements[i - 1].text
+////                                }else if((i+1) < line.elements.size){
+////                                    if(line.elements[i + 1].text.matches(Regex(".*\\d.*"))){
+////                                        protein = line.elements[i + 1].text
+////                                    }
+////                                }else{
+////                                    var counter = i
+////                                    while(counter < line.elements.size){
+////                                        if(line.elements[counter].text.matches(Regex(".*\\d.*"))){
+////                                            protein = line.elements[counter].text
+////                                        }
+////                                        counter++
+////                                    }
+////                                }
+//                            }
+////                            if(line.elements[i].toString().equals("calories", ignoreCase = true) || line.elements[i].toString().equals("calorie", ignoreCase = true) || line.elements[i].toString().equals("energy", ignoreCase = true)){
+////                                if(line.elements[i - 1].toString().isDigitsOnly()){
+////
+////                                }
+////                            }
+//                        }
+                        for(element in line.elements){
+                            wholeText.add(element.text)
+                            wholeText.add(" ")
+                        }
+                    }
+                }
+                // after scanning go to scannerfooddetail activity
+                val intent = Intent(this, ScannerFoodDetail::class.java)
+                btnAction = "S"
+                intent.putExtra("wholeText", wholeText)
+                intent.putExtra("Action", btnAction)
+                startActivity(intent)
+                Toast.makeText(this, "Scanning..", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "The image has no text", Toast.LENGTH_SHORT).show()
             }
-            //testTV.text = sb.toString()
+        }.addOnFailureListener {
+            Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
         }
 
-//        val intent =Intent(this, ScannerFoodDetail::class.java)
-//        btnAction = "S"
-//        intent.putExtra("Action", btnAction)
-//        startActivity(intent)
+
+        // Method 1
+//        if (!recognizer.isOperational) {
+//            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+//        } else {
+//            val frame: Frame = Frame.Builder().setBitmap(bitmap).build()
+//            val items: SparseArray<TextBlock> = recognizer.detect(frame)
+//            var sb: StringBuilder = StringBuilder()
+//            var i = 0
+//            while (i < items.size) {
+//                var myItem: TextBlock = items.valueAt(i)
+//                sb.append(myItem.value)
+//                sb.append("\n")
+//                i++
+//            }
+//            //testTV.text = sb.toString()
+//        }
     }
 
     private fun onActivityResult(requestCode: Int, result: ActivityResult) {
