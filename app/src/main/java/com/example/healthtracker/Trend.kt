@@ -1,6 +1,5 @@
 package com.example.healthtracker
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
@@ -14,11 +13,11 @@ import com.example.healthtracker.login.LoginActivity
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.trend.*
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,10 +31,9 @@ class Trend : AppCompatActivity() {
     lateinit var lineList: ArrayList<Entry>
     lateinit var lineDataSet: LineDataSet
     private lateinit var lineData: LineData
-    private lateinit var dateTo: Date
-    private lateinit var dateFrom: Date
-    private lateinit var dateFromFinal: String
-    private lateinit var dateToFinal: String
+    private lateinit var selectedDateFrom: String
+    private lateinit var selectedDateTo: String
+    private var newResultList = ArrayList<Results>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +50,9 @@ class Trend : AppCompatActivity() {
 
         //getInstance database
         setUpFirebase()
+
+        //retrieve data
+        retrieveData()
 
         //Drawer
         navViewTrend.setNavigationItemSelectedListener {
@@ -164,75 +165,49 @@ class Trend : AppCompatActivity() {
     }
 
     private fun calendar() {
-        dateTo()
-        dateFrom()
+        showDataRangePicker()
     }
 
-    private fun dateFrom() {
-        val getDate = Calendar.getInstance()
-        val datePicker = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
+    private fun showDataRangePicker() {
+        val dateRangePicker = MaterialDatePicker
+            .Builder.dateRangePicker()
+            .setTitleText("Select Date")
+            .build()
 
-                val selectDate = Calendar.getInstance()
-                selectDate.set(Calendar.YEAR, i)
-                selectDate.set(Calendar.MONTH, i2)
-                selectDate.set(Calendar.DAY_OF_MONTH, i3)
-
-                val startDate = timeStampToString(System.currentTimeMillis())
-                val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-                val dateFrom = simpleDateFormat.parse(startDate)
-                dateFromFinal = dateFrom.toString()
-
-                Toast.makeText(this, "Date From: " + dateFromFinal, Toast.LENGTH_SHORT).show()
-
-            },
-            getDate.get(Calendar.YEAR),
-            getDate.get(Calendar.MONTH),
-            getDate.get(Calendar.DAY_OF_MONTH)
+        dateRangePicker.show(
+            supportFragmentManager,
+            "date_range_picker"
         )
-        datePicker.show()
-        retrieveData()
+
+        dateRangePicker.addOnPositiveButtonClickListener { dateSelected ->
+            val startDate = dateSelected.first
+            val endDate = dateSelected.second
+
+            if (startDate != null && endDate != null) {
+                selectedDateFrom = convertLongToTime(startDate)
+                selectedDateTo = convertLongToTime(endDate)
+
+                Toast.makeText(
+                    this,
+                    "Date Range:  $selectedDateFrom - $selectedDateTo",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                showTrend()
+            }
+        }
+
     }
 
-    private fun timeStampToString(timeStamp: Long): String {
-        val stamp = Timestamp(timeStamp)
-        val simpleDataFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-        val date = simpleDataFormat.format((Date(stamp.time)))
-
-        return date.toString()
-    }
-
-    private fun dateTo() {
-        val getDate = Calendar.getInstance()
-        val datePicker = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
-
-                val selectDate = Calendar.getInstance()
-                selectDate.set(Calendar.YEAR, i)
-                selectDate.set(Calendar.MONTH, i2)
-                selectDate.set(Calendar.DAY_OF_MONTH, i3)
-
-                val endDate = timeStampToString(System.currentTimeMillis())
-                val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-                dateTo = simpleDateFormat.parse(endDate)
-                dateToFinal = dateTo.toString()
-
-                Toast.makeText(this, "Date To: " + dateToFinal, Toast.LENGTH_SHORT).show()
-
-            },
-            getDate.get(Calendar.YEAR),
-            getDate.get(Calendar.MONTH),
-            getDate.get(Calendar.DAY_OF_MONTH)
-        )
-        datePicker.show()
-
+    private fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return format.format(date)
     }
 
     private fun retrieveData() {
         val db = FirebaseFirestore.getInstance()
-        val resultListA = ArrayList<Results>()
+        val resultList = ArrayList<Results>()
         val trendADocRef = db.collection("Results").document(userID)
         trendADocRef.collection("Result Details")
             .orderBy("date")
@@ -246,38 +221,62 @@ class Trend : AppCompatActivity() {
 
                 for (doc in it) {
                     val results = doc.toObject(Results::class.java)
-                    resultListA.add(results)
+                    resultList.add(results)
                 }
 
-                val newResultList = ArrayList<Results>()
-                val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")   // to format date to compare date ONLY
+                newResultList = ArrayList<Results>()
+                val simpleDateFormat =
+                    SimpleDateFormat(
+                        "dd/MM/yyyy",
+                        Locale.getDefault()
+                    )   // to format date to compare date ONLY
 
                 var larger: Results?                    // condition: same date but latest (bcz of the time)
-                for(x in resultListA.indices){
-                    larger = resultListA[x]
-                    for(y in resultListA.indices){
-                        if (simpleDateFormat.format(larger!!.date) == simpleDateFormat.format(resultListA[y].date)) {
-                            if(larger!!.date!!.time < resultListA[y].date!!.time){
-                                larger = resultListA[y]    // get the latest within the same date
+                for (x in resultList.indices) {
+                    larger = resultList[x]
+                    for (y in resultList.indices) {
+                        if (simpleDateFormat.format(larger!!.date!!) == simpleDateFormat.format(
+                                resultList[y].date!!
+                            )
+                        ) {
+                            if (larger.date!!.time < resultList[y].date!!.time) {
+                                larger = resultList[y]    // get the latest within the same date
                             }
                         }
                     }
 
-                    if(newResultList.isNotEmpty()){
-                        if(newResultList[newResultList.size - 1] != larger){
+                    if (newResultList.isNotEmpty()) {
+                        if (newResultList[newResultList.size - 1] != larger) {
                             newResultList.add(larger!!)         // if the same date and latest time already added in then will not come in
                         }
-                    }else {
+                    } else {
                         newResultList.add(larger!!)
                     }
                 }
             }
-
     }
 
     private fun showTrend() {
-        var difference = dateTo.time - dateFrom.time
-        val days = difference / 60 / 1000 / 60 / 24
+        val selectedResultList = ArrayList<Results>()       //selected result from user
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        if (selectedResultList.isEmpty()) {
+            for (i in newResultList.indices) {
+                if (simpleDateFormat.format(newResultList[i].date!!) >= selectedDateFrom && simpleDateFormat.format(
+                        newResultList[i].date!!
+                    ) <= selectedDateTo
+                ) {
+                    selectedResultList.add(newResultList[i])
+                }
+            }
+        }
+
+        Toast.makeText(
+            this,
+            "${selectedResultList[0].date}, ${selectedResultList[1].date}, ${selectedResultList[2].date}, ${selectedResultList[3].date}, ${selectedResultList[4].date}, ${selectedResultList[5].date}, ${selectedResultList[6].date}, ${selectedResultList[7].date} ",
+            Toast.LENGTH_SHORT
+        ).show()
+
     }
 
     override fun onStart() {
