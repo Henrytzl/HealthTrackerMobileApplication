@@ -449,22 +449,22 @@ class ScannerFoodDetail : AppCompatActivity() {
             Toast.makeText(this,"Please fill in all the food details", Toast.LENGTH_SHORT).show()
             return false
         }else if(!TextUtils.isDigitsOnly(kcal)){
-            Toast.makeText(this,"Energy(Kcal) value must be in digit only", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Energy(Kcal) value must be in integer digit only", Toast.LENGTH_SHORT).show()
             return false
         }else if(!TextUtils.isDigitsOnly(protein)){
-            Toast.makeText(this,"Protein value must be in digit only", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Protein value must be in integer digit only", Toast.LENGTH_SHORT).show()
             return false
         }else if(!TextUtils.isDigitsOnly(fat)){
-            Toast.makeText(this,"Fat value must be in digit only", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Fat value must be in integer digit only", Toast.LENGTH_SHORT).show()
             return false
         }else if(!TextUtils.isDigitsOnly(carb)){
-            Toast.makeText(this,"Carbohydrate value must be in digit only", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Carbohydrate value must be in integer digit only", Toast.LENGTH_SHORT).show()
             return false
         }else if(!TextUtils.isDigitsOnly(sugar)){
-            Toast.makeText(this,"Sugar value must be in digit only", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Sugar value must be in integer digit only", Toast.LENGTH_SHORT).show()
             return false
         }else if(!TextUtils.isDigitsOnly(noOfUnit)){
-            Toast.makeText(this,"Serving value must be in digit only", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Serving value must be in integer digit only", Toast.LENGTH_SHORT).show()
             return false
         }
 
