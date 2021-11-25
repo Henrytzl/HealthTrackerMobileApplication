@@ -1,8 +1,9 @@
 package com.example.healthtracker.reminder
 
-import android.app.AlertDialog
+import android.app.*
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -25,6 +26,9 @@ class ReminderDetail : AppCompatActivity() {
     private lateinit var dayList: List<String>
     private val dayArray = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     private var selectedDayListBoolean = booleanArrayOf(false, false, false, false, false, false, false, false)
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var pendingIntent: PendingIntent
+    private lateinit var calendar: Calendar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +91,10 @@ class ReminderDetail : AppCompatActivity() {
                     .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
                         firebase.collection("Reminder").document(userID)
                             .collection("Reminder Detail").document(reminderID).delete().addOnSuccessListener {
+
+                                cancelAlarm()
+
+
                                 dialog.dismiss()
                                 finish()
                                 Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
@@ -142,6 +150,30 @@ class ReminderDetail : AppCompatActivity() {
                 time = "$hr:$min"
             }
 
+            // Reminder Calendar
+            calendar = Calendar.getInstance()
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                calendar[Calendar.HOUR_OF_DAY] = txtReminderTime.hour
+                calendar[Calendar.MINUTE] = txtReminderTime.minute
+                calendar[Calendar.SECOND] = 0
+                calendar[Calendar.MILLISECOND] = 0
+                var intDay = 0
+                for(i in selectedDayListBoolean.indices){
+                    intDay++
+                    if(selectedDayListBoolean[i]){
+                        when(intDay){
+                            1 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                            2 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+                            3 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+                            4 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+                            5 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+                            6 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+                            7 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+                        }
+                    }
+                }
+            }
+
             if(hr == -1 || min == -1){
                 Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT).show()
             }else if(reminderTitle.isEmpty() || reminderDesc.isEmpty()){
@@ -155,6 +187,15 @@ class ReminderDetail : AppCompatActivity() {
                         val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch, insertDayList)
                         val detailDocumentRef1 = documentRef.collection("Reminder Detail")
                         detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
+
+                            detailDocumentRef1.document("${getDocID.id}").get().addOnSuccessListener { result ->
+                                createNotificationChannel()
+                                setAlarm(result.get("reminderTitle").toString(), result.get("reminderDesc").toString())
+                            }.addOnFailureListener {
+                                Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                            }
+
+
                             Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
                             finish()
                         }.addOnFailureListener {
@@ -174,6 +215,44 @@ class ReminderDetail : AppCompatActivity() {
                     Toast.makeText(this,"Please select the reminder day", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun cancelAlarm() {
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmReceiver::class.java)
+
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun setAlarm(reminderTitle: String, reminderDesc: String) {
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmReceiver::class.java)
+        intent.putExtra("reminderTitle", reminderTitle)
+        intent.putExtra("reminderDesc", reminderDesc)
+
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,pendingIntent
+        )
+    }
+
+    private fun createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name: CharSequence = "HealthTrackerReminderChannel"
+            val description = "Channel for Alarm Manager"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("notification", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+
+            notificationManager.createNotificationChannel(channel)
         }
     }
 
