@@ -15,7 +15,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,9 +23,8 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.trend.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-
+import kotlin.math.roundToInt
 
 class Trend : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
@@ -100,7 +99,7 @@ class Trend : AppCompatActivity() {
         //trend option
         weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 //        setLineChartData()
-        weightLineChart()
+//        weightLineChart()
         weightTrend.setOnClickListener {
             weightTrend.isSelected = true
 //            setLineChartData()
@@ -270,8 +269,7 @@ class Trend : AppCompatActivity() {
             for (i in newResultList.indices) {
                 if (simpleDateFormat.format(newResultList[i].date!!) >= selectedDateFrom && simpleDateFormat.format(
                         newResultList[i].date!!
-                    ) <= selectedDateTo
-                ) {
+                    ) <= selectedDateTo) {
                     selectedResultList.add(newResultList[i])
                 }
             }
@@ -290,13 +288,25 @@ class Trend : AppCompatActivity() {
         lineList = ArrayList()
         for (i in selectedResultList.indices) {
             lineList.add(Entry(selectedResultList[i].date!!.time.toFloat(), selectedResultList[i].weight!!.toFloat()))
-
         }
-
-
+        Toast.makeText(this, "${lineList[0]}", Toast.LENGTH_SHORT).show()
+//        lineList.add(Entry(10f,20f))
+//        lineList.add(Entry(50f,800f))
         lineDataSet = LineDataSet(lineList, "Weight")
         lineData = LineData(lineDataSet)
+
+//        var arrayOfDates: ArrayList<String> = ArrayList()
+//        for(i in selectedResultList.indices){
+//            arrayOfDates.add(selectedResultList[i].date.toString())
+//        }
+
+        weightLineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        weightLineChart.xAxis.valueFormatter = ClaimXAxisValueFormatter(selectedResultList)
         weightLineChart.data = lineData
+        weightLineChart.setTouchEnabled(true)
+        weightLineChart.isDragEnabled = true
+        weightLineChart.setScaleEnabled(true)
+        weightLineChart.setPinchZoom(true)
         lineDataSet.color = (Color.parseColor("#0B89FE"))
         lineDataSet.valueTextColor = Color.parseColor("#0B89FE")
         lineDataSet.valueTextSize = 13f
@@ -338,6 +348,38 @@ class Trend : AppCompatActivity() {
         if (authentication.currentUser != null) {
             userID = authentication.currentUser!!.uid
         }
+    }
+
+}
+
+class ClaimXAxisValueFormatter(arrayOfDates: ArrayList<Results>) : ValueFormatter() {
+    var datesList: ArrayList<Results> = arrayOfDates
+    var counter = -1
+
+    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+        var position:Int = value.roundToInt()
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+//        if (value > 1 && value < 2) {
+//            position = 0
+//        } else if (value > 2 && value < 3) {
+//            position = 1
+//        } else if (value > 3 && value < 4) {
+//            position = 2
+//        } else if (value > 4 && value <= 5) {
+//            position = 3
+//        }
+
+        //if (position < datesList!!.size)
+        if(counter < (datesList.size - 1) ){
+            counter++
+            return sdf.format((datesList!![counter].date))
+        }else{
+            return sdf.format((datesList!![datesList.size-1].date))
+        }
+
+
+        //return ""
+        //return super.getAxisLabel(value, axis)
     }
 
 }
