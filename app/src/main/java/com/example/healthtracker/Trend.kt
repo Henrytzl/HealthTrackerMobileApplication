@@ -15,16 +15,19 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.ViewPortHandler
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.trend.*
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
+
 
 class Trend : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
@@ -98,11 +101,9 @@ class Trend : AppCompatActivity() {
 
         //trend option
         weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-//        setLineChartData()
 //        weightLineChart()
         weightTrend.setOnClickListener {
             weightTrend.isSelected = true
-//            setLineChartData()
             weightLineChart()
             weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             weightTrend.setTextColor(Color.parseColor("#0B89FE"))
@@ -114,6 +115,7 @@ class Trend : AppCompatActivity() {
 
         bmiTrend.setOnClickListener {
             bmiTrend.isSelected = true
+            bmiLineChart()
             bmiTrend.paintFlags = bmiTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             bmiTrend.setTextColor(Color.parseColor("#0B89FE"))
             weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
@@ -123,6 +125,7 @@ class Trend : AppCompatActivity() {
         }
 
         bfpTrend.setOnClickListener {
+            bfpLineChart()
             bfpTrend.isSelected = true
             bfpTrend.paintFlags = bfpTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             bfpTrend.setTextColor(Color.parseColor("#0B89FE"))
@@ -149,25 +152,6 @@ class Trend : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun setLineChartData() {
-        lineList = ArrayList()
-        lineList.add(Entry(20f, 55f))
-        lineList.add(Entry(40f, 58f))
-        lineList.add(Entry(60f, 63f))
-        lineList.add(Entry(80f, 60f))
-        lineList.add(Entry(100f, 57f))
-
-        lineDataSet = LineDataSet(lineList, "Weight")
-        lineData = LineData(lineDataSet)
-        weightLineChart.data = lineData
-        lineDataSet.color = (Color.parseColor("#0B89FE"))
-        lineDataSet.valueTextColor = Color.parseColor("#0B89FE")
-        lineDataSet.valueTextSize = 13f
-        lineDataSet.circleRadius = 0f
-        lineDataSet.fillAlpha = 30
-        lineDataSet.setDrawFilled(true)
     }
 
     private fun calendar() {
@@ -269,50 +253,112 @@ class Trend : AppCompatActivity() {
             for (i in newResultList.indices) {
                 if (simpleDateFormat.format(newResultList[i].date!!) >= selectedDateFrom && simpleDateFormat.format(
                         newResultList[i].date!!
-                    ) <= selectedDateTo) {
+                    ) <= selectedDateTo
+                ) {
                     selectedResultList.add(newResultList[i])
                 }
             }
         }
-
-        Toast.makeText(
-            this,
-            "${selectedResultList[0].date}, ${selectedResultList[1].date}, ${selectedResultList[2].date}, ${selectedResultList[3].date}, ${selectedResultList[4].date}, ${selectedResultList[5].date}, ${selectedResultList[6].date}, ${selectedResultList[7].date} ",
-            Toast.LENGTH_SHORT
-        ).show()
-
     }
 
-    private fun weightLineChart () {
-        //line chart
+    private fun weightLineChart() {
         lineList = ArrayList()
         for (i in selectedResultList.indices) {
-            lineList.add(Entry(selectedResultList[i].date!!.time.toFloat(), selectedResultList[i].weight!!.toFloat()))
+            lineList.add(
+                Entry(
+                    selectedResultList[i].date!!.time.toFloat(),
+                    selectedResultList[i].weight!!.toFloat()
+                )
+            )
         }
-        Toast.makeText(this, "${lineList[0]}", Toast.LENGTH_SHORT).show()
-//        lineList.add(Entry(10f,20f))
-//        lineList.add(Entry(50f,800f))
+
         lineDataSet = LineDataSet(lineList, "Weight")
         lineData = LineData(lineDataSet)
 
-//        var arrayOfDates: ArrayList<String> = ArrayList()
-//        for(i in selectedResultList.indices){
-//            arrayOfDates.add(selectedResultList[i].date.toString())
-//        }
-
-        weightLineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        weightLineChart.xAxis.valueFormatter = ClaimXAxisValueFormatter(selectedResultList)
-        weightLineChart.data = lineData
-        weightLineChart.setTouchEnabled(true)
-        weightLineChart.isDragEnabled = true
-        weightLineChart.setScaleEnabled(true)
-        weightLineChart.setPinchZoom(true)
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.xAxis.valueFormatter = MyCustomFormatter()
+        lineChart.data = lineData
+        lineChart.setTouchEnabled(true)
+        lineChart.isDragEnabled = true
+        lineChart.setScaleEnabled(true)
+        lineChart.setPinchZoom(true)
         lineDataSet.color = (Color.parseColor("#0B89FE"))
         lineDataSet.valueTextColor = Color.parseColor("#0B89FE")
         lineDataSet.valueTextSize = 13f
         lineDataSet.circleRadius = 0f
         lineDataSet.fillAlpha = 30
         lineDataSet.setDrawFilled(true)
+    }
+
+    private fun bmiLineChart() {
+        lineList = ArrayList()
+        for (i in selectedResultList.indices) {
+            lineList.add(
+                Entry(
+                    selectedResultList[i].date!!.time.toFloat(),
+                    selectedResultList[i].bmi!!.toFloat()
+                )
+            )
+        }
+
+        lineDataSet = LineDataSet(lineList, "BMI")
+        lineData = LineData(lineDataSet)
+
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.xAxis.valueFormatter = MyCustomFormatter()
+        lineChart.data = lineData
+        lineChart.setTouchEnabled(true)
+        lineChart.isDragEnabled = true
+        lineChart.setScaleEnabled(true)
+        lineChart.setPinchZoom(true)
+        lineDataSet.color = (Color.parseColor("#0B89FE"))
+        lineDataSet.valueTextColor = Color.parseColor("#0B89FE")
+        lineDataSet.valueTextSize = 13f
+        lineDataSet.circleRadius = 0f
+        lineDataSet.fillAlpha = 30
+        lineDataSet.setDrawFilled(true)
+    }
+
+    private fun bfpLineChart() {
+        lineList = ArrayList()
+        for (i in selectedResultList.indices) {
+            lineList.add(
+                Entry(
+                    selectedResultList[i].date!!.time.toFloat(),
+                    selectedResultList[i].bfp!!.toFloat()
+                )
+            )
+        }
+
+        lineDataSet = LineDataSet(lineList, "BFP")
+        lineData = LineData(lineDataSet)
+
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.xAxis.valueFormatter = MyCustomFormatter()
+        lineChart.data = lineData
+        lineChart.setTouchEnabled(true)
+        lineChart.isDragEnabled = true
+        lineChart.setScaleEnabled(true)
+        lineChart.setPinchZoom(true)
+        lineDataSet.color = (Color.parseColor("#0B89FE"))
+        lineDataSet.valueTextColor = Color.parseColor("#0B89FE")
+        lineDataSet.valueTextSize = 13f
+        lineDataSet.circleRadius = 0f
+        lineDataSet.fillAlpha = 30
+        lineDataSet.setDrawFilled(true)
+    }
+
+    class MyCustomFormatter() : IAxisValueFormatter
+    {
+        override fun getFormattedValue(value: Float, axis: AxisBase?): String
+        {
+            val dateInMillis = value.toLong()
+            val date = Calendar.getInstance().apply {
+                timeInMillis = dateInMillis
+            }.time
+
+            return SimpleDateFormat("dd/MM", Locale.getDefault()).format(date)
+        }
     }
 
 
@@ -349,37 +395,4 @@ class Trend : AppCompatActivity() {
             userID = authentication.currentUser!!.uid
         }
     }
-
-}
-
-class ClaimXAxisValueFormatter(arrayOfDates: ArrayList<Results>) : ValueFormatter() {
-    var datesList: ArrayList<Results> = arrayOfDates
-    var counter = -1
-
-    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-        var position:Int = value.roundToInt()
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-//        if (value > 1 && value < 2) {
-//            position = 0
-//        } else if (value > 2 && value < 3) {
-//            position = 1
-//        } else if (value > 3 && value < 4) {
-//            position = 2
-//        } else if (value > 4 && value <= 5) {
-//            position = 3
-//        }
-
-        //if (position < datesList!!.size)
-        if(counter < (datesList.size - 1) ){
-            counter++
-            return sdf.format((datesList!![counter].date))
-        }else{
-            return sdf.format((datesList!![datesList.size-1].date))
-        }
-
-
-        //return ""
-        //return super.getAxisLabel(value, axis)
-    }
-
 }
