@@ -17,7 +17,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val getTitle = intent.getStringExtra("reminderTitle").toString()
         val getDesc = intent.getStringExtra("reminderDesc").toString()
-        val getRequestCodeID = intent.getIntExtra("requestCodeID", 0).toInt()
+        val getRequestCodeID = intent.getIntExtra("requestCodeID", 0)
 
         val pendingIntent = PendingIntent.getActivity(context, getRequestCodeID, i, 0)
 

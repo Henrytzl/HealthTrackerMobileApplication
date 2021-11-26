@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,7 +57,7 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
 
         adapter = RecycleViewMealAdapter(list, this, this)
         recyclerView.adapter = adapter
-
+        noDataTxt.visibility = View.GONE
         firebase.collection("Meals/$userID/Meal Detail").whereEqualTo("noOfDay", intent.getStringExtra("day")!!.toInt())
             .addSnapshotListener { value, error ->
                 if (error != null) {
@@ -66,6 +67,9 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
                         if (dc.type == DocumentChange.Type.ADDED) {
                             list.add(dc.document.toObject(RecycleViewMeal::class.java))
                         }
+                    }
+                    if(list.isEmpty()){
+                        noDataTxt.visibility = View.VISIBLE
                     }
                     adapter.notifyDataSetChanged()
                 }
@@ -117,6 +121,12 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
             finish()
             finishAffinity()
         }
+        if(list.isEmpty()){
+            noDataTxt.visibility = View.VISIBLE
+        }
+        if(!list.isEmpty()){
+            noDataTxt.visibility = View.GONE
+        }
     }
 
     override fun onItemClick(position: Int) {
@@ -139,6 +149,9 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
                     Toast.makeText(this, "Meal deleted successfully", Toast.LENGTH_SHORT).show()
                     list.removeAt(position)
                     adapter.notifyDataSetChanged()
+                    if(list.isEmpty()){
+                        noDataTxt.visibility = View.VISIBLE
+                    }
                 }.addOnFailureListener {
                     Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
                 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -138,7 +139,7 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
         adapter = RecycleViewReminderAdapter(list, this, this)
 
         recyclerView.adapter = adapter
-
+        noDataTxt.visibility = View.GONE
         firebase.collection("Reminder/$userID/Reminder Detail")
             .addSnapshotListener { value, error ->
                 if (error != null) {
@@ -148,6 +149,9 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
                         if (dc.type == DocumentChange.Type.ADDED) {
                             list.add(dc.document.toObject(RecycleViewReminder::class.java))
                         }
+                    }
+                    if(list.isEmpty()){
+                        noDataTxt.visibility = View.VISIBLE
                     }
                     adapter.notifyDataSetChanged()
                 }

@@ -98,11 +98,7 @@ class ReminderDetail : AppCompatActivity() {
 
                                     dialog.dismiss()
                                     finish()
-                                    Toast.makeText(
-                                        this,
-                                        "Reminder deleted successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
                             }.addOnFailureListener {
                                 Toast.makeText(this, " " + it.message, Toast.LENGTH_LONG).show()
                             }
@@ -265,7 +261,6 @@ class ReminderDetail : AppCompatActivity() {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel("notification", name, importance)
             channel.description = description
-            channel.setShowBadge(false)
             val notificationManager = getSystemService(
                 NotificationManager::class.java
             )

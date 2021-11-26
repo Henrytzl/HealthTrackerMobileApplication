@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -392,7 +393,7 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
         adapter = RecycleViewFoodHistoryAdapter(list, this)
 
         recyclerView.adapter = adapter
-
+        noDataTxt.visibility = View.GONE
         firebase.collection("Food History").whereEqualTo("userID", userID).addSnapshotListener { value, error ->
             if (error != null) {
                 Log.e("FireStore Error", error.message.toString())
@@ -401,6 +402,9 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
                     if (dc.type == DocumentChange.Type.ADDED) {
                         list.add(dc.document.toObject(RecycleViewFoodHistory::class.java))
                     }
+                }
+                if(list.isEmpty()){
+                    noDataTxt.visibility = View.VISIBLE
                 }
                 adapter.notifyDataSetChanged()
             }
