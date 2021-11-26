@@ -14,10 +14,12 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val i = Intent(context, MainActivity::class.java)
         intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(context, 0, i, 0)
 
         val getTitle = intent.getStringExtra("reminderTitle").toString()
         val getDesc = intent.getStringExtra("reminderDesc").toString()
+        val getRequestCodeID = intent.getIntExtra("requestCodeID", 0).toInt()
+
+        val pendingIntent = PendingIntent.getActivity(context, getRequestCodeID, i, 0)
 
         val builder = NotificationCompat.Builder(context!!, "notification")
             .setSmallIcon(R.drawable.ic_notification)
@@ -29,6 +31,6 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentIntent(pendingIntent)
 
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(123, builder.build())
+        notificationManager.notify(getRequestCodeID, builder.build())
     }
 }

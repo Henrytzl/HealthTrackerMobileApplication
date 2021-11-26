@@ -42,8 +42,8 @@ class ReminderDetail : AppCompatActivity() {
         txtReminderTime.setIs24HourView(true)
 
         setUpFirebase()
+        createNotificationChannel()
 
-        val intentFound = intent
         reminderID = intent.getStringExtra("reminderID").toString()
         dayList = Arrays.asList(*dayArray)
         if(reminderID == "null"){   // Add reminder
@@ -84,23 +84,31 @@ class ReminderDetail : AppCompatActivity() {
             deleteReminder.setOnClickListener {
                 val deleteViewBuilder = AlertDialog.Builder(this).setTitle("Delete Reminder")
                     .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this reminder?")
-                    .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
-                        dialog.dismiss()
-                        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
-                    })
+                    .setCancelable(false).setNegativeButton(
+                        "No",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+                        })
                     .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
-                        firebase.collection("Reminder").document(userID)
-                            .collection("Reminder Detail").document(reminderID).delete().addOnSuccessListener {
+                        firebase.collection("Reminder").document(userID).collection("Reminder Detail").document(reminderID).get().addOnSuccessListener { result ->
+                            val cancelRequestCodeID = result.get("requestCodeID").toString().toInt()
+                            firebase.collection("Reminder").document(userID).collection("Reminder Detail").document(reminderID).delete().addOnSuccessListener {
+                                    cancelAlarm(cancelRequestCodeID)
 
-                                cancelAlarm()
-
-
-                                dialog.dismiss()
-                                finish()
-                                Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
+                                    dialog.dismiss()
+                                    finish()
+                                    Toast.makeText(
+                                        this,
+                                        "Reminder deleted successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                             }.addOnFailureListener {
-                                Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, " " + it.message, Toast.LENGTH_LONG).show()
                             }
+                        }.addOnFailureListener {
+                            Toast.makeText(this, " " + it.message, Toast.LENGTH_LONG).show()
+                        }
                     })
                 //show dialog
                 val displayDialog = deleteViewBuilder.create()
@@ -110,14 +118,18 @@ class ReminderDetail : AppCompatActivity() {
 
         //Day selector onClickListener
         selectDayBtn.setOnClickListener {
-            val daySelectorViewBuilder = AlertDialog.Builder(this).setTitle("Choose Repeat Day").setIcon(R.drawable.ic_day)
+            val daySelectorViewBuilder = AlertDialog.Builder(this).setTitle("Choose Repeat Day").setIcon(
+                R.drawable.ic_day
+            )
 
             daySelectorViewBuilder.setMultiChoiceItems(dayArray, selectedDayListBoolean) { dialog, which, isChecked ->
                 selectedDayListBoolean[which] = isChecked
             }
-            daySelectorViewBuilder.setCancelable(false).setPositiveButton("Done", DialogInterface.OnClickListener{ dialog, which ->
-                Toast.makeText(this, "Done Selection", Toast.LENGTH_SHORT).show()
-            })
+            daySelectorViewBuilder.setCancelable(false).setPositiveButton(
+                "Done",
+                DialogInterface.OnClickListener { dialog, which ->
+                    Toast.makeText(this, "Done Selection", Toast.LENGTH_SHORT).show()
+                })
             //show dialog
             val displayDialog = daySelectorViewBuilder.create()
             displayDialog.show()
@@ -152,6 +164,8 @@ class ReminderDetail : AppCompatActivity() {
 
             // Reminder Calendar
             calendar = Calendar.getInstance()
+            val requestCodeID = System.currentTimeMillis().toInt()
+
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 calendar[Calendar.HOUR_OF_DAY] = txtReminderTime.hour
                 calendar[Calendar.MINUTE] = txtReminderTime.minute
@@ -184,60 +198,63 @@ class ReminderDetail : AppCompatActivity() {
                     val insertDayList = convertToInsertDayList(selectedDayListBoolean, dayList)
                     if(reminderID == "null"){           // Create Reminder
                         val getDocID = documentRef.collection("Reminder Detail").document()
-                        val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch, insertDayList)
+                        val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch, insertDayList, requestCodeID)
                         val detailDocumentRef1 = documentRef.collection("Reminder Detail")
                         detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
 
                             detailDocumentRef1.document("${getDocID.id}").get().addOnSuccessListener { result ->
-                                createNotificationChannel()
-                                setAlarm(result.get("reminderTitle").toString(), result.get("reminderDesc").toString())
-                            }.addOnFailureListener {
-                                Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
-                            }
 
+                                setAlarm(result.get("reminderTitle").toString(), result.get("reminderDesc").toString(), result.get("requestCodeID").toString().toInt())
+                            }.addOnFailureListener {
+                                Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
+                            }
 
                             Toast.makeText(this, "Reminder added successfully", Toast.LENGTH_SHORT).show()
                             finish()
                         }.addOnFailureListener {
-                            Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
                         }
                     }else{                              // Update Reminder
                         val update = documentRef.collection("Reminder Detail").document("$reminderID")
-                        val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList)
-                        update.set(reminderDetail).addOnSuccessListener {
-                            Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
-                            finish()
+                        update.get().addOnSuccessListener {
+                            val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList, it.get("requestCodeID").toString().toInt())
+                            update.set(reminderDetail).addOnSuccessListener {
+                                Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
+                                finish()
+                            }.addOnFailureListener {
+                                Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
+                            }
                         }.addOnFailureListener {
-                            Toast.makeText(this," "+ it.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }else{
-                    Toast.makeText(this,"Please select the reminder day", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please select the reminder day", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private fun cancelAlarm() {
+    private fun cancelAlarm(requestCodeID: Int) {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
 
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+        pendingIntent = PendingIntent.getBroadcast(this, requestCodeID, intent, 0)
 
         alarmManager.cancel(pendingIntent)
     }
 
-    private fun setAlarm(reminderTitle: String, reminderDesc: String) {
+    private fun setAlarm(reminderTitle: String, reminderDesc: String, requestCodeID: Int) {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.putExtra("reminderTitle", reminderTitle)
         intent.putExtra("reminderDesc", reminderDesc)
-
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+        intent.putExtra("requestCodeID", requestCodeID)
+        pendingIntent = PendingIntent.getBroadcast(this, requestCodeID, intent, 0)
 
         alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,pendingIntent
+            AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY, pendingIntent
         )
     }
 
@@ -248,6 +265,7 @@ class ReminderDetail : AppCompatActivity() {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel("notification", name, importance)
             channel.description = description
+            channel.setShowBadge(false)
             val notificationManager = getSystemService(
                 NotificationManager::class.java
             )
