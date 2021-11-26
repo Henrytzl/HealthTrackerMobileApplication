@@ -10,9 +10,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.healthtracker.datamodel.Results
 import com.example.healthtracker.login.LoginActivity
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,6 +23,7 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.trend.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -285,13 +289,11 @@ class Trend : AppCompatActivity() {
         //line chart
         lineList = ArrayList()
         for (i in selectedResultList.indices) {
-            Toast.makeText(this,"haha",Toast.LENGTH_SHORT).show()
             lineList.add(Entry(selectedResultList[i].date!!.time.toFloat(), selectedResultList[i].weight!!.toFloat()))
 
         }
 
-        lineList.add(Entry(10f,20f))
-        lineList.add(Entry(50f,800f))
+
         lineDataSet = LineDataSet(lineList, "Weight")
         lineData = LineData(lineDataSet)
         weightLineChart.data = lineData
