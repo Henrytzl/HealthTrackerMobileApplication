@@ -34,6 +34,7 @@ class Trend : AppCompatActivity() {
     private lateinit var selectedDateFrom: String
     private lateinit var selectedDateTo: String
     private var newResultList = ArrayList<Results>()
+    private var selectedResultList = ArrayList<Results>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,10 +95,12 @@ class Trend : AppCompatActivity() {
 
         //trend option
         weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        setLineChartData()
+//        setLineChartData()
+        weightLineChart()
         weightTrend.setOnClickListener {
             weightTrend.isSelected = true
-            setLineChartData()
+//            setLineChartData()
+            weightLineChart()
             weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             weightTrend.setTextColor(Color.parseColor("#0B89FE"))
             bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
@@ -153,7 +156,7 @@ class Trend : AppCompatActivity() {
         lineList.add(Entry(80f, 60f))
         lineList.add(Entry(100f, 57f))
 
-        lineDataSet = LineDataSet(lineList, "Entries")
+        lineDataSet = LineDataSet(lineList, "Weight")
         lineData = LineData(lineDataSet)
         weightLineChart.data = lineData
         lineDataSet.color = (Color.parseColor("#0B89FE"))
@@ -257,7 +260,6 @@ class Trend : AppCompatActivity() {
     }
 
     private fun showTrend() {
-        val selectedResultList = ArrayList<Results>()       //selected result from user
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         if (selectedResultList.isEmpty()) {
@@ -278,6 +280,29 @@ class Trend : AppCompatActivity() {
         ).show()
 
     }
+
+    private fun weightLineChart () {
+        //line chart
+        lineList = ArrayList()
+        for (i in selectedResultList.indices) {
+            Toast.makeText(this,"haha",Toast.LENGTH_SHORT).show()
+            lineList.add(Entry(selectedResultList[i].date!!.time.toFloat(), selectedResultList[i].weight!!.toFloat()))
+
+        }
+
+        lineList.add(Entry(10f,20f))
+        lineList.add(Entry(50f,800f))
+        lineDataSet = LineDataSet(lineList, "Weight")
+        lineData = LineData(lineDataSet)
+        weightLineChart.data = lineData
+        lineDataSet.color = (Color.parseColor("#0B89FE"))
+        lineDataSet.valueTextColor = Color.parseColor("#0B89FE")
+        lineDataSet.valueTextSize = 13f
+        lineDataSet.circleRadius = 0f
+        lineDataSet.fillAlpha = 30
+        lineDataSet.setDrawFilled(true)
+    }
+
 
     override fun onStart() {
         super.onStart()
