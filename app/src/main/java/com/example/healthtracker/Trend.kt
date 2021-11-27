@@ -98,7 +98,7 @@ class Trend : AppCompatActivity() {
 
         //trend option
         weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-//        weightLineChart()
+        calendar()
         weightTrend.setOnClickListener {
             weightTrend.isSelected = true
             weightLineChart()
@@ -180,7 +180,7 @@ class Trend : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                showTrend()
+                findDateRangeResults()
             }
         }
 
@@ -243,7 +243,7 @@ class Trend : AppCompatActivity() {
             }
     }
 
-    private fun showTrend() {
+    private fun findDateRangeResults() {
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         if (selectedResultList.isEmpty()) {
@@ -256,6 +256,8 @@ class Trend : AppCompatActivity() {
                 }
             }
         }
+
+        weightLineChart()
     }
 
     private fun weightLineChart() {
