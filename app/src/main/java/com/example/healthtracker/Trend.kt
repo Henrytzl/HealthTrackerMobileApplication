@@ -43,7 +43,7 @@ class Trend : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trend)
 
-        //Tool Bar
+        //tool bar
         setSupportActionBar(toolbarTrend)
         supportActionBar?.title = ""
         toggle =
@@ -58,7 +58,7 @@ class Trend : AppCompatActivity() {
         //retrieve data
         retrieveData()
 
-        //Drawer
+        //drawer
         navViewTrend.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.mHome -> {
@@ -91,46 +91,13 @@ class Trend : AppCompatActivity() {
             }
             true
         }
-        //Home Image Icon
+        //home image icon
         imageHome.setOnClickListener {
             finish()
         }
 
-        //trend option
-        weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        //show calendar
         calendar()
-        weightTrend.setOnClickListener {
-            weightTrend.isSelected = true
-            weightLineChart()
-            weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-            weightTrend.setTextColor(Color.parseColor("#0B89FE"))
-            bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-            bmiTrend.setTextColor(Color.parseColor("#5A5A5A"))
-            bfpTrend.paintFlags = bfpTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-            bfpTrend.setTextColor(Color.parseColor("#5A5A5A"))
-        }
-
-        bmiTrend.setOnClickListener {
-            bmiTrend.isSelected = true
-            bmiLineChart()
-            bmiTrend.paintFlags = bmiTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-            bmiTrend.setTextColor(Color.parseColor("#0B89FE"))
-            weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-            weightTrend.setTextColor(Color.parseColor("#5A5A5A"))
-            bfpTrend.paintFlags = bfpTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-            bfpTrend.setTextColor(Color.parseColor("#5A5A5A"))
-        }
-
-        bfpTrend.setOnClickListener {
-            bfpLineChart()
-            bfpTrend.isSelected = true
-            bfpTrend.paintFlags = bfpTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-            bfpTrend.setTextColor(Color.parseColor("#0B89FE"))
-            weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-            weightTrend.setTextColor(Color.parseColor("#5A5A5A"))
-            bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-            bmiTrend.setTextColor(Color.parseColor("#5A5A5A"))
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -257,7 +224,54 @@ class Trend : AppCompatActivity() {
             }
         }
 
-        weightLineChart()
+        trendOption()
+    }
+
+    private fun trendOption() {
+        weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
+        if (!bmiTrend.isSelected && !bfpTrend.isSelected) {
+            weightLineChart()
+        }
+        else if (!weightTrend.isSelected && !bfpTrend.isSelected) {
+            bmiLineChart()
+        }
+        else if (!weightTrend.isSelected && !bmiTrend.isSelected) {
+            bfpLineChart()
+        }
+
+        weightTrend.setOnClickListener {
+            weightTrend.isSelected = true
+            weightLineChart()
+            weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            weightTrend.setTextColor(Color.parseColor("#0B89FE"))
+            bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            bmiTrend.setTextColor(Color.parseColor("#5A5A5A"))
+            bfpTrend.paintFlags = bfpTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            bfpTrend.setTextColor(Color.parseColor("#5A5A5A"))
+        }
+
+        bmiTrend.setOnClickListener {
+            bmiTrend.isSelected = true
+            bmiLineChart()
+            bmiTrend.paintFlags = bmiTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            bmiTrend.setTextColor(Color.parseColor("#0B89FE"))
+            weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            weightTrend.setTextColor(Color.parseColor("#5A5A5A"))
+            bfpTrend.paintFlags = bfpTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            bfpTrend.setTextColor(Color.parseColor("#5A5A5A"))
+        }
+
+        bfpTrend.setOnClickListener {
+            bfpTrend.isSelected = true
+            bfpLineChart()
+            bfpTrend.paintFlags = bfpTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            bfpTrend.setTextColor(Color.parseColor("#0B89FE"))
+            weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            weightTrend.setTextColor(Color.parseColor("#5A5A5A"))
+            bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+            bmiTrend.setTextColor(Color.parseColor("#5A5A5A"))
+        }
     }
 
     private fun weightLineChart() {
@@ -273,6 +287,9 @@ class Trend : AppCompatActivity() {
 
         lineDataSet = LineDataSet(lineList, "Weight")
         lineData = LineData(lineDataSet)
+
+        lineChart.notifyDataSetChanged()
+        lineChart.invalidate()
 
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         lineChart.xAxis.valueFormatter = MyCustomFormatter()
@@ -303,6 +320,9 @@ class Trend : AppCompatActivity() {
         lineDataSet = LineDataSet(lineList, "BMI")
         lineData = LineData(lineDataSet)
 
+        lineChart.notifyDataSetChanged()
+        lineChart.invalidate()
+
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         lineChart.xAxis.valueFormatter = MyCustomFormatter()
         lineChart.data = lineData
@@ -331,6 +351,9 @@ class Trend : AppCompatActivity() {
 
         lineDataSet = LineDataSet(lineList, "BFP")
         lineData = LineData(lineDataSet)
+
+        lineChart.notifyDataSetChanged()
+        lineChart.invalidate()
 
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         lineChart.xAxis.valueFormatter = MyCustomFormatter()
