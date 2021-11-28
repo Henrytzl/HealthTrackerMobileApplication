@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isNotEmpty
 import com.example.healthtracker.datamodel.Results
 import com.example.healthtracker.login.LoginActivity
 import com.github.mikephil.charting.components.AxisBase
@@ -31,8 +32,8 @@ class Trend : AppCompatActivity() {
     private lateinit var authentication: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var userID: String
-    lateinit var lineList: ArrayList<Entry>
-    lateinit var lineDataSet: LineDataSet
+    private lateinit var lineList: ArrayList<Entry>
+    private lateinit var lineDataSet: LineDataSet
     private lateinit var lineData: LineData
     private lateinit var selectedDateFrom: String
     private lateinit var selectedDateTo: String
@@ -148,6 +149,7 @@ class Trend : AppCompatActivity() {
                 ).show()
 
                 findDateRangeResults()
+
             }
         }
 
@@ -178,7 +180,7 @@ class Trend : AppCompatActivity() {
                     resultList.add(results)
                 }
 
-                newResultList = ArrayList<Results>()
+                newResultList = ArrayList()
                 val simpleDateFormat =
                     SimpleDateFormat(
                         "dd/MM/yyyy",
@@ -228,8 +230,6 @@ class Trend : AppCompatActivity() {
     }
 
     private fun trendOption() {
-        weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-
         if (!bmiTrend.isSelected && !bfpTrend.isSelected) {
             weightLineChart()
         }
@@ -243,33 +243,24 @@ class Trend : AppCompatActivity() {
         weightTrend.setOnClickListener {
             weightTrend.isSelected = true
             weightLineChart()
-            weightTrend.paintFlags = weightTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             weightTrend.setTextColor(Color.parseColor("#0B89FE"))
-            bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             bmiTrend.setTextColor(Color.parseColor("#5A5A5A"))
-            bfpTrend.paintFlags = bfpTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             bfpTrend.setTextColor(Color.parseColor("#5A5A5A"))
         }
 
         bmiTrend.setOnClickListener {
             bmiTrend.isSelected = true
             bmiLineChart()
-            bmiTrend.paintFlags = bmiTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             bmiTrend.setTextColor(Color.parseColor("#0B89FE"))
-            weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             weightTrend.setTextColor(Color.parseColor("#5A5A5A"))
-            bfpTrend.paintFlags = bfpTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             bfpTrend.setTextColor(Color.parseColor("#5A5A5A"))
         }
 
         bfpTrend.setOnClickListener {
             bfpTrend.isSelected = true
             bfpLineChart()
-            bfpTrend.paintFlags = bfpTrend.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             bfpTrend.setTextColor(Color.parseColor("#0B89FE"))
-            weightTrend.paintFlags = weightTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             weightTrend.setTextColor(Color.parseColor("#5A5A5A"))
-            bmiTrend.paintFlags = bmiTrend.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             bmiTrend.setTextColor(Color.parseColor("#5A5A5A"))
         }
     }

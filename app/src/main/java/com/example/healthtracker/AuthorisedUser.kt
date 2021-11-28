@@ -155,6 +155,8 @@ class AuthorisedUser : AppCompatActivity() {
                 .isNotEmpty() && textInputEditTextAge.text.toString()
                 .isNotEmpty() && autoCompleteTextViewGender.text.toString().isNotEmpty()
         ) {
+
+            if (textInputEditTextAge.text.toString().length <= 2) {
             val db = FirebaseFirestore.getInstance()
             val documentRef = db.collection("User").document(userID)
             val user = User(
@@ -173,6 +175,9 @@ class AuthorisedUser : AppCompatActivity() {
                 .addOnFailureListener {
                     Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show()
                 }
+
+            } else Toast.makeText(this, "Invalid age", Toast.LENGTH_SHORT).show()
+
         } else Toast.makeText(this, "Please enter all the fields", Toast.LENGTH_SHORT).show()
     }
 
@@ -197,7 +202,7 @@ class AuthorisedUser : AppCompatActivity() {
                                 textInputEditTextCurrentPassword.text.toString()
                             )
 
-// Prompt the user to re-provide their sign-in credentials
+                        // Prompt the user to re-provide their sign-in credentials
                         user.reauthenticate(credential)
                             .addOnCompleteListener {
                                 if (it.isSuccessful) {
