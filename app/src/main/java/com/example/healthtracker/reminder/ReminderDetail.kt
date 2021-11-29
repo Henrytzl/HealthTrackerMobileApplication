@@ -63,8 +63,7 @@ class ReminderDetail : AppCompatActivity() {
                             txtReminderTime.hour = hr.toInt()
                             txtReminderTime.minute = min.toInt()
                         } else {
-                            Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(this, "SDK Version Problem Occurred", Toast.LENGTH_SHORT).show()
                         }
                         //set day list
                         val dayListFromDb: ArrayList<String> = document.get("selectedDay") as ArrayList<String>
@@ -84,21 +83,21 @@ class ReminderDetail : AppCompatActivity() {
             deleteReminder.setOnClickListener {
                 val deleteViewBuilder = AlertDialog.Builder(this).setTitle("Delete Reminder")
                     .setIcon(R.drawable.ic_delete2).setMessage("Are you sure to delete this reminder?")
-                    .setCancelable(false).setNegativeButton(
-                        "No",
-                        DialogInterface.OnClickListener { dialog, which ->
+                    .setCancelable(false).setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
                             dialog.dismiss()
                             Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
                         })
                     .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
                         firebase.collection("Reminder").document(userID).collection("Reminder Detail").document(reminderID).get().addOnSuccessListener { result ->
                             val cancelRequestCodeID = result.get("requestCodeID").toString().toInt()
+                            val switchFromDB: Boolean = result.get("reminderActivate").toString().toBoolean()
                             firebase.collection("Reminder").document(userID).collection("Reminder Detail").document(reminderID).delete().addOnSuccessListener {
+                                if(switchFromDB) {
                                     cancelAlarm(cancelRequestCodeID)
-
-                                    dialog.dismiss()
-                                    finish()
-                                    Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
+                                }
+                                dialog.dismiss()
+                                finish()
+                                Toast.makeText(this, "Reminder deleted successfully", Toast.LENGTH_SHORT).show()
                             }.addOnFailureListener {
                                 Toast.makeText(this, " " + it.message, Toast.LENGTH_LONG).show()
                             }
@@ -121,11 +120,9 @@ class ReminderDetail : AppCompatActivity() {
             daySelectorViewBuilder.setMultiChoiceItems(dayArray, selectedDayListBoolean) { dialog, which, isChecked ->
                 selectedDayListBoolean[which] = isChecked
             }
-            daySelectorViewBuilder.setCancelable(false).setPositiveButton(
-                "Done",
-                DialogInterface.OnClickListener { dialog, which ->
+            daySelectorViewBuilder.setCancelable(false).setPositiveButton("Done", DialogInterface.OnClickListener { dialog, which ->
                     Toast.makeText(this, "Done Selection", Toast.LENGTH_SHORT).show()
-                })
+            })
             //show dialog
             val displayDialog = daySelectorViewBuilder.create()
             displayDialog.show()
@@ -167,21 +164,21 @@ class ReminderDetail : AppCompatActivity() {
                 calendar[Calendar.MINUTE] = txtReminderTime.minute
                 calendar[Calendar.SECOND] = 0
                 calendar[Calendar.MILLISECOND] = 0
-                var intDay = 0
-                for(i in selectedDayListBoolean.indices){
-                    intDay++
-                    if(selectedDayListBoolean[i]){
-                        when(intDay){
-                            1 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                            2 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
-                            3 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
-                            4 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
-                            5 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
-                            6 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
-                            7 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-                        }
-                    }
-                }
+//                var intDay = 0
+//                for(i in selectedDayListBoolean.indices){
+//                    intDay++
+//                    if(selectedDayListBoolean[i]){
+//                        when(intDay){
+//                            1 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+//                            2 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+//                            3 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+//                            4 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+//                            5 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+//                            6 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+//                            7 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+//                        }
+//                    }
+//                }
             }
 
             if(hr == -1 || min == -1){
@@ -197,10 +194,10 @@ class ReminderDetail : AppCompatActivity() {
                         val reminderDetail = ReminderDetailDC(getDocID.id, reminderTitle, reminderDesc, time, switch, insertDayList, requestCodeID)
                         val detailDocumentRef1 = documentRef.collection("Reminder Detail")
                         detailDocumentRef1.document("${getDocID.id}").set(reminderDetail).addOnSuccessListener {
-
                             detailDocumentRef1.document("${getDocID.id}").get().addOnSuccessListener { result ->
-
-                                setAlarm(result.get("reminderTitle").toString(), result.get("reminderDesc").toString(), result.get("requestCodeID").toString().toInt())
+                                if(switch) {
+                                    setAlarm(result.get("reminderTitle").toString(), result.get("reminderDesc").toString(), result.get("requestCodeID").toString().toInt(), getDocID.id)
+                                }
                             }.addOnFailureListener {
                                 Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
                             }
@@ -212,9 +209,15 @@ class ReminderDetail : AppCompatActivity() {
                         }
                     }else{                              // Update Reminder
                         val update = documentRef.collection("Reminder Detail").document("$reminderID")
-                        update.get().addOnSuccessListener {
-                            val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList, it.get("requestCodeID").toString().toInt())
+                        update.get().addOnSuccessListener { result ->
+                            if(result.getBoolean("reminderActivate").toString().toBoolean()){
+                                cancelAlarm(result.get("requestCodeID").toString().toInt())
+                            }
+                            val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList, result.get("requestCodeID").toString().toInt())
                             update.set(reminderDetail).addOnSuccessListener {
+                                if(switch) {
+                                    setAlarm(reminderTitle, reminderDesc, result.get("requestCodeID").toString().toInt(), result.get("reminderID").toString())
+                                }
                                 Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
                                 finish()
                             }.addOnFailureListener {
@@ -240,18 +243,21 @@ class ReminderDetail : AppCompatActivity() {
         alarmManager.cancel(pendingIntent)
     }
 
-    private fun setAlarm(reminderTitle: String, reminderDesc: String, requestCodeID: Int) {
+    private fun setAlarm(reminderTitle: String, reminderDesc: String, requestCodeID: Int, reminderID: String) {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.putExtra("reminderTitle", reminderTitle)
         intent.putExtra("reminderDesc", reminderDesc)
         intent.putExtra("requestCodeID", requestCodeID)
+        intent.putExtra("reminderID", reminderID)
         pendingIntent = PendingIntent.getBroadcast(this, requestCodeID, intent, 0)
 
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY, pendingIntent
         )
+
+        // 24 * 7 * 60 * 60 * 1000  //for every week interval calculation
     }
 
     private fun createNotificationChannel() {

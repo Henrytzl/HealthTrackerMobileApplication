@@ -4,6 +4,7 @@ public class RecycleViewReminder {
 
     String reminderTitle, reminderTime, reminderID, reminderDesc;
     Boolean reminderActivate;
+    int requestCodeID;
 
     public String getReminderTitle() {
         return reminderTitle;
@@ -23,5 +24,9 @@ public class RecycleViewReminder {
 
     public Boolean getReminderActivate() {
         return reminderActivate;
+    }
+
+    public int getRequestCodeID(){
+        return requestCodeID;
     }
 }

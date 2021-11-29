@@ -121,10 +121,7 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
             finish()
             finishAffinity()
         }
-        if(list.isEmpty()){
-            noDataTxt.visibility = View.VISIBLE
-        }
-        if(!list.isEmpty()){
+        if(list.isNotEmpty()){
             noDataTxt.visibility = View.GONE
         }
     }
