@@ -45,9 +45,6 @@ class HealthyMeal : AppCompatActivity() {
                 R.id.mFAQ -> {
 
                 }
-                R.id.mFeedback -> {
-
-                }
                 R.id.mHelp -> {
 
                 }

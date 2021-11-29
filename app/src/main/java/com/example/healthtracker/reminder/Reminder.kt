@@ -53,9 +53,6 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
                 R.id.mFAQ -> {
 
                 }
-                R.id.mFeedback -> {
-
-                }
                 R.id.mHelp -> {
 
                 }

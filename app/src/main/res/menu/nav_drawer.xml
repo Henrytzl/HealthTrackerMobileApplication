@@ -16,10 +16,6 @@
                 android:id="@+id/mFAQ"
                 android:icon="@drawable/ic_faq"
                 android:title="FAQ"/>
-            <item
-                android:id="@+id/mFeedback"
-                android:icon="@drawable/ic_feedback"
-                android:title="Feedback"/>
             <item android:title="Help"
                 android:id="@+id/mHelp"
                 android:icon="@drawable/ic_help"/>

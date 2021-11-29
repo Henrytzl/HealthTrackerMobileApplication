@@ -32,7 +32,7 @@
     <string name="Kg">Kg</string>
     <string name="Lb">Lb</string>
     <string name="Cm">Cm</string>
-    <string name="In">In</string>
+    <string name="Ft">Ft</string>
 
     <string-array name="Activity_Lvl">
         <item>little/no exercise (sedentary lifestyle)</item>
@@ -108,4 +108,7 @@
     <string name="title_activity_scanner">Scanner</string>
     <string name="tab_text_1_scanner">Scanner</string>
     <string name="tab_text_2_scanner">History</string>
+
+    //about us
+    <string name="about_us_title_name">About Us</string>
 </resources>

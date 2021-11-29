@@ -49,9 +49,6 @@ class ArticleMenu : AppCompatActivity() {
                 R.id.mFAQ -> {
 
                 }
-                R.id.mFeedback -> {
-
-                }
                 R.id.mHelp -> {
                     startActivity(Intent(this, ChatBot::class.java))
                     finish()
