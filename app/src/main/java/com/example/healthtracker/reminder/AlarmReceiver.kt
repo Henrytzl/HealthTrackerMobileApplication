@@ -69,9 +69,9 @@ class AlarmReceiver : BroadcastReceiver() {
                         notificationManager.notify(getRequestCodeID, builder.build())
                     }
                 }
-                Log.d("Got it", "Got the value of reminder ID")
+                Log.d("Got it", "Got the value of reminder ID $getTitle")
             }else{
-                Log.d("Empty ReminderID", "Got null value of reminder ID")
+                Log.d("Empty ReminderID", "Got null value of reminder ID $getTitle")
             }
         }
     }

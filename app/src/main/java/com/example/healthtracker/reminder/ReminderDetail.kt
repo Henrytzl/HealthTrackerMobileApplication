@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -213,10 +214,10 @@ class ReminderDetail : AppCompatActivity() {
                             if(result.getBoolean("reminderActivate").toString().toBoolean()){
                                 cancelAlarm(result.get("requestCodeID").toString().toInt())
                             }
-                            val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList, result.get("requestCodeID").toString().toInt())
+                            val reminderDetail = ReminderDetailDC(reminderID, reminderTitle, reminderDesc, time, switch, insertDayList, requestCodeID)
                             update.set(reminderDetail).addOnSuccessListener {
                                 if(switch) {
-                                    setAlarm(reminderTitle, reminderDesc, result.get("requestCodeID").toString().toInt(), result.get("reminderID").toString())
+                                    setAlarm(reminderTitle, reminderDesc, requestCodeID, result.get("reminderID").toString())
                                 }
                                 Toast.makeText(this, "Reminder updated successfully", Toast.LENGTH_SHORT).show()
                                 finish()
@@ -250,6 +251,7 @@ class ReminderDetail : AppCompatActivity() {
         intent.putExtra("reminderDesc", reminderDesc)
         intent.putExtra("requestCodeID", requestCodeID)
         intent.putExtra("reminderID", reminderID)
+        Log.d("set Title", "title > $reminderTitle")
         pendingIntent = PendingIntent.getBroadcast(this, requestCodeID, intent, 0)
 
         alarmManager.setRepeating(
