@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawerLayoutTrend"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayoutAboutUs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
@@ -24,7 +25,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbarTrend"
+                    android:id="@+id/toolbarAboutUs"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/white">
@@ -63,12 +64,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/about_us_title" />
 
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/logo"
+                android:contentDescription="Logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/underline"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/about_us_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/roboto_condensed_regular"
+                android:text="@string/about_us_content"
+                android:textAlignment="center"
+                android:textColor="@color/purple_500"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navViewTrend"
+        android:id="@+id/navViewAboutUs"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

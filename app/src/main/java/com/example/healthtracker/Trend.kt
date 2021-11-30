@@ -74,7 +74,8 @@ class Trend : AppCompatActivity() {
                     finish()
                 }
                 R.id.mAboutUs -> {
-
+                    startActivity(Intent(this, AboutUs::class.java))
+                    finish()
                 }
                 R.id.mLogout -> {
                     authentication.signOut()
@@ -253,7 +254,7 @@ class Trend : AppCompatActivity() {
         if (selectedResultList.isNotEmpty()) {
             trendOption()
         } else {
-            Toast.makeText(this, "No data found. Pls choose valid a date range.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "No data found. Pls choose a valid date range.", Toast.LENGTH_LONG).show()
             calendar()
         }
     }

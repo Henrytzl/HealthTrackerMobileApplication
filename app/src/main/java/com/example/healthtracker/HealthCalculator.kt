@@ -58,7 +58,8 @@ class HealthCalculator : AppCompatActivity() {
                     finish()
                 }
                 R.id.mAboutUs -> {
-
+                    startActivity(Intent(this, AboutUs::class.java))
+                    finish()
                 }
                 R.id.mLogout -> {
                     authentication.signOut()
@@ -168,7 +169,7 @@ class HealthCalculator : AppCompatActivity() {
             buttonFt.setBackgroundResource(R.drawable.custom_button_ft_checked)
             buttonCm.setBackgroundResource(R.drawable.custom_button_cm_unchecked)
             buttonFt.setTextColor(Color.parseColor("#FF6200EE"))
-            textInputLayoutHeight.suffixText = "In"
+            textInputLayoutHeight.suffixText = "Ft"
         }
 
         //calculate button
@@ -231,8 +232,8 @@ class HealthCalculator : AppCompatActivity() {
                     }
                     if (buttonFt.isChecked) {
                         hBValue =
-                            ((textInputEditTextHeight.text.toString().toDouble() * 2.54) / 100)
-                        hDcBValue = (textInputEditTextHeight.text.toString().toDouble() * 2.54)
+                            ((textInputEditTextHeight.text.toString().toDouble() * 30.48) / 100)
+                        hDcBValue = (textInputEditTextHeight.text.toString().toDouble() * 30.48)
                         hValue = String.format("%.2f", hBValue).toDouble()
                         hDcValue = String.format("%.2f", hDcBValue).toDouble()
                     }

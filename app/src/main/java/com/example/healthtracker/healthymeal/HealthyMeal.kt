@@ -6,6 +6,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.healthtracker.AboutUs
+import com.example.healthtracker.AuthorisedUser
+import com.example.healthtracker.ChatBot
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -40,16 +43,19 @@ class HealthyMeal : AppCompatActivity() {
                     finish()
                 }
                 R.id.mProfile -> {
-
+                    startActivity(Intent(this, AuthorisedUser::class.java))
+                    finish()
                 }
                 R.id.mFAQ -> {
 
                 }
                 R.id.mHelp -> {
-
+                    startActivity(Intent(this, ChatBot::class.java))
+                    finish()
                 }
                 R.id.mAboutUs -> {
-
+                    startActivity(Intent(this, AboutUs::class.java))
+                    finish()
                 }
                 R.id.mLogout -> {
                     authentication.signOut()

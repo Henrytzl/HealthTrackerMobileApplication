@@ -124,6 +124,10 @@
 
         </activity>
 
+        <activity android:name=".AboutUs">
+
+        </activity>
+
         <!--add in application tag-->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

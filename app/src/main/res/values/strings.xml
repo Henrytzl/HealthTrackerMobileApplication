@@ -111,4 +111,5 @@
 
     //about us
     <string name="about_us_title_name">About Us</string>
+    <string name="about_us_content">Welcome to Health Tracker. Founded in 2021 by Teo Kang Jing and Henry Tee, our mission is to provide a useful mobile application for you to keep track your body health status and daily nutrition.</string>
 </resources>
