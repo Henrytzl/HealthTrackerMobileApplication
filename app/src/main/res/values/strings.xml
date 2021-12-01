@@ -77,9 +77,8 @@
 
     //Video Menu
     <string name="video_title_name">Videos</string>
-    <string name="video_1_title">5 Min Home Workout You Can Do Every Morning</string>
-    <string name="video_2_title">The Perfect Push Up | Do It Right!</string>
-    <string name="video_3_title">10 Dumbbell Exercises You Should Be Doing</string>
+    <string name="title1"><u>Workout</u></string>
+    <string name="title2"><u>Healthy Tips</u></string>
 
     //Trend
     <string name="trend_title_name">Trend</string>
@@ -111,5 +110,7 @@
 
     //about us
     <string name="about_us_title_name">About Us</string>
-    <string name="about_us_content">Welcome to Health Tracker. Founded in 2021 by Teo Kang Jing and Henry Tee, our mission is to provide a useful mobile application for you to keep track your body health status and daily nutrition.</string>
+    <string name="about_us_content">Welcome to Health Tracker.</string>
+    <string name="about_us_content2">Founded in 2021 by Teo Kang Jing and Henry Tee.</string>
+    <string name="about_us_content3">Our mission is to provide a useful mobile application for you to keep track your body health status and daily nutrition.</string>
 </resources>
