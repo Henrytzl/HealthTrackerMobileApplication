@@ -46,7 +46,8 @@ class ArticleMenu : AppCompatActivity() {
                     finish()
                 }
                 R.id.mFAQ -> {
-
+                    startActivity(Intent(this, FAQ::class.java))
+                    finish()
                 }
                 R.id.mHelp -> {
                     startActivity(Intent(this, ChatBot::class.java))

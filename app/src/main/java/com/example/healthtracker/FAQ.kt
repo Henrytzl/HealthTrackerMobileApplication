@@ -41,13 +41,16 @@ class FAQ : AppCompatActivity() {
                     finishAffinity()
                 }
                 R.id.mProfile -> {
-
+                    startActivity(Intent(this, AuthorisedUser::class.java))
+                    finish()
                 }
                 R.id.mHelp -> {
-
+                    startActivity(Intent(this, ChatBot::class.java))
+                    finish()
                 }
                 R.id.mAboutUs -> {
-
+                    startActivity(Intent(this, AboutUs::class.java))
+                    finish()
                 }
                 R.id.mLogout -> {
                     authentication.signOut()
