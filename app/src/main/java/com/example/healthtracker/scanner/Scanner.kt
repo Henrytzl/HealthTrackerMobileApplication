@@ -28,10 +28,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.healthtracker.AboutUs
-import com.example.healthtracker.AuthorisedUser
-import com.example.healthtracker.ChatBot
-import com.example.healthtracker.R
+import com.example.healthtracker.*
 import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
@@ -89,7 +86,8 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
                     finish()
                 }
                 R.id.mFAQ -> {
-
+                    startActivity(Intent(this, FAQ::class.java))
+                    finish()
                 }
                 R.id.mHelp -> {
                     startActivity(Intent(this, ChatBot::class.java))
