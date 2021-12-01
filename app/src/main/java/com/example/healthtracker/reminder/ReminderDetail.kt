@@ -165,21 +165,6 @@ class ReminderDetail : AppCompatActivity() {
                 calendar[Calendar.MINUTE] = txtReminderTime.minute
                 calendar[Calendar.SECOND] = 0
                 calendar[Calendar.MILLISECOND] = 0
-//                var intDay = 0
-//                for(i in selectedDayListBoolean.indices){
-//                    intDay++
-//                    if(selectedDayListBoolean[i]){
-//                        when(intDay){
-//                            1 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-//                            2 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
-//                            3 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
-//                            4 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
-//                            5 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
-//                            6 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
-//                            7 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-//                        }
-//                    }
-//                }
             }
 
             if(hr == -1 || min == -1){
