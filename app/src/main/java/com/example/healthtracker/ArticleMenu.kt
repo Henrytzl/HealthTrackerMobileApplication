@@ -10,7 +10,6 @@ import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.article_menu.*
-import kotlinx.android.synthetic.main.health_calculator_form.imageHome
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 
@@ -49,15 +48,13 @@ class ArticleMenu : AppCompatActivity() {
                 R.id.mFAQ -> {
 
                 }
-                R.id.mFeedback -> {
-
-                }
                 R.id.mHelp -> {
                     startActivity(Intent(this, ChatBot::class.java))
                     finish()
                 }
                 R.id.mAboutUs -> {
-
+                    startActivity(Intent(this, AboutUs::class.java))
+                    finish()
                 }
                 R.id.mLogout -> {
                     authentication.signOut()

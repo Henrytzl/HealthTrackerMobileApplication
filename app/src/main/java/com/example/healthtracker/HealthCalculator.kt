@@ -53,15 +53,13 @@ class HealthCalculator : AppCompatActivity() {
                 R.id.mFAQ -> {
 
                 }
-                R.id.mFeedback -> {
-
-                }
                 R.id.mHelp -> {
                     startActivity(Intent(this, ChatBot::class.java))
                     finish()
                 }
                 R.id.mAboutUs -> {
-
+                    startActivity(Intent(this, AboutUs::class.java))
+                    finish()
                 }
                 R.id.mLogout -> {
                     authentication.signOut()
@@ -156,22 +154,22 @@ class HealthCalculator : AppCompatActivity() {
         //height stuff
         buttonCm.setOnClickListener {
             buttonCm.isSelected = true
-            buttonIn.isChecked = false
-            buttonIn.setTextColor(Color.BLACK)
+            buttonFt.isChecked = false
+            buttonFt.setTextColor(Color.BLACK)
             buttonCm.setBackgroundResource(R.drawable.custom_button_cm_checked)
-            buttonIn.setBackgroundResource(R.drawable.custom_button_in_unchecked)
+            buttonFt.setBackgroundResource(R.drawable.custom_button_ft_unchecked)
             buttonCm.setTextColor(Color.parseColor("#FF6200EE"))
             textInputLayoutHeight.suffixText = "Cm"
         }
 
-        buttonIn.setOnClickListener {
-            buttonIn.isSelected = true
+        buttonFt.setOnClickListener {
+            buttonFt.isSelected = true
             buttonCm.isChecked = false
             buttonCm.setTextColor(Color.BLACK)
-            buttonIn.setBackgroundResource(R.drawable.custom_button_in_checked)
+            buttonFt.setBackgroundResource(R.drawable.custom_button_ft_checked)
             buttonCm.setBackgroundResource(R.drawable.custom_button_cm_unchecked)
-            buttonIn.setTextColor(Color.parseColor("#FF6200EE"))
-            textInputLayoutHeight.suffixText = "In"
+            buttonFt.setTextColor(Color.parseColor("#FF6200EE"))
+            textInputLayoutHeight.suffixText = "Ft"
         }
 
         //calculate button
@@ -232,10 +230,10 @@ class HealthCalculator : AppCompatActivity() {
                         hValue = (textInputEditTextHeight.text.toString().toDouble() / 100)
                         hDcValue = textInputEditTextHeight.text.toString().toDouble()
                     }
-                    if (buttonIn.isChecked) {
+                    if (buttonFt.isChecked) {
                         hBValue =
-                            ((textInputEditTextHeight.text.toString().toDouble() * 2.54) / 100)
-                        hDcBValue = (textInputEditTextHeight.text.toString().toDouble() * 2.54)
+                            ((textInputEditTextHeight.text.toString().toDouble() * 30.48) / 100)
+                        hDcBValue = (textInputEditTextHeight.text.toString().toDouble() * 30.48)
                         hValue = String.format("%.2f", hBValue).toDouble()
                         hDcValue = String.format("%.2f", hDcBValue).toDouble()
                     }

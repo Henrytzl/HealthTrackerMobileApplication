@@ -38,17 +38,6 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/logo"/>
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:text="Health Tracker"-->
-<!--                    android:fontFamily="@font/roboto_condensed_bold"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textSize="25dp"-->
-<!--                    android:paddingTop="10dp"-->
-<!--                    android:layout_marginLeft="20dp"/>-->
-
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
