@@ -71,7 +71,7 @@
                 android:id="@+id/btnScanner"
                 android:layout_width="140dp"
                 android:layout_height="120dp"
-                android:text="Scanner"
+                android:text="Add Food"
                 android:background="@drawable/round_button"
                 android:gravity="center_vertical|center_horizontal"
                 android:drawableBottom="@drawable/ic_scanner"

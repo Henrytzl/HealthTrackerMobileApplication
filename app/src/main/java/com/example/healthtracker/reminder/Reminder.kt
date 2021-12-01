@@ -1,14 +1,21 @@
 package com.example.healthtracker.reminder
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.healthtracker.FAQ
 import com.example.healthtracker.AboutUs
 import com.example.healthtracker.AuthorisedUser
 import com.example.healthtracker.ChatBot
@@ -19,6 +26,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reminder.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import java.util.*
 
 class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickListener, RecycleViewReminderAdapter.OnSwitchClickListener {
 
@@ -30,6 +38,10 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
     private lateinit var recyclerView: RecyclerView
     private lateinit var list: ArrayList<RecycleViewReminder>
     private lateinit var adapter: RecycleViewReminderAdapter
+
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var pendingIntent: PendingIntent
+    private lateinit var calendar: Calendar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +55,7 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // getInstance database
         setUpFirebase()
-
+        createNotificationChannel()
         //Drawer
         navView.setNavigationItemSelectedListener{
             when(it.itemId){
@@ -55,7 +67,8 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
                     finish()
                 }
                 R.id.mFAQ -> {
-
+                    startActivity(Intent(this, FAQ::class.java))
+                    finish()
                 }
                 R.id.mHelp -> {
                     startActivity(Intent(this, ChatBot::class.java))
@@ -95,16 +108,72 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
     override fun onSwitchClickListener(position: Int) {
         val switchClickedItem = list[position]
         switchClickedItem.reminderActivate = !switchClickedItem.getReminderActivate()
-        val text: String =
-            if(switchClickedItem.reminderActivate){
-                "Activated"
-            }else{
-                "Deactivated"
-            }
-        Toast.makeText(this,"${switchClickedItem.reminderTitle} Reminder" + " " + "${text}", Toast.LENGTH_SHORT).show()
-        firebase.collection("Reminder").document("$userID")
-            .collection("Reminder Detail").document("${switchClickedItem.getReminderID()}").update("reminderActivate", switchClickedItem.reminderActivate)
+        // Reminder Calendar
+        calendar = Calendar.getInstance()
+
+        val time = list[position].getReminderTime()
+        val hr: String = "${time?.get(0)}" + "${time?.get(1)}"
+        val min: String = "${time?.get(3)}" + "${time?.get(4)}"
+        calendar[Calendar.HOUR_OF_DAY] = hr.toInt()
+        calendar[Calendar.MINUTE] = min.toInt()
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+
+        var text: String? = null
+        if(switchClickedItem.reminderActivate){
+            text = "Activated"
+            setAlarm(list[position].getReminderTitle(), list[position].getReminderDesc(), list[position].getRequestCodeID(), list[position].getReminderID())
+        }else{
+            text = "Deactivated"
+            cancelAlarm(list[position].getRequestCodeID())
+        }
+
+        firebase.collection("Reminder").document("$userID").collection("Reminder Detail").document("${switchClickedItem.getReminderID()}").update("reminderActivate", switchClickedItem.reminderActivate).addOnFailureListener {
+            Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT)
+        }
         adapter.notifyItemChanged(position)
+        Toast.makeText(this,"${switchClickedItem.reminderTitle} Reminder" + " " + "$text", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun cancelAlarm(requestCodeID: Int) {
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmReceiver::class.java)
+
+        pendingIntent = PendingIntent.getBroadcast(this, requestCodeID, intent, 0)
+
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun setAlarm(reminderTitle: String, reminderDesc: String, requestCodeID: Int, reminderID: String) {
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmReceiver::class.java)
+        intent.putExtra("reminderTitle", reminderTitle)
+        intent.putExtra("reminderDesc", reminderDesc)
+        intent.putExtra("requestCodeID", requestCodeID)
+        intent.putExtra("reminderID", reminderID)
+        pendingIntent = PendingIntent.getBroadcast(this, requestCodeID, intent, 0)
+
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY, pendingIntent
+        )
+
+        // 24 * 7 * 60 * 60 * 1000  //for every week interval calculation
+    }
+
+    private fun createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name: CharSequence = "HealthTrackerReminderChannel"
+            val description = "Channel for Alarm Manager"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("notification", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     override fun onStart() {
@@ -141,7 +210,7 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
         adapter = RecycleViewReminderAdapter(list, this, this)
 
         recyclerView.adapter = adapter
-
+        noDataTxt.visibility = View.GONE
         firebase.collection("Reminder/$userID/Reminder Detail")
             .addSnapshotListener { value, error ->
                 if (error != null) {
@@ -151,6 +220,9 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
                         if (dc.type == DocumentChange.Type.ADDED) {
                             list.add(dc.document.toObject(RecycleViewReminder::class.java))
                         }
+                    }
+                    if(list.isEmpty()){
+                        noDataTxt.visibility = View.VISIBLE
                     }
                     adapter.notifyDataSetChanged()
                 }

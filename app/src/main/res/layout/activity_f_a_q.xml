@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<ScrollView-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:fillViewport="true">-->
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_gravity="start">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FAQ">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white">
+
+                <ImageButton
+                    android:id="@+id/imageHome"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/logo" />
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/innerCL">
+
+                <TextView
+                    android:id="@+id/faqTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FAQ"
+                    android:textSize="80dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/faqTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/faq1MainLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
+                        <LinearLayout
+                            android:id="@+id/faq1LinearLayout"
+                            app:layout_constraintTop_toBottomOf="@id/faqTitle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/faq1Question"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="How to update my profile information?"
+                                android:textColor="@color/purple_500"
+                                android:textSize="18dp"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:id="@+id/faq1Btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_down"
+                                android:backgroundTint="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/faq1Answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="You can update your profile follow by these two ways: \n1. Open the 'drawer' at the top left burger icon, click 'profile', and update there.\n2. Click 'Profile' button to update from the home"
+                            android:textColor="@color/black"
+                            android:textSize="15dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/faq2MainLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
+                        <LinearLayout
+                            android:id="@+id/faq2LinearLayout"
+                            app:layout_constraintTop_toBottomOf="@id/faqTitle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/faq2Question"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="How to loss body weight healthy?"
+                                android:textColor="@color/purple_500"
+                                android:textSize="18dp"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:id="@+id/faq2Btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_down"
+                                android:backgroundTint="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/faq2Answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Advices:\n1. Decrease the calories, fat, and carbohydrates intake\n2. Increase your exercises intensity (cardio and strength training)\n3. Do not skip any meal without doctor advices\n4. Plan and follow your meal with needed nutrition only"
+                            android:textColor="@color/black"
+                            android:textSize="15dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/faq3MainLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
+                        <LinearLayout
+                            android:id="@+id/faq3LinearLayout"
+                            app:layout_constraintTop_toBottomOf="@id/faqTitle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/faq3Question"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="What is the food list stated in the 'Add Food'?"
+                                android:textColor="@color/purple_500"
+                                android:textSize="18dp"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:id="@+id/faq3Btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_down"
+                                android:backgroundTint="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/faq3Answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Food list refers to the foods that you can use to plan your healthy meals. There is also some default foods in the food list that you can choose."
+                            android:textColor="@color/black"
+                            android:textSize="15dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/faq4MainLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
+                        <LinearLayout
+                            android:id="@+id/faq4LinearLayout"
+                            app:layout_constraintTop_toBottomOf="@id/faqTitle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/faq4Question"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="What is 'Help'?"
+                                android:textColor="@color/purple_500"
+                                android:textSize="18dp"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:id="@+id/faq4Btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_down"
+                                android:backgroundTint="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/faq4Answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="It is a chat bot, which is able to answer and execute your instruction."
+                            android:textColor="@color/black"
+                            android:textSize="15dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/faq5MainLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
+                        <LinearLayout
+                            android:id="@+id/faq5LinearLayout"
+                            app:layout_constraintTop_toBottomOf="@id/faqTitle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/faq5Question"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="What is the usage of this app?"
+                                android:textColor="@color/purple_500"
+                                android:textSize="18dp"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:id="@+id/faq5Btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_down"
+                                android:backgroundTint="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/faq5Answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="You can utilize this application to plan healthy meal, calculate and track your body index, learn to stay healthy, and create reminder to remind you."
+                            android:textColor="@color/black"
+                            android:textSize="15dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/darkGrey"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/nav_drawer" />
+</androidx.drawerlayout.widget.DrawerLayout>
+<!--</ScrollView>-->

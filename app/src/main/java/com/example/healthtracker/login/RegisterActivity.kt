@@ -32,7 +32,6 @@ class RegisterActivity : AppCompatActivity() {
 
         setUpFirebase()
 
-
         register.setOnClickListener {
             val email = emailTextRegister.text.toString().trim()
             val password = passwordTextRegister.text.toString().trim()

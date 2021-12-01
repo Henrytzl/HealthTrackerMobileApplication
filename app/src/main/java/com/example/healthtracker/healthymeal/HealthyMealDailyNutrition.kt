@@ -28,18 +28,45 @@ class HealthyMealDailyNutrition : AppCompatActivity() {
         setUpFirebase()
 
         val day = intent.getStringExtra("day")
+
         val textDay = "Day $day"
-        txtNoDay.text = textDay
-        //val noOfDay = day!!.toInt()
+        val dayTxt = when(day.toString().toInt()){
+            1 -> "Monday"
+            2 -> "Tuesday"
+            3 -> "Wednesday"
+            4 -> "Thursday"
+            5 -> "Friday"
+            6 -> "Saturday"
+            7 -> "Sunday"
+            else -> ""
+        }
+        txtNoDay.text = dayTxt
 
         val dailyNutritionRef = firebase.collection("Days").document(userID).collection("$textDay").document("detail")
-        dailyNutritionRef.get().addOnSuccessListener { result ->
-            if(result != null){
-                dailyKcal.text = result.get("kcal").toString()
-                dailyProtein.text = result.get("protein").toString()
-                dailyFat.text = result.get("fat").toString()
-                dailyCarb.text = result.get("carb").toString()
-                dailySugar.text = result.get("sugar").toString()
+        val mealRef = firebase.collection("Meals").document(userID).collection("Meal Detail")
+        var kcalSum: Int = 0; var carbSum: Int = 0; var fatSum: Int = 0; var proteinSum: Int = 0; var sugarSum: Int = 0;
+        mealRef.whereEqualTo("noOfDay", day.toString().toInt()).get().addOnSuccessListener { result ->
+            for(i in result.documents.indices) {
+                kcalSum += result.documents[i].get("kcal").toString().toInt()
+                carbSum += result.documents[i].get("carb").toString().toInt()
+                fatSum += result.documents[i].get("fat").toString().toInt()
+                proteinSum += result.documents[i].get("protein").toString().toInt()
+                sugarSum += result.documents[i].get("sugar").toString().toInt()
+            }
+            dailyNutritionRef.update("carb", carbSum, "fat", fatSum, "kcal", kcalSum, "protein", proteinSum, "sugar", sugarSum).addOnSuccessListener {
+                dailyNutritionRef.get().addOnSuccessListener { result ->
+                    if(result != null){
+                        dailyKcal.text = result.get("kcal").toString()
+                        dailyProtein.text = result.get("protein").toString()
+                        dailyFat.text = result.get("fat").toString()
+                        dailyCarb.text = result.get("carb").toString()
+                        dailySugar.text = result.get("sugar").toString()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT)
             }
         }.addOnFailureListener {
             Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT)

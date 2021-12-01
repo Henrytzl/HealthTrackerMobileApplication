@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,6 +48,33 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
         }
         setUpFirebase()
 
+        //Recycle View
+        recyclerView = recyclerViewMeals
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = true
+        recyclerView.setHasFixedSize(true)
+        list = arrayListOf()
+
+        adapter = RecycleViewMealAdapter(list, this, this)
+        recyclerView.adapter = adapter
+        noDataTxt.visibility = View.GONE
+        firebase.collection("Meals/$userID/Meal Detail").whereEqualTo("noOfDay", intent.getStringExtra("day")!!.toInt())
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e("FireStore Error", error.message.toString())
+                }else {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            list.add(dc.document.toObject(RecycleViewMeal::class.java))
+                        }
+                    }
+                    if(list.isEmpty()){
+                        noDataTxt.visibility = View.VISIBLE
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+            }
+
         //Add Meal
         addMeal.setOnClickListener {
             if(noOfDay == 0){
@@ -62,7 +90,7 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
                     displayDialog.dismiss()
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
                 }
-                //send reset email
+
                 createMealView.btn_create.setOnClickListener {
                     val mealName = createMealView.mealName.text.toString().trim()
                     if (mealName.isNotEmpty()) {
@@ -93,29 +121,9 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
             finish()
             finishAffinity()
         }
-        //Recycle View
-        recyclerView = recyclerViewMeals
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = true
-        recyclerView.setHasFixedSize(true)
-        list = arrayListOf()
-
-        adapter = RecycleViewMealAdapter(list, this, this)
-        recyclerView.adapter = adapter
-
-        firebase.collection("Meals/$userID/Meal Detail").whereEqualTo("noOfDay", intent.getStringExtra("day")!!.toInt())
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    Log.e("FireStore Error", error.message.toString())
-                }else {
-                    for (dc: DocumentChange in value?.documentChanges!!) {
-                        if (dc.type == DocumentChange.Type.ADDED) {
-                            list.add(dc.document.toObject(RecycleViewMeal::class.java))
-                        }
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-            }
+        if(list.isNotEmpty()){
+            noDataTxt.visibility = View.GONE
+        }
     }
 
     override fun onItemClick(position: Int) {
@@ -138,6 +146,9 @@ class Meals : AppCompatActivity(), RecycleViewMealAdapter.OnItemClickListener, R
                     Toast.makeText(this, "Meal deleted successfully", Toast.LENGTH_SHORT).show()
                     list.removeAt(position)
                     adapter.notifyDataSetChanged()
+                    if(list.isEmpty()){
+                        noDataTxt.visibility = View.VISIBLE
+                    }
                 }.addOnFailureListener {
                     Toast.makeText(this," " + it.message, Toast.LENGTH_LONG).show()
                 }

@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 1"
+                android:text="Monday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 2"
+                android:text="Tuesday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -129,7 +129,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 3"
+                android:text="Wednesday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -164,7 +164,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 4"
+                android:text="Thursday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -199,7 +199,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 5"
+                android:text="Friday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -234,7 +234,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 6"
+                android:text="Saturday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -269,7 +269,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Day 7"
+                android:text="Sunday"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp"

@@ -26,14 +26,27 @@
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerViewMeals"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:layout_marginStart="20dp"
       android:layout_marginEnd="20dp"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/appBar"
+      app:layout_constraintBottom_toBottomOf="parent"
       tools:listitem="@layout/meals_view" />
+
+  <TextView
+      android:id="@+id/noDataTxt"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawableTop="@drawable/ic_warning"
+      android:text="No meal, add some meals"
+      android:textSize="20dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/appBar"
+      app:layout_constraintBottom_toBottomOf="parent"/>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/addMeal"
