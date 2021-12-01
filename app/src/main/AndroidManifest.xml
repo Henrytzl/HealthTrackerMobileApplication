@@ -13,12 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthTracker.NoActionBar">
-        <activity android:name=".healthymeal.FoodDetail"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".FAQ"></activity>
+        <activity android:name=".healthymeal.FoodDetail" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".AuthorisedUser"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".HealthCalculator"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".HealthCalculator" />
         <activity
             android:name=".scanner.ScannerFoodDetail"
             android:parentActivityName=".scanner.Scanner" />
@@ -53,33 +54,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ArticleMenu"></activity>
+        <activity android:name=".ArticleMenu" />
         <activity
             android:name=".Article1"
-            android:parentActivityName=".ArticleMenu"></activity>
+            android:parentActivityName=".ArticleMenu" />
         <activity
             android:name=".Article2"
-            android:parentActivityName=".ArticleMenu"></activity>
+            android:parentActivityName=".ArticleMenu" />
         <activity
             android:name=".Article3"
-            android:parentActivityName=".ArticleMenu"></activity>
+            android:parentActivityName=".ArticleMenu" />
         <activity
             android:name=".Article4"
-            android:parentActivityName=".ArticleMenu"></activity>
+            android:parentActivityName=".ArticleMenu" />
         <activity
             android:name=".Article5"
-            android:parentActivityName=".ArticleMenu"></activity>
+            android:parentActivityName=".ArticleMenu" />
         <activity
             android:name=".Article6"
-            android:parentActivityName=".ArticleMenu"></activity>
+            android:parentActivityName=".ArticleMenu" />
         <activity
             android:name=".VideoMenu"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".Trend"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".Trend" />
         <activity
             android:name=".ChatBot"
-            android:parentActivityName=".MainActivity"></activity> <!-- add in application tag -->
+            android:parentActivityName=".MainActivity" /> <!-- add in application tag -->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/CropTheme" /> <!-- ML Kit Text Recognition -->
@@ -87,9 +88,10 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
 
-        <receiver android:name=".reminder.AlarmReceiver"
+        <receiver
+            android:name=".reminder.AlarmReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

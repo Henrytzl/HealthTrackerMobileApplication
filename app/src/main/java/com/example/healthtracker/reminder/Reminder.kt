@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.healthtracker.FAQ
 import com.example.healthtracker.R
 import com.example.healthtracker.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -62,7 +63,8 @@ class Reminder : AppCompatActivity(), RecycleViewReminderAdapter.OnItemClickList
 
                 }
                 R.id.mFAQ -> {
-
+                    startActivity(Intent(this, FAQ::class.java))
+                    finish()
                 }
                 R.id.mFeedback -> {
 

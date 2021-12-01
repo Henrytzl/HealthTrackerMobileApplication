@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, AuthorisedUser::class.java))
                 }
                 R.id.mFAQ -> {
-
+                    startActivity(Intent(this, FAQ::class.java))
                 }
                 R.id.mFeedback -> {
 
