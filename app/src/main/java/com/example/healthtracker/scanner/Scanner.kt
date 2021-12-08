@@ -182,7 +182,7 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
         val drawable = Drawable.createFromStream(stream, resultUri.toString())
         val bitmap: Bitmap = drawable.toBitmap()
 
-        // Method 2 ML KIT
+
         val image = InputImage.fromBitmap(bitmap, 0)
         var wholeText: ArrayList<String> = ArrayList()
         val result = recognizer.process(image).addOnSuccessListener {
@@ -190,30 +190,6 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
                 val resultText = it.text
                 for (block in it.textBlocks) {
                     for (line in block.lines) {
-//                        for (i in line.elements.indices) {
-//                            if(line.elements[i].text.equals("protein", ignoreCase = true)){
-////                                if(line.elements[i - 1].text.matches(Regex(".*\\d.*"))){
-////                                    protein = line.elements[i - 1].text
-////                                }else if((i+1) < line.elements.size){
-////                                    if(line.elements[i + 1].text.matches(Regex(".*\\d.*"))){
-////                                        protein = line.elements[i + 1].text
-////                                    }
-////                                }else{
-////                                    var counter = i
-////                                    while(counter < line.elements.size){
-////                                        if(line.elements[counter].text.matches(Regex(".*\\d.*"))){
-////                                            protein = line.elements[counter].text
-////                                        }
-////                                        counter++
-////                                    }
-////                                }
-//                            }
-////                            if(line.elements[i].toString().equals("calories", ignoreCase = true) || line.elements[i].toString().equals("calorie", ignoreCase = true) || line.elements[i].toString().equals("energy", ignoreCase = true)){
-////                                if(line.elements[i - 1].toString().isDigitsOnly()){
-////
-////                                }
-////                            }
-//                        }
                         for(element in line.elements){
                             wholeText.add(element.text)
                             wholeText.add(" ")
@@ -233,24 +209,6 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
         }.addOnFailureListener {
             Toast.makeText(this, " " + it.message, Toast.LENGTH_SHORT).show()
         }
-
-
-        // Method 1
-//        if (!recognizer.isOperational) {
-//            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-//        } else {
-//            val frame: Frame = Frame.Builder().setBitmap(bitmap).build()
-//            val items: SparseArray<TextBlock> = recognizer.detect(frame)
-//            var sb: StringBuilder = StringBuilder()
-//            var i = 0
-//            while (i < items.size) {
-//                var myItem: TextBlock = items.valueAt(i)
-//                sb.append(myItem.value)
-//                sb.append("\n")
-//                i++
-//            }
-//            //testTV.text = sb.toString()
-//        }
     }
 
     private fun onActivityResult(requestCode: Int, result: ActivityResult) {
@@ -259,11 +217,9 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
             intent = result.data!!
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 cropActivityResultLauncher.launch(image_uri)
-                //CropImage.activity(image_uri).setGuidelines(CropImageView.Guidelines.ON).start(this)
             }
             if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 cropActivityResultLauncher.launch(intent.data)
-                //CropImage.activity(intent?.data).setGuidelines(CropImageView.Guidelines.ON).start(this)
             }
         }
     }
@@ -283,13 +239,11 @@ class Scanner : AppCompatActivity(), RecycleViewFoodHistoryAdapter.OnItemClickLi
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
         getCameraActivityResultLauncher.launch(cameraIntent)
-        //startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE)
     }
     private fun pickGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         getGalleryActivityResultLauncher.launch(intent)
-        //startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE)
     }
 
     private fun requestStoragePermission() {
